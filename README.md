@@ -1,5 +1,5 @@
 # fgslogs
-Java Swing application for opening FGS well data (lithography) files
+Java Swing application for opening FGS well data (lithologic) files
 
 *Note: fgslogs is not associated in any way with the Florida Geological Survey or the Florida Department of Environmental Protection (or any other organization, for that matter).*
 
