@@ -1,6 +1,8 @@
 # fgslogs
 Java Swing application for opening FGS well data (lithography) files
 
+Note: fgslogs is not associated in any way with the Florida Geological Survey or the Florida Department of Environmental Protection (or any other organization, for that matter).
+
 fgslogs is a replacement for the DOS-based LITHPROG.EXE program (available from the Florida Department of Environmental Protection at http://www.dep.state.fl.us/geology/gisdatamaps/litholog-temp.htm) that can run on most platforms (supported by a JRE). 
 
 Program Input
