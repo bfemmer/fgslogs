@@ -24,17 +24,14 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.controller;
 
-import com.bfemmer.fgslogs.model.DatFileParser;
-import com.bfemmer.fgslogs.model.FileParser;
+import com.bfemmer.fgslogs.applicationservice.WellLogApplicationService;
+import com.bfemmer.fgslogs.infrastructure.DatFileWellLogRepository;
 import com.bfemmer.fgslogs.model.WellLogModel;
 import com.bfemmer.fgslogs.view.WellLogView;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.print.PrinterException;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,13 +50,9 @@ import javax.swing.tree.DefaultTreeModel;
  * @author bfemmer
  */
 public class WellLogController {
-    private WellLogView view;
-    private WellLogModel model;
+    private final WellLogView view;
+    private final WellLogModel model;
     private Map<String, Component> componentMap;
-    
-    public WellLogController() {
-        
-    }
     
     public WellLogController(WellLogModel model, WellLogView view) {
         this.model = model;
@@ -142,8 +135,6 @@ public class WellLogController {
     }
     
     private void loadLogFileWithDialog() {
-        FileParser fgslogs = new DatFileParser();
-        Reader fileReader;
         int dialogResult;
         
         JFileChooser openFile = new JFileChooser();
@@ -154,14 +145,12 @@ public class WellLogController {
 //            JOptionPane.showMessageDialog(
 //                    null, openFile.getSelectedFile().toString());
             
-            try {
-                fileReader = new FileReader(openFile.getSelectedFile().toString());
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(WellLogController.class.getName()).log(Level.SEVERE, null, ex);
-                return;
-            }
-
-            model.setWellLogs(fgslogs.parse(fileReader));
+            WellLogApplicationService wellLogApplicationService = 
+                        new WellLogApplicationService(
+                                new DatFileWellLogRepository(
+                                        openFile.getSelectedFile().toString()));
+                
+            model.setWellLogs(wellLogApplicationService.getAllWellLogs());
             view.getFrame().setTitle("FGSLOGS (Lithology Logs): " + openFile.getSelectedFile().toString());
             updateTree();
         }
