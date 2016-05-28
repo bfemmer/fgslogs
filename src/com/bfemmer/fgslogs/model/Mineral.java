@@ -24,9 +24,6 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  *
  * @author bfemmer
@@ -34,50 +31,13 @@ import java.util.Map;
 public class Mineral {
     private int percentage;
     private String code;
-    private Map mineralCodeMap;
-    
+        
     public Mineral() {
         percentage = 0;
         code = "";
-        mineralCodeMap = new HashMap();
         
-        initializeMineralCodeMap();
     }
     
-    private void initializeMineralCodeMap() {
-        mineralCodeMap.put("A", "Anhydrite");
-        mineralCodeMap.put("B", "Chert");
-        mineralCodeMap.put("C", "Clay");
-        mineralCodeMap.put("D", "Dolomite");
-        mineralCodeMap.put("E", "Calcite");
-        mineralCodeMap.put("F", "Feldspar");
-        mineralCodeMap.put("G", "Gypsum");
-        mineralCodeMap.put("H", "Heavy Minerals");
-        mineralCodeMap.put("I", "Iron Stain");
-        mineralCodeMap.put("J", "Mica");
-        mineralCodeMap.put("K", "Glauconite");
-        mineralCodeMap.put("L", "Limestone");
-        mineralCodeMap.put("M", "Calcilutite");
-        mineralCodeMap.put("N", "Manganese Oxide");
-        mineralCodeMap.put("O", "Limonite");
-        mineralCodeMap.put("P", "Pyrite");
-        mineralCodeMap.put("Q", "Quartz");
-        mineralCodeMap.put("R", "Spar");
-        mineralCodeMap.put("S", "Quartz Sand");
-        mineralCodeMap.put("T", "Silt");
-        mineralCodeMap.put("U", "Peat");
-        mineralCodeMap.put("V", "Hematite");
-        mineralCodeMap.put("W", "Plant Remains");
-        mineralCodeMap.put("X", "Phosphatic Gravel");
-        mineralCodeMap.put("Y", "Phosphatic Sand");
-        mineralCodeMap.put("Z", "Shale");
-        mineralCodeMap.put("1", "Shell");
-        mineralCodeMap.put("2", "Organics");
-        mineralCodeMap.put("3", "Silt-Size Dolomite");
-        mineralCodeMap.put("4", "Calcarenite");
-    }
-    
-
     /**
      * @return the percentage
      */
@@ -93,14 +53,6 @@ public class Mineral {
     }
 
     /**
-     * 
-     * @return the description from the lookup hash map
-     */
-    public String getDescription() {
-        return (String)mineralCodeMap.get(code);
-    }
-    
-    /**
      * @return the code
      */
     public String getCode() {
@@ -113,5 +65,4 @@ public class Mineral {
     public void setCode(String code) {
         this.code = code;
     }
-    
 }

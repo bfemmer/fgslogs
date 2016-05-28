@@ -25,51 +25,50 @@ SOFTWARE.
 package com.bfemmer.fgslogs.model;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
  * @author bfemmer
  */
 public class LookupCodes {
-    private Map rockTypeMap;
-    private Map porosityCodeMap;
-    private Map grainSizeCodeMap;
-    private Map roundnessCodeMap;
-    private Map sphericityCodeMap;
-    private Map grainTypeCodeMap;
-    private Map alterationCodeMap;
-    private Map crystallinityCodeMap;
-    private Map indurationCodeMap;
-    private Map cementCodeMap;
-    private Map sedimentaryCodeMap;
-    private Map featureCodeMap;
-    private Map fossilCodeMap;
-    private Map colorCodeMap;
-    private Map geoLogCodeMap;
-    private Map countyCodeMap;
-    private Map mineralCodeMap;
-    private Map formationCodeMap;
+    private HashMap<String,String> rockTypeMap;
+    private HashMap<String,String> porosityCodeMap;
+    private HashMap<String,String> grainSizeCodeMap;
+    private HashMap<String,String> roundnessCodeMap;
+    private HashMap<String,String> sphericityCodeMap;
+    private HashMap<String,String> grainTypeCodeMap;
+    private HashMap<String,String> alterationCodeMap;
+    private HashMap<String,String> crystallinityCodeMap;
+    private HashMap<String,String> indurationCodeMap;
+    private HashMap<String,String> cementCodeMap;
+    private HashMap<String,String> sedimentaryCodeMap;
+    private HashMap<String,String> featureCodeMap;
+    private HashMap<String,String> fossilCodeMap;
+    private HashMap<String,String> colorCodeMap;
+    private HashMap<String,String> geoLogCodeMap;
+    private HashMap<String,String> countyCodeMap;
+    private HashMap<String,String> mineralCodeMap;
+    private HashMap<String,String> formationCodeMap;
     
     public LookupCodes() {
-        rockTypeMap = new HashMap();
-        porosityCodeMap = new HashMap();
-        grainSizeCodeMap = new HashMap();
-        roundnessCodeMap = new HashMap();
-        sphericityCodeMap = new HashMap();
-        grainTypeCodeMap = new HashMap();
-        alterationCodeMap = new HashMap();
-        crystallinityCodeMap = new HashMap();
-        indurationCodeMap = new HashMap();
-        cementCodeMap = new HashMap();
-        sedimentaryCodeMap = new HashMap();
-        featureCodeMap = new HashMap();
-        fossilCodeMap = new HashMap();
-        colorCodeMap = new HashMap();
-        geoLogCodeMap = new HashMap();
-        countyCodeMap = new HashMap();
-        mineralCodeMap = new HashMap();
-        formationCodeMap = new HashMap();
+        rockTypeMap = new HashMap<>();
+        porosityCodeMap = new HashMap<>();
+        grainSizeCodeMap = new HashMap<>();
+        roundnessCodeMap = new HashMap<>();
+        sphericityCodeMap = new HashMap<>();
+        grainTypeCodeMap = new HashMap<>();
+        alterationCodeMap = new HashMap<>();
+        crystallinityCodeMap = new HashMap<>();
+        indurationCodeMap = new HashMap<>();
+        cementCodeMap = new HashMap<>();
+        sedimentaryCodeMap = new HashMap<>();
+        featureCodeMap = new HashMap<>();
+        fossilCodeMap = new HashMap<>();
+        colorCodeMap = new HashMap<>();
+        geoLogCodeMap = new HashMap<>();
+        countyCodeMap = new HashMap<>();
+        mineralCodeMap = new HashMap<>();
+        formationCodeMap = new HashMap<>();
         
         initializeRockTypeMap();
         initializePorosityCodeMap();
@@ -92,246 +91,246 @@ public class LookupCodes {
     }
     
     private void initializeFormationCodeMap() {
-        getFormationCodeMap().put("Error", "Incorrect Formation Code");
-        getFormationCodeMap().put("000FILL", "Fill");
-        getFormationCodeMap().put("000NOPK", "No Pick");
-        getFormationCodeMap().put("000NOSM", "No Samples");
-        getFormationCodeMap().put("090UDSC", "Undifferentiated Sand and Clay");
-        getFormationCodeMap().put("090UDSS", "Undifferentiated Sand, Clay, and Shells");
-        getFormationCodeMap().put("111LKFL", "Lake Flirt Marl");
-        getFormationCodeMap().put("112ALDG", "Ayers Landing Marl Member of Caloosahatchee Fm.");
-        getFormationCodeMap().put("112ANSS", "Anastsia Fm.");
-        getFormationCodeMap().put("112BBRC", "Bee Branch Member of Caloosahatchee Fm.");
-        getFormationCodeMap().put("112BRDN", "Brandy Wine Fm.");
-        getFormationCodeMap().put("112CEMH", "Coffee Mill Hammock Member of the Ft. Thompson Fm.");
-        getFormationCodeMap().put("112CLSC", "Caloosahatchee Fm.");
-        getFormationCodeMap().put("112FDND", "Ft. Denaud Member of Caloosahatchee Fm.");
-        getFormationCodeMap().put("112FTMP", "Fort Thompson Fm.");
-        getFormationCodeMap().put("112KLRG", "Key Largo Limestone");
-        getFormationCodeMap().put("112LBLL", "La Belle Clay Member of Tamiami Fm.");
-        getFormationCodeMap().put("112MIMI", "Miami Limestone");
-        getFormationCodeMap().put("112OKKC", "Okaloakoochee Member of Ft. Thompson Fm.");
-        getFormationCodeMap().put("112PLSC", "Pleistocene Sands");
-        getFormationCodeMap().put("112TRSD", "Terrace Sands");
-        getFormationCodeMap().put("121CRNL", "Citronelle Fm");
-        getFormationCodeMap().put("121CYPR", "Cypress Head Fm.");
-        getFormationCodeMap().put("121NASH", "Nashua");
-        getFormationCodeMap().put("121PCPC", "Pliocene- Pleistocene");
-        getFormationCodeMap().put("121PLCN", "Pliocene");
-        getFormationCodeMap().put("122ALCH", "Alachua Fm.");
-        getFormationCodeMap().put("122ALVA", "Alva Clay Member of Tamiami Fm.");
-        getFormationCodeMap().put("122AMBF", "Alum Bluff Group");
-        getFormationCodeMap().put("122ARCA", "Arcadia Fm.");
-        getFormationCodeMap().put("122BCCK", "Bruce Creek Limestone");
-        getFormationCodeMap().put("122BKGM", "Buckingham Limestone of Tamiami Fm.");
-        getFormationCodeMap().put("122BNVL", "Bone Valley Member of Peace River Fm.");
-        getFormationCodeMap().put("122BYSR", "Bayshore Member of Tamiami Fm.");
-        getFormationCodeMap().put("122CCTC", "Choctawhatchee Fm.");
-        getFormationCodeMap().put("122CHAR", "Charlton Member of Coosawhatchie Fm.");
-        getFormationCodeMap().put("122CHPL", "Chipola Fm.");
-        getFormationCodeMap().put("122COOS", "Coosawhatchie Fm.");
-        getFormationCodeMap().put("122CRLN", "Charlton Fm.");
-        getFormationCodeMap().put("122CTTC", "Chattahoochee Fm.");
-        getFormationCodeMap().put("122DPLN", "Duplin Marl");
-        getFormationCodeMap().put("122ECMB", "Escambia Sand Member of Pensacola Clay");
-        getFormationCodeMap().put("122FRPR", "Fort Preston Fm.");
-        getFormationCodeMap().put("122HTRN", "Hawthorn Group");
-        getFormationCodeMap().put("122ITCL", "Intercoastal Limestone");
-        getFormationCodeMap().put("122JKBL", "Jackson Bluff Fm.");
-        getFormationCodeMap().put("122LBVL", "Lower Bone Valley");
-        getFormationCodeMap().put("122MCKS", "Mudrock Station Member of Tamiami Fm.");
-        getFormationCodeMap().put("122MCSK", "Miccosukee Fm.");
-        getFormationCodeMap().put("122MKHD", "Markshead Fm.");
-        getFormationCodeMap().put("122MOCN", "Miocene");
-        getFormationCodeMap().put("122NOCA", "Nocatee Member of Arcadia Fm.");
-        getFormationCodeMap().put("122OCHP", "Ochopee Limestone Member of Tamiami Fm.");
-        getFormationCodeMap().put("122OKGV", "Oak Grove Sand Member of Shoal River Fm.");
-        getFormationCodeMap().put("122ORTN", "Ortona Sand Member of Tamiami Fm.");
-        getFormationCodeMap().put("122PCRS", "Pinecrest Sand");
-        getFormationCodeMap().put("122PCRV", "Peace River Fm.");
-        getFormationCodeMap().put("122PNFM", "Penney Farms Fm.");
-        getFormationCodeMap().put("122PSCL", "Pensacola Clay");
-        getFormationCodeMap().put("122RDBY", "Red Bay Fm.");
-        getFormationCodeMap().put("122SLRV", "Shoal River Fm.");
-        getFormationCodeMap().put("122SMRK", "St. Marks Fm.");
-        getFormationCodeMap().put("122STAT", "Statenville Fm.");
-        getFormationCodeMap().put("122STJO", "St. Joe Limestone");
-        getFormationCodeMap().put("122TAMP", "Tampa Member of Arcadia Fm.");
-        getFormationCodeMap().put("122TMIM", "Tamiami Fm.");
-        getFormationCodeMap().put("122TORR", "Torreya Fm");
-        getFormationCodeMap().put("122TRYA", "Torreya Fm.");
-        getFormationCodeMap().put("122UBVL", "Upper Bone Valley");
-        getFormationCodeMap().put("122YLRV", "Yellow River Fm.");
-        getFormationCodeMap().put("123BCTN", "Bucatunna Clay Memebr of Byram Fm.");
-        getFormationCodeMap().put("123BYRM", "Byram Fm.");
-        getFormationCodeMap().put("123CKHY", "Chickasawhay Limestone");
-        getFormationCodeMap().put("123DCCC", "Duncan Church Beds Member of Suwanee Limestone");
-        getFormationCodeMap().put("123MRNN", "Marianna Limestone");
-        getFormationCodeMap().put("123OLGC", "Oligocene");
-        getFormationCodeMap().put("123SWNN", "Suwannee Limestone");
-        getFormationCodeMap().put("124AVPK", "Avon Park Fm.");
-        getFormationCodeMap().put("124BPNS", "Bumpnose Member of Crystal River Fm.");
-        getFormationCodeMap().put("124BSHI", "Bashi Marl Member of Hatchetigbee Fm.");
-        getFormationCodeMap().put("124CLBR", "Claiborne");
-        getFormationCodeMap().put("124CLRV", "Crystal River Fm.");
-        getFormationCodeMap().put("124EOCN", "Eocene");
-        getFormationCodeMap().put("124HCGB", "Hatchetigbee");
-        getFormationCodeMap().put("124IGLS", "Inglis Fm.");
-        getFormationCodeMap().put("124LKCT", "Lake City Limestone");
-        getFormationCodeMap().put("124LSBN", "Lisbon Fm.");
-        getFormationCodeMap().put("124OCAL", "Ocala Group");
-        getFormationCodeMap().put("124OLDM", "Oldsmar Limestone");
-        getFormationCodeMap().put("124STNC", "Steinhatchee Dolomite Member of Crystal River Fm.");
-        getFormationCodeMap().put("124TLLS", "Tallahassee Limestone");
-        getFormationCodeMap().put("124TLLT", "Tallahatta Formation");
-        getFormationCodeMap().put("124WLCX", "Wilcox");
-        getFormationCodeMap().put("124WLIG", "Williston-Inglis");
-        getFormationCodeMap().put("124WLSN", "Williston Fm.");
-        getFormationCodeMap().put("125CDRK", "Cedar Keys Limestone");
-        getFormationCodeMap().put("125MDWY", "Midway Fm.");
-        getFormationCodeMap().put("125PLCN", "Paleocene");
-        getFormationCodeMap().put("200MSZC", "Mesozoic");
-        getFormationCodeMap().put("210CCJC", "Cretaceous-Jurassic");
-        getFormationCodeMap().put("210FPRC", "Fort Pierce Fm.");
-        getFormationCodeMap().put("211AKNS", "Atkinson Fm.");
-        getFormationCodeMap().put("211ASTN", "Austin Group");
-        getFormationCodeMap().put("211CDSD", "Card Sound Dolomite");
-        getFormationCodeMap().put("211CRCS", "Upper Cretaceous");
-        getFormationCodeMap().put("211EUTW", "Eutaw Fm.");
-        getFormationCodeMap().put("211LCRS", "La Crosse Sandstone");
-        getFormationCodeMap().put("211LWSN", "Lawson Limestone");
-        getFormationCodeMap().put("211NVRR", "Navarro Group");
-        getFormationCodeMap().put("211PLOT", "Pilot Sandstone Member of Tulcaloosa Fm.");
-        getFormationCodeMap().put("211SELM", "Selma Group");
-        getFormationCodeMap().put("211TSCL", "Tuscaloosa Fm.");
-        getFormationCodeMap().put("211TYLR", "Taylor Group");
-        getFormationCodeMap().put("217BGCP", "Big Cypress Group");
-        getFormationCodeMap().put("217CRCS", "Lower Cretaceous");
-        getFormationCodeMap().put("217DLRB", "Dollar Bay Fm.");
-        getFormationCodeMap().put("217DTZL", "Dantzler Fm.");
-        getFormationCodeMap().put("217FKBG", "Fredericksburg Group");
-        getFormationCodeMap().put("217FRLK", "Ferry Lake Anhydrite");
-        getFormationCodeMap().put("217GLDS", "Glades Group");
-        getFormationCodeMap().put("217HSTN", "Hosston Fm.");
-        getFormationCodeMap().put("217LKTF", "Lake Trafford Fm.");
-        getFormationCodeMap().put("217MRST", "Mooringsport Fm");
-        getFormationCodeMap().put("217NPLB", "Naples Bay Group");
-        getFormationCodeMap().put("217OCRF", "Ocean Reef Group");
-        getFormationCodeMap().put("217PGRD", "Punta Gorda Anhydrite");
-        getFormationCodeMap().put("217PLXY", "Paluxy Fm.");
-        getFormationCodeMap().put("217PNIS", "Pine Island Fm.");
-        getFormationCodeMap().put("217RDSS", "Rodessa Fm.");
-        getFormationCodeMap().put("217SDGV", "Sands and Gravels Undifferentiated");
-        getFormationCodeMap().put("217SNLD", "Sunniland Limestone");
-        getFormationCodeMap().put("217SNRZ", "Roberts Zone of Sunniland Limestone");
-        getFormationCodeMap().put("217TRNT", "Trinity Group");
-        getFormationCodeMap().put("217WSHT", "Washita Group");
-        getFormationCodeMap().put("221CNVL", "Cotton Valley Group ");
-        getFormationCodeMap().put("221DNKM", "Denkman Sandstone");
-        getFormationCodeMap().put("221HSBK", "Buckner Member of Haynesville Fm.");
-        getFormationCodeMap().put("221HSVL", "Haynesville Fm.");
-        getFormationCodeMap().put("221JRSC", "Upper Jurassic");
-        getFormationCodeMap().put("221LUNN", "Louann Salt");
-        getFormationCodeMap().put("221NRPL", "Norphlet Sandstone");
-        getFormationCodeMap().put("221SMKV", "Smackover Fm.");
-        getFormationCodeMap().put("221WRNR", "Werner Anhydrite");
-        getFormationCodeMap().put("230BSLT", "Basalt");
-        getFormationCodeMap().put("230DIBS", "Diabase");
-        getFormationCodeMap().put("230ELML", "Eagle Mills Formation");
-        getFormationCodeMap().put("230RYLT", "Rhyolite");
-        getFormationCodeMap().put("230TRSC", "Triassic");
-        getFormationCodeMap().put("230TUFF", "Tuff");
-        getFormationCodeMap().put("231NWRK", "Newark Group");
-        getFormationCodeMap().put("231TRSC", "Upper Triassic");
-        getFormationCodeMap().put("300PLZC", "Paleozoic");
-        getFormationCodeMap().put("340DVNN", "Devonian");
-        getFormationCodeMap().put("350SLRN", "Silurian");
-        getFormationCodeMap().put("360ODVC", "Ordovician");
-        getFormationCodeMap().put("367ODVC", "Lower Ordovician");
-        getFormationCodeMap().put("370CMBR", "Cambrian");
-        getFormationCodeMap().put("400BCGR", "Biotitic Granite");
-        getFormationCodeMap().put("400GRNT", "Granite");
-        getFormationCodeMap().put("400HBDD", "Hornblende Diorite");
-        getFormationCodeMap().put("400PCMB", "Precambrian");
+        formationCodeMap.put("Error", "Incorrect Formation Code");
+        formationCodeMap.put("000FILL", "Fill");
+        formationCodeMap.put("000NOPK", "No Pick");
+        formationCodeMap.put("000NOSM", "No Samples");
+        formationCodeMap.put("090UDSC", "Undifferentiated Sand and Clay");
+        formationCodeMap.put("090UDSS", "Undifferentiated Sand, Clay, and Shells");
+        formationCodeMap.put("111LKFL", "Lake Flirt Marl");
+        formationCodeMap.put("112ALDG", "Ayers Landing Marl Member of Caloosahatchee Fm.");
+        formationCodeMap.put("112ANSS", "Anastsia Fm.");
+        formationCodeMap.put("112BBRC", "Bee Branch Member of Caloosahatchee Fm.");
+        formationCodeMap.put("112BRDN", "Brandy Wine Fm.");
+        formationCodeMap.put("112CEMH", "Coffee Mill Hammock Member of the Ft. Thompson Fm.");
+        formationCodeMap.put("112CLSC", "Caloosahatchee Fm.");
+        formationCodeMap.put("112FDND", "Ft. Denaud Member of Caloosahatchee Fm.");
+        formationCodeMap.put("112FTMP", "Fort Thompson Fm.");
+        formationCodeMap.put("112KLRG", "Key Largo Limestone");
+        formationCodeMap.put("112LBLL", "La Belle Clay Member of Tamiami Fm.");
+        formationCodeMap.put("112MIMI", "Miami Limestone");
+        formationCodeMap.put("112OKKC", "Okaloakoochee Member of Ft. Thompson Fm.");
+        formationCodeMap.put("112PLSC", "Pleistocene Sands");
+        formationCodeMap.put("112TRSD", "Terrace Sands");
+        formationCodeMap.put("121CRNL", "Citronelle Fm");
+        formationCodeMap.put("121CYPR", "Cypress Head Fm.");
+        formationCodeMap.put("121NASH", "Nashua");
+        formationCodeMap.put("121PCPC", "Pliocene- Pleistocene");
+        formationCodeMap.put("121PLCN", "Pliocene");
+        formationCodeMap.put("122ALCH", "Alachua Fm.");
+        formationCodeMap.put("122ALVA", "Alva Clay Member of Tamiami Fm.");
+        formationCodeMap.put("122AMBF", "Alum Bluff Group");
+        formationCodeMap.put("122ARCA", "Arcadia Fm.");
+        formationCodeMap.put("122BCCK", "Bruce Creek Limestone");
+        formationCodeMap.put("122BKGM", "Buckingham Limestone of Tamiami Fm.");
+        formationCodeMap.put("122BNVL", "Bone Valley Member of Peace River Fm.");
+        formationCodeMap.put("122BYSR", "Bayshore Member of Tamiami Fm.");
+        formationCodeMap.put("122CCTC", "Choctawhatchee Fm.");
+        formationCodeMap.put("122CHAR", "Charlton Member of Coosawhatchie Fm.");
+        formationCodeMap.put("122CHPL", "Chipola Fm.");
+        formationCodeMap.put("122COOS", "Coosawhatchie Fm.");
+        formationCodeMap.put("122CRLN", "Charlton Fm.");
+        formationCodeMap.put("122CTTC", "Chattahoochee Fm.");
+        formationCodeMap.put("122DPLN", "Duplin Marl");
+        formationCodeMap.put("122ECMB", "Escambia Sand Member of Pensacola Clay");
+        formationCodeMap.put("122FRPR", "Fort Preston Fm.");
+        formationCodeMap.put("122HTRN", "Hawthorn Group");
+        formationCodeMap.put("122ITCL", "Intercoastal Limestone");
+        formationCodeMap.put("122JKBL", "Jackson Bluff Fm.");
+        formationCodeMap.put("122LBVL", "Lower Bone Valley");
+        formationCodeMap.put("122MCKS", "Mudrock Station Member of Tamiami Fm.");
+        formationCodeMap.put("122MCSK", "Miccosukee Fm.");
+        formationCodeMap.put("122MKHD", "Markshead Fm.");
+        formationCodeMap.put("122MOCN", "Miocene");
+        formationCodeMap.put("122NOCA", "Nocatee Member of Arcadia Fm.");
+        formationCodeMap.put("122OCHP", "Ochopee Limestone Member of Tamiami Fm.");
+        formationCodeMap.put("122OKGV", "Oak Grove Sand Member of Shoal River Fm.");
+        formationCodeMap.put("122ORTN", "Ortona Sand Member of Tamiami Fm.");
+        formationCodeMap.put("122PCRS", "Pinecrest Sand");
+        formationCodeMap.put("122PCRV", "Peace River Fm.");
+        formationCodeMap.put("122PNFM", "Penney Farms Fm.");
+        formationCodeMap.put("122PSCL", "Pensacola Clay");
+        formationCodeMap.put("122RDBY", "Red Bay Fm.");
+        formationCodeMap.put("122SLRV", "Shoal River Fm.");
+        formationCodeMap.put("122SMRK", "St. Marks Fm.");
+        formationCodeMap.put("122STAT", "Statenville Fm.");
+        formationCodeMap.put("122STJO", "St. Joe Limestone");
+        formationCodeMap.put("122TAMP", "Tampa Member of Arcadia Fm.");
+        formationCodeMap.put("122TMIM", "Tamiami Fm.");
+        formationCodeMap.put("122TORR", "Torreya Fm");
+        formationCodeMap.put("122TRYA", "Torreya Fm.");
+        formationCodeMap.put("122UBVL", "Upper Bone Valley");
+        formationCodeMap.put("122YLRV", "Yellow River Fm.");
+        formationCodeMap.put("123BCTN", "Bucatunna Clay Memebr of Byram Fm.");
+        formationCodeMap.put("123BYRM", "Byram Fm.");
+        formationCodeMap.put("123CKHY", "Chickasawhay Limestone");
+        formationCodeMap.put("123DCCC", "Duncan Church Beds Member of Suwanee Limestone");
+        formationCodeMap.put("123MRNN", "Marianna Limestone");
+        formationCodeMap.put("123OLGC", "Oligocene");
+        formationCodeMap.put("123SWNN", "Suwannee Limestone");
+        formationCodeMap.put("124AVPK", "Avon Park Fm.");
+        formationCodeMap.put("124BPNS", "Bumpnose Member of Crystal River Fm.");
+        formationCodeMap.put("124BSHI", "Bashi Marl Member of Hatchetigbee Fm.");
+        formationCodeMap.put("124CLBR", "Claiborne");
+        formationCodeMap.put("124CLRV", "Crystal River Fm.");
+        formationCodeMap.put("124EOCN", "Eocene");
+        formationCodeMap.put("124HCGB", "Hatchetigbee");
+        formationCodeMap.put("124IGLS", "Inglis Fm.");
+        formationCodeMap.put("124LKCT", "Lake City Limestone");
+        formationCodeMap.put("124LSBN", "Lisbon Fm.");
+        formationCodeMap.put("124OCAL", "Ocala Group");
+        formationCodeMap.put("124OLDM", "Oldsmar Limestone");
+        formationCodeMap.put("124STNC", "Steinhatchee Dolomite Member of Crystal River Fm.");
+        formationCodeMap.put("124TLLS", "Tallahassee Limestone");
+        formationCodeMap.put("124TLLT", "Tallahatta Formation");
+        formationCodeMap.put("124WLCX", "Wilcox");
+        formationCodeMap.put("124WLIG", "Williston-Inglis");
+        formationCodeMap.put("124WLSN", "Williston Fm.");
+        formationCodeMap.put("125CDRK", "Cedar Keys Limestone");
+        formationCodeMap.put("125MDWY", "Midway Fm.");
+        formationCodeMap.put("125PLCN", "Paleocene");
+        formationCodeMap.put("200MSZC", "Mesozoic");
+        formationCodeMap.put("210CCJC", "Cretaceous-Jurassic");
+        formationCodeMap.put("210FPRC", "Fort Pierce Fm.");
+        formationCodeMap.put("211AKNS", "Atkinson Fm.");
+        formationCodeMap.put("211ASTN", "Austin Group");
+        formationCodeMap.put("211CDSD", "Card Sound Dolomite");
+        formationCodeMap.put("211CRCS", "Upper Cretaceous");
+        formationCodeMap.put("211EUTW", "Eutaw Fm.");
+        formationCodeMap.put("211LCRS", "La Crosse Sandstone");
+        formationCodeMap.put("211LWSN", "Lawson Limestone");
+        formationCodeMap.put("211NVRR", "Navarro Group");
+        formationCodeMap.put("211PLOT", "Pilot Sandstone Member of Tulcaloosa Fm.");
+        formationCodeMap.put("211SELM", "Selma Group");
+        formationCodeMap.put("211TSCL", "Tuscaloosa Fm.");
+        formationCodeMap.put("211TYLR", "Taylor Group");
+        formationCodeMap.put("217BGCP", "Big Cypress Group");
+        formationCodeMap.put("217CRCS", "Lower Cretaceous");
+        formationCodeMap.put("217DLRB", "Dollar Bay Fm.");
+        formationCodeMap.put("217DTZL", "Dantzler Fm.");
+        formationCodeMap.put("217FKBG", "Fredericksburg Group");
+        formationCodeMap.put("217FRLK", "Ferry Lake Anhydrite");
+        formationCodeMap.put("217GLDS", "Glades Group");
+        formationCodeMap.put("217HSTN", "Hosston Fm.");
+        formationCodeMap.put("217LKTF", "Lake Trafford Fm.");
+        formationCodeMap.put("217MRST", "Mooringsport Fm");
+        formationCodeMap.put("217NPLB", "Naples Bay Group");
+        formationCodeMap.put("217OCRF", "Ocean Reef Group");
+        formationCodeMap.put("217PGRD", "Punta Gorda Anhydrite");
+        formationCodeMap.put("217PLXY", "Paluxy Fm.");
+        formationCodeMap.put("217PNIS", "Pine Island Fm.");
+        formationCodeMap.put("217RDSS", "Rodessa Fm.");
+        formationCodeMap.put("217SDGV", "Sands and Gravels Undifferentiated");
+        formationCodeMap.put("217SNLD", "Sunniland Limestone");
+        formationCodeMap.put("217SNRZ", "Roberts Zone of Sunniland Limestone");
+        formationCodeMap.put("217TRNT", "Trinity Group");
+        formationCodeMap.put("217WSHT", "Washita Group");
+        formationCodeMap.put("221CNVL", "Cotton Valley Group ");
+        formationCodeMap.put("221DNKM", "Denkman Sandstone");
+        formationCodeMap.put("221HSBK", "Buckner Member of Haynesville Fm.");
+        formationCodeMap.put("221HSVL", "Haynesville Fm.");
+        formationCodeMap.put("221JRSC", "Upper Jurassic");
+        formationCodeMap.put("221LUNN", "Louann Salt");
+        formationCodeMap.put("221NRPL", "Norphlet Sandstone");
+        formationCodeMap.put("221SMKV", "Smackover Fm.");
+        formationCodeMap.put("221WRNR", "Werner Anhydrite");
+        formationCodeMap.put("230BSLT", "Basalt");
+        formationCodeMap.put("230DIBS", "Diabase");
+        formationCodeMap.put("230ELML", "Eagle Mills Formation");
+        formationCodeMap.put("230RYLT", "Rhyolite");
+        formationCodeMap.put("230TRSC", "Triassic");
+        formationCodeMap.put("230TUFF", "Tuff");
+        formationCodeMap.put("231NWRK", "Newark Group");
+        formationCodeMap.put("231TRSC", "Upper Triassic");
+        formationCodeMap.put("300PLZC", "Paleozoic");
+        formationCodeMap.put("340DVNN", "Devonian");
+        formationCodeMap.put("350SLRN", "Silurian");
+        formationCodeMap.put("360ODVC", "Ordovician");
+        formationCodeMap.put("367ODVC", "Lower Ordovician");
+        formationCodeMap.put("370CMBR", "Cambrian");
+        formationCodeMap.put("400BCGR", "Biotitic Granite");
+        formationCodeMap.put("400GRNT", "Granite");
+        formationCodeMap.put("400HBDD", "Hornblende Diorite");
+        formationCodeMap.put("400PCMB", "Precambrian");
     }
     
     private void initializeMineralCodeMap() {
-        getMineralCodeMap().put("A", "Anhydrite");
-        getMineralCodeMap().put("B", "Chert");
-        getMineralCodeMap().put("C", "Clay");
-        getMineralCodeMap().put("D", "Dolomite");
-        getMineralCodeMap().put("E", "Calcite");
-        getMineralCodeMap().put("F", "Feldspar");
-        getMineralCodeMap().put("G", "Gypsum");
-        getMineralCodeMap().put("H", "Heavy Minerals");
-        getMineralCodeMap().put("I", "Iron Stain");
-        getMineralCodeMap().put("J", "Mica");
-        getMineralCodeMap().put("K", "Glauconite");
-        getMineralCodeMap().put("L", "Limestone");
-        getMineralCodeMap().put("M", "Calcilutite");
-        getMineralCodeMap().put("N", "Manganese Oxide");
-        getMineralCodeMap().put("O", "Limonite");
-        getMineralCodeMap().put("P", "Pyrite");
-        getMineralCodeMap().put("Q", "Quartz");
-        getMineralCodeMap().put("R", "Spar");
-        getMineralCodeMap().put("S", "Quartz Sand");
-        getMineralCodeMap().put("T", "Silt");
-        getMineralCodeMap().put("U", "Peat");
-        getMineralCodeMap().put("V", "Hematite");
-        getMineralCodeMap().put("W", "Plant Remains");
-        getMineralCodeMap().put("X", "Phosphatic Gravel");
-        getMineralCodeMap().put("Y", "Phosphatic Sand");
-        getMineralCodeMap().put("Z", "Shale");
-        getMineralCodeMap().put("1", "Shell");
-        getMineralCodeMap().put("2", "Organics");
-        getMineralCodeMap().put("3", "Silt-Size Dolomite");
-        getMineralCodeMap().put("4", "Calcarenite");
+        mineralCodeMap.put("A", "Anhydrite");
+        mineralCodeMap.put("B", "Chert");
+        mineralCodeMap.put("C", "Clay");
+        mineralCodeMap.put("D", "Dolomite");
+        mineralCodeMap.put("E", "Calcite");
+        mineralCodeMap.put("F", "Feldspar");
+        mineralCodeMap.put("G", "Gypsum");
+        mineralCodeMap.put("H", "Heavy Minerals");
+        mineralCodeMap.put("I", "Iron Stain");
+        mineralCodeMap.put("J", "Mica");
+        mineralCodeMap.put("K", "Glauconite");
+        mineralCodeMap.put("L", "Limestone");
+        mineralCodeMap.put("M", "Calcilutite");
+        mineralCodeMap.put("N", "Manganese Oxide");
+        mineralCodeMap.put("O", "Limonite");
+        mineralCodeMap.put("P", "Pyrite");
+        mineralCodeMap.put("Q", "Quartz");
+        mineralCodeMap.put("R", "Spar");
+        mineralCodeMap.put("S", "Quartz Sand");
+        mineralCodeMap.put("T", "Silt");
+        mineralCodeMap.put("U", "Peat");
+        mineralCodeMap.put("V", "Hematite");
+        mineralCodeMap.put("W", "Plant Remains");
+        mineralCodeMap.put("X", "Phosphatic Gravel");
+        mineralCodeMap.put("Y", "Phosphatic Sand");
+        mineralCodeMap.put("Z", "Shale");
+        mineralCodeMap.put("1", "Shell");
+        mineralCodeMap.put("2", "Organics");
+        mineralCodeMap.put("3", "Silt-Size Dolomite");
+        mineralCodeMap.put("4", "Calcarenite");
     }
     
     private void initializeRockTypeMap() {
-        getRockTypeMap().put("A", "Anhydrite");
-        getRockTypeMap().put("B", "Chert");
-        getRockTypeMap().put("C", "Clay");
-        getRockTypeMap().put("D", "Dolostone");
-        getRockTypeMap().put("E", "Calcarenite");
-        getRockTypeMap().put("F", "Shell Bed");
-        getRockTypeMap().put("G", "Gypsum");
-        getRockTypeMap().put("H", "Shale");
-        getRockTypeMap().put("I", "Silt-Size Dolostone");
-        getRockTypeMap().put("J", "Peat");
-        getRockTypeMap().put("K", "Chalk");
-        getRockTypeMap().put("L", "Limestone");
-        getRockTypeMap().put("M", "Calcilutite");
-        getRockTypeMap().put("N", "No Sample");
-        getRockTypeMap().put("O", "Orthoquartzite");
-        getRockTypeMap().put("P", "Phosphate");
-        getRockTypeMap().put("Q", "Quartzite");
-        getRockTypeMap().put("R", "Gravel");
-        getRockTypeMap().put("S", "Sand");
-        getRockTypeMap().put("T", "Silt");
-        getRockTypeMap().put("U", "Arkose");
-        getRockTypeMap().put("V", "As Above");
-        getRockTypeMap().put("W", "Sandstone");
-        getRockTypeMap().put("X", "Igneous");
-        getRockTypeMap().put("Y", "Metamorphic");
-        getRockTypeMap().put("Z", "Comments");
-        getRockTypeMap().put("1", "Grainstone");
-        getRockTypeMap().put("2", "Packstone");
-        getRockTypeMap().put("3", "Wackestone");
-        getRockTypeMap().put("4", "Mudstone");
+        rockTypeMap.put("A", "Anhydrite");
+        rockTypeMap.put("B", "Chert");
+        rockTypeMap.put("C", "Clay");
+        rockTypeMap.put("D", "Dolostone");
+        rockTypeMap.put("E", "Calcarenite");
+        rockTypeMap.put("F", "Shell Bed");
+        rockTypeMap.put("G", "Gypsum");
+        rockTypeMap.put("H", "Shale");
+        rockTypeMap.put("I", "Silt-Size Dolostone");
+        rockTypeMap.put("J", "Peat");
+        rockTypeMap.put("K", "Chalk");
+        rockTypeMap.put("L", "Limestone");
+        rockTypeMap.put("M", "Calcilutite");
+        rockTypeMap.put("N", "No Sample");
+        rockTypeMap.put("O", "Orthoquartzite");
+        rockTypeMap.put("P", "Phosphate");
+        rockTypeMap.put("Q", "Quartzite");
+        rockTypeMap.put("R", "Gravel");
+        rockTypeMap.put("S", "Sand");
+        rockTypeMap.put("T", "Silt");
+        rockTypeMap.put("U", "Arkose");
+        rockTypeMap.put("V", "As Above");
+        rockTypeMap.put("W", "Sandstone");
+        rockTypeMap.put("X", "Igneous");
+        rockTypeMap.put("Y", "Metamorphic");
+        rockTypeMap.put("Z", "Comments");
+        rockTypeMap.put("1", "Grainstone");
+        rockTypeMap.put("2", "Packstone");
+        rockTypeMap.put("3", "Wackestone");
+        rockTypeMap.put("4", "Mudstone");
     }
 
     private void initializePorosityCodeMap() {
-        getPorosityCodeMap().put("A", "Intragranular");
-        getPorosityCodeMap().put("F", "Fracture");
-        getPorosityCodeMap().put("I", "Intergranular");
-        getPorosityCodeMap().put("L", "Low Permeability");
-        getPorosityCodeMap().put("M", "Moldic");
-        getPorosityCodeMap().put("N", "Not Observed");
-        getPorosityCodeMap().put("P", "Pin Point Vugs");
-        getPorosityCodeMap().put("V", "Vugular");
-        getPorosityCodeMap().put("X", "Intercrystalline");
-        getPorosityCodeMap().put("Y", "Possibly High Permeability");
+        porosityCodeMap.put("A", "Intragranular");
+        porosityCodeMap.put("F", "Fracture");
+        porosityCodeMap.put("I", "Intergranular");
+        porosityCodeMap.put("L", "Low Permeability");
+        porosityCodeMap.put("M", "Moldic");
+        porosityCodeMap.put("N", "Not Observed");
+        porosityCodeMap.put("P", "Pin Point Vugs");
+        porosityCodeMap.put("V", "Vugular");
+        porosityCodeMap.put("X", "Intercrystalline");
+        porosityCodeMap.put("Y", "Possibly High Permeability");
     }
     
     private void initializeGrainSizeCodeMap() {
@@ -389,602 +388,601 @@ public class LookupCodes {
     }
     
     private void initializeIndurationCodeMap() {
-        getIndurationCodeMap().put("G", "Good");
-        getIndurationCodeMap().put("M", "Moderate");
-        getIndurationCodeMap().put("P", "Poor");
-        getIndurationCodeMap().put("U", "Unconsolidated");
+        indurationCodeMap.put("G", "Good");
+        indurationCodeMap.put("M", "Moderate");
+        indurationCodeMap.put("P", "Poor");
+        indurationCodeMap.put("U", "Unconsolidated");
     }
     
     private void initializeCementCodeMap() {
-        getCementCodeMap().put("A", "Anhydrite");
-        getCementCodeMap().put("C", "Clay Matrix");
-        getCementCodeMap().put("D", "Dolomite");
-        getCementCodeMap().put("G", "Gypsum");
-        getCementCodeMap().put("H", "Chalcedony");
-        getCementCodeMap().put("I", "Iron");
-        getCementCodeMap().put("M", "Calcilutite Matrix");
-        getCementCodeMap().put("O", "Organic Matrix");
-        getCementCodeMap().put("P", "Phosphate");
-        getCementCodeMap().put("Q", "Silicic");
-        getCementCodeMap().put("R", "Sparry Calcite");
+        cementCodeMap.put("A", "Anhydrite");
+        cementCodeMap.put("C", "Clay Matrix");
+        cementCodeMap.put("D", "Dolomite");
+        cementCodeMap.put("G", "Gypsum");
+        cementCodeMap.put("H", "Chalcedony");
+        cementCodeMap.put("I", "Iron");
+        cementCodeMap.put("M", "Calcilutite Matrix");
+        cementCodeMap.put("O", "Organic Matrix");
+        cementCodeMap.put("P", "Phosphate");
+        cementCodeMap.put("Q", "Silicic");
+        cementCodeMap.put("R", "Sparry Calcite");
     }
     
     private void initializeSedimentaryCodeMap() {
-        getSedimentaryCodeMap().put("B", "Banded");
-        getSedimentaryCodeMap().put("C", "Brecciated");
-        getSedimentaryCodeMap().put("D", "Bedded");
-        getSedimentaryCodeMap().put("F", "Fissile");
-        getSedimentaryCodeMap().put("G", "Graded Bedding");
-        getSedimentaryCodeMap().put("I", "Interbedded");
-        getSedimentaryCodeMap().put("L", "Laminated");
-        getSedimentaryCodeMap().put("M", "Mottled");
-        getSedimentaryCodeMap().put("N", "Nodular");
-        getSedimentaryCodeMap().put("S", "Streaked");
-        getSedimentaryCodeMap().put("T", "Bioturbated");
-        getSedimentaryCodeMap().put("V", "Massive");
-        getSedimentaryCodeMap().put("X", "Cross-Bedded");
-        getSedimentaryCodeMap().put("Y", "Stylolitic");
+        sedimentaryCodeMap.put("B", "Banded");
+        sedimentaryCodeMap.put("C", "Brecciated");
+        sedimentaryCodeMap.put("D", "Bedded");
+        sedimentaryCodeMap.put("F", "Fissile");
+        sedimentaryCodeMap.put("G", "Graded Bedding");
+        sedimentaryCodeMap.put("I", "Interbedded");
+        sedimentaryCodeMap.put("L", "Laminated");
+        sedimentaryCodeMap.put("M", "Mottled");
+        sedimentaryCodeMap.put("N", "Nodular");
+        sedimentaryCodeMap.put("S", "Streaked");
+        sedimentaryCodeMap.put("T", "Bioturbated");
+        sedimentaryCodeMap.put("V", "Massive");
+        sedimentaryCodeMap.put("X", "Cross-Bedded");
+        sedimentaryCodeMap.put("Y", "Stylolitic");
     }
     
     private void initializeFeatureCodeMap() {
-        getFeatureCodeMap().put("A", "Calcareous");
-        getFeatureCodeMap().put("B", "Brown Anhydrite Crystals");
-        getFeatureCodeMap().put("C", "Coquina");
-        getFeatureCodeMap().put("D", "Dolomitic");
-        getFeatureCodeMap().put("E", "Poor Sample");
-        getFeatureCodeMap().put("F", "Frosted");
-        getFeatureCodeMap().put("G", "Granular");
-        getFeatureCodeMap().put("H", "High Crystallization");
-        getFeatureCodeMap().put("I", "Platy");
-        getFeatureCodeMap().put("J", "Plastic");
-        getFeatureCodeMap().put("K", "Chalky");
-        getFeatureCodeMap().put("L", "Low Recrystallization");
-        getFeatureCodeMap().put("M", "Medium Recrystallization");
-        getFeatureCodeMap().put("N", "Splintery");
-        getFeatureCodeMap().put("P", "Partings");
-        getFeatureCodeMap().put("Q", "Speckled");
-        getFeatureCodeMap().put("R", "Reefal");
-        getFeatureCodeMap().put("S", "Sucrosic");
-        getFeatureCodeMap().put("T", "Unwashed Sample");
-        getFeatureCodeMap().put("U", "Muddy");
-        getFeatureCodeMap().put("V", "Variegated");
-        getFeatureCodeMap().put("W", "Weathered");
-        getFeatureCodeMap().put("X", "Varved");
-        getFeatureCodeMap().put("Y", "Greasy");
-        getFeatureCodeMap().put("Z", "Stromatal");
-        getFeatureCodeMap().put("0", "Crystalline");
-        getFeatureCodeMap().put("1", "Fossiliferous");
+        featureCodeMap.put("A", "Calcareous");
+        featureCodeMap.put("B", "Brown Anhydrite Crystals");
+        featureCodeMap.put("C", "Coquina");
+        featureCodeMap.put("D", "Dolomitic");
+        featureCodeMap.put("E", "Poor Sample");
+        featureCodeMap.put("F", "Frosted");
+        featureCodeMap.put("G", "Granular");
+        featureCodeMap.put("H", "High Crystallization");
+        featureCodeMap.put("I", "Platy");
+        featureCodeMap.put("J", "Plastic");
+        featureCodeMap.put("K", "Chalky");
+        featureCodeMap.put("L", "Low Recrystallization");
+        featureCodeMap.put("M", "Medium Recrystallization");
+        featureCodeMap.put("N", "Splintery");
+        featureCodeMap.put("P", "Partings");
+        featureCodeMap.put("Q", "Speckled");
+        featureCodeMap.put("R", "Reefal");
+        featureCodeMap.put("S", "Sucrosic");
+        featureCodeMap.put("T", "Unwashed Sample");
+        featureCodeMap.put("U", "Muddy");
+        featureCodeMap.put("V", "Variegated");
+        featureCodeMap.put("W", "Weathered");
+        featureCodeMap.put("X", "Varved");
+        featureCodeMap.put("Y", "Greasy");
+        featureCodeMap.put("Z", "Stromatal");
+        featureCodeMap.put("0", "Crystalline");
+        featureCodeMap.put("1", "Fossiliferous");
     }
     
     private void initializeFossileCodeMap() {
-        getFossilCodeMap().put("A", "Algae");
-        getFossilCodeMap().put("B", "Bryozoa");
-        getFossilCodeMap().put("C", "Coral");
-        getFossilCodeMap().put("D", "Brachiopod");
-        getFossilCodeMap().put("E", "Echinoid");
-        getFossilCodeMap().put("K", "Oolites");
-        getFossilCodeMap().put("L", "Miliolids");
-        getFossilCodeMap().put("M", "Mollusks");
-        getFossilCodeMap().put("N", "Cones");
-        getFossilCodeMap().put("O", "Ostracods");
-        getFossilCodeMap().put("P", "Plant Remains");
-        getFossilCodeMap().put("R", "Rudistids");
-        getFossilCodeMap().put("S", "Spicules");
-        getFossilCodeMap().put("F", "Benthic Foraminifera");
-        getFossilCodeMap().put("G", "Crustacea");
-        getFossilCodeMap().put("H", "Plankton Foraminifera");
-        getFossilCodeMap().put("I", "Diatoms");
-        getFossilCodeMap().put("J", "Barnacles");
-        getFossilCodeMap().put("T", "Sharks Teeth");
-        getFossilCodeMap().put("U", "No Fossils");
-        getFossilCodeMap().put("V", "Vertebrate");
-        getFossilCodeMap().put("W", "Worm Traces");
-        getFossilCodeMap().put("X", "Fossil Fragments");
-        getFossilCodeMap().put("Y", "Fossil Molds");
-        getFossilCodeMap().put("Z", "Organics");
+        fossilCodeMap.put("A", "Algae");
+        fossilCodeMap.put("B", "Bryozoa");
+        fossilCodeMap.put("C", "Coral");
+        fossilCodeMap.put("D", "Brachiopod");
+        fossilCodeMap.put("E", "Echinoid");
+        fossilCodeMap.put("K", "Oolites");
+        fossilCodeMap.put("L", "Miliolids");
+        fossilCodeMap.put("M", "Mollusks");
+        fossilCodeMap.put("N", "Cones");
+        fossilCodeMap.put("O", "Ostracods");
+        fossilCodeMap.put("P", "Plant Remains");
+        fossilCodeMap.put("R", "Rudistids");
+        fossilCodeMap.put("S", "Spicules");
+        fossilCodeMap.put("F", "Benthic Foraminifera");
+        fossilCodeMap.put("G", "Crustacea");
+        fossilCodeMap.put("H", "Plankton Foraminifera");
+        fossilCodeMap.put("I", "Diatoms");
+        fossilCodeMap.put("J", "Barnacles");
+        fossilCodeMap.put("T", "Sharks Teeth");
+        fossilCodeMap.put("U", "No Fossils");
+        fossilCodeMap.put("V", "Vertebrate");
+        fossilCodeMap.put("W", "Worm Traces");
+        fossilCodeMap.put("X", "Fossil Fragments");
+        fossilCodeMap.put("Y", "Fossil Molds");
+        fossilCodeMap.put("Z", "Organics");
     }
     
     private void initializeColorCodeMap() {
-        getColorCodeMap().put("1", "Transparent");
-        getColorCodeMap().put("2", "Light Greyish Red");
-        getColorCodeMap().put("3", "Grayish Red");
-        getColorCodeMap().put("4", "Blackish Red");
-        getColorCodeMap().put("5", "Moderate Pink");
-        getColorCodeMap().put("6", "Moderate Red");
-        getColorCodeMap().put("7", "Dark Grayish Red");
-        getColorCodeMap().put("8", "Light Red");
-        getColorCodeMap().put("9", "Moderate Red");
-        getColorCodeMap().put("10", "Very Dark Red");
-        getColorCodeMap().put("11", "Grayish Orange Pink");
-        getColorCodeMap().put("12", "Light Grayish Red");
-        getColorCodeMap().put("13", "Grayish Brown Red");
-        getColorCodeMap().put("14", "Dark Brownish Red");
-        getColorCodeMap().put("15", "Moderate Orange Pink");
-        getColorCodeMap().put("16", "Light Reddish Brown");
-        getColorCodeMap().put("17", "Dark Reddish Brown");
-        getColorCodeMap().put("18", "Moderate Reddish Orange");
-        getColorCodeMap().put("19", "Moderate Reddish Brown");
-        getColorCodeMap().put("20", "Grayish Orange Pink");
-        getColorCodeMap().put("21", "Light Grayish Brown");
-        getColorCodeMap().put("22", "Grayish Brown");
-        getColorCodeMap().put("23", "Dark Brown");
-        getColorCodeMap().put("24", "Moderate Orange Pink");
-        getColorCodeMap().put("25", "Light Brown");
-        getColorCodeMap().put("26", "Moderate Brown");
-        getColorCodeMap().put("27", "Moderate Brown");
-        getColorCodeMap().put("28", "Light Brown");
-        getColorCodeMap().put("29", "Very Light Orange");
-        getColorCodeMap().put("30", "Grayish Brown");
-        getColorCodeMap().put("31", "Dark Yellowish Brown");
-        getColorCodeMap().put("32", "Dark Yellowish Brown");
-        getColorCodeMap().put("33", "Grayish Orange");
-        getColorCodeMap().put("34", "Moderate Yellowish Brown");
-        getColorCodeMap().put("35", "Light Yellowish Orange");
-        getColorCodeMap().put("36", "Dark Yellowish Orange");
-        getColorCodeMap().put("37", "Yellowish Gray");
-        getColorCodeMap().put("38", "Light Olive Gray");
-        getColorCodeMap().put("39", "Olive Gray");
-        getColorCodeMap().put("40", "Grayish Yellow");
-        getColorCodeMap().put("41", "Dark Grayish Yellow");
-        getColorCodeMap().put("42", "Moderate Olive Brown");
-        getColorCodeMap().put("43", "Moderate Yellow");
-        getColorCodeMap().put("44", "Light Olive Brown");
-        getColorCodeMap().put("45", "Light Greenish Yellow");
-        getColorCodeMap().put("46", "Light Olive");
-        getColorCodeMap().put("47", "Grayish Olive");
-        getColorCodeMap().put("48", "Moderate Greenish Yellow");
-        getColorCodeMap().put("49", "Light Olive");
-        getColorCodeMap().put("50", "Dark Greenish Yellow");
-        getColorCodeMap().put("51", "Light Grayish Green");
-        getColorCodeMap().put("52", "Moderate Grayish Green");
-        getColorCodeMap().put("53", "Grayish Olive Green");
-        getColorCodeMap().put("54", "Moderate Yellowish Green");
-        getColorCodeMap().put("55", "Light Yellowish Green");
-        getColorCodeMap().put("56", "Grayish Green");
-        getColorCodeMap().put("57", "Dark Grayish Green");
-        getColorCodeMap().put("58", "Moderate Yellowish Green");
-        getColorCodeMap().put("59", "Dark Yellowish Green");
-        getColorCodeMap().put("60", "Light Grayish Green");
-        getColorCodeMap().put("61", "Grayish Green");
-        getColorCodeMap().put("62", "Dark Green");
-        getColorCodeMap().put("63", "Light Green");
-        getColorCodeMap().put("64", "Light Green");
-        getColorCodeMap().put("65", "Moderate Green");
-        getColorCodeMap().put("66", "Very Light Green");
-        getColorCodeMap().put("67", "Light Grayish Green");
-        getColorCodeMap().put("68", "Grayish Green");
-        getColorCodeMap().put("69", "Light Blue Green");
-        getColorCodeMap().put("70", "Grayish Blue Green");
-        getColorCodeMap().put("71", "Grayish Purple");
-        getColorCodeMap().put("72", "Very Dark Purple");
-        getColorCodeMap().put("73", "Light Reddish Purple");
-        getColorCodeMap().put("74", "Grayish Purple Red");
-        getColorCodeMap().put("75", "Dark Red Purple");
-        getColorCodeMap().put("76", "White");
-        getColorCodeMap().put("77", "Very Light Gray");
-        getColorCodeMap().put("78", "Light Gray");
-        getColorCodeMap().put("79", "Moderate Light Gray");
-        getColorCodeMap().put("80", "Moderate Gray");
-        getColorCodeMap().put("81", "Moderate Dark Gray");
-        getColorCodeMap().put("82", "Dark Gray");
-        getColorCodeMap().put("83", "Black");
-        getColorCodeMap().put("84", "Light Brownish Gray");
-        getColorCodeMap().put("85", "Brownish Gray");
-        getColorCodeMap().put("86", "Yellowish Gray");
-        getColorCodeMap().put("87", "Light Olive Gray");
-        getColorCodeMap().put("88", "Olive Gray");
-        getColorCodeMap().put("89", "Pinkish Gray");
-        getColorCodeMap().put("90", "Light Greenish Gray");
-        getColorCodeMap().put("91", "Greenish Gray");
-        getColorCodeMap().put("92", "Dark Greenish Gray");
-        getColorCodeMap().put("93", "Greenish Black");
-        getColorCodeMap().put("94", "Light Greenish Gray");
-        getColorCodeMap().put("95", "Greenish Gray");
-        getColorCodeMap().put("96", "Dark Greenish Gray");
-        getColorCodeMap().put("97", "Greenish Black");
-        getColorCodeMap().put("98", "Light Bluish Gray");
-        getColorCodeMap().put("99", "Moderate Bluish Gray");
-        getColorCodeMap().put("0A", "Red");
-        getColorCodeMap().put("0B", "Dark Red");
-        getColorCodeMap().put("0C", "Orangish Red");
-        getColorCodeMap().put("0D", "Light Orangish Red");
-        getColorCodeMap().put("0E", "Dark Orangish Red");
-        getColorCodeMap().put("0F", "Purplish Red");
-        getColorCodeMap().put("1A", "Orange");
-        getColorCodeMap().put("1B", "Light Orange");
-        getColorCodeMap().put("1C", "Dark Orange");
-        getColorCodeMap().put("1D", "Reddish Orange");
-        getColorCodeMap().put("1E", "Light Reddish Orange");
-        getColorCodeMap().put("1F", "Dark Reddish Orange");
-        getColorCodeMap().put("2A", "Yellow");
-        getColorCodeMap().put("2B", "Light Yellow");
-        getColorCodeMap().put("2C", "Dark Yellow");
-        getColorCodeMap().put("2D", "Greenish Yellow");
-        getColorCodeMap().put("2E", "Cream");
-        getColorCodeMap().put("2F", "Buff");
-        getColorCodeMap().put("3A", "Green");
-        getColorCodeMap().put("3B", "Yellowish Green");
-        getColorCodeMap().put("3C", "Bluish Green");
-        getColorCodeMap().put("3D", "Dark Bluish Green");
-        getColorCodeMap().put("3E", "Olive");
-        getColorCodeMap().put("3F", "Dark Olive");
-        getColorCodeMap().put("4A", "Blue");
-        getColorCodeMap().put("4B", "Light Blue");
-        getColorCodeMap().put("4C", "Dark Blue");
-        getColorCodeMap().put("4D", "Greenish Blue");
-        getColorCodeMap().put("4E", "Light Greenish Blue");
-        getColorCodeMap().put("4F", "Dark Greenish Blue");
-        getColorCodeMap().put("5A", "Brown");
-        getColorCodeMap().put("5B", "Tan");
-        getColorCodeMap().put("5C", "Light Tan");
-        getColorCodeMap().put("5D", "Dark Tan");
-        getColorCodeMap().put("5E", "Reddish Brown");
-        getColorCodeMap().put("5F", "Dark Grayish Brown");
-        getColorCodeMap().put("6A", "No Code");
-        getColorCodeMap().put("6B", "No Code");
-        getColorCodeMap().put("6C", "No Code");
-        getColorCodeMap().put("6D", "No Code");
-        getColorCodeMap().put("6E", "No Code");
-        getColorCodeMap().put("6F", "No Code");
-        getColorCodeMap().put("7A", "Gray");
-        getColorCodeMap().put("7B", "No Code");
-        getColorCodeMap().put("7C", "No Code");
-        getColorCodeMap().put("7D", "No Code");
-        getColorCodeMap().put("7E", "No Code");
-        getColorCodeMap().put("7F", "No Code");
-        getColorCodeMap().put("8A", "No Code");
-        getColorCodeMap().put("8B", "No Code");
-        getColorCodeMap().put("8C", "No Code");
-        getColorCodeMap().put("8D", "No Code");
-        getColorCodeMap().put("8E", "No Code");
-        getColorCodeMap().put("8F", "No Code");
-        getColorCodeMap().put("9A", "End Of Color List");
+        colorCodeMap.put("1", "Transparent");
+        colorCodeMap.put("2", "Light Greyish Red");
+        colorCodeMap.put("3", "Grayish Red");
+        colorCodeMap.put("4", "Blackish Red");
+        colorCodeMap.put("5", "Moderate Pink");
+        colorCodeMap.put("6", "Moderate Red");
+        colorCodeMap.put("7", "Dark Grayish Red");
+        colorCodeMap.put("8", "Light Red");
+        colorCodeMap.put("9", "Moderate Red");
+        colorCodeMap.put("10", "Very Dark Red");
+        colorCodeMap.put("11", "Grayish Orange Pink");
+        colorCodeMap.put("12", "Light Grayish Red");
+        colorCodeMap.put("13", "Grayish Brown Red");
+        colorCodeMap.put("14", "Dark Brownish Red");
+        colorCodeMap.put("15", "Moderate Orange Pink");
+        colorCodeMap.put("16", "Light Reddish Brown");
+        colorCodeMap.put("17", "Dark Reddish Brown");
+        colorCodeMap.put("18", "Moderate Reddish Orange");
+        colorCodeMap.put("19", "Moderate Reddish Brown");
+        colorCodeMap.put("20", "Grayish Orange Pink");
+        colorCodeMap.put("21", "Light Grayish Brown");
+        colorCodeMap.put("22", "Grayish Brown");
+        colorCodeMap.put("23", "Dark Brown");
+        colorCodeMap.put("24", "Moderate Orange Pink");
+        colorCodeMap.put("25", "Light Brown");
+        colorCodeMap.put("26", "Moderate Brown");
+        colorCodeMap.put("27", "Moderate Brown");
+        colorCodeMap.put("28", "Light Brown");
+        colorCodeMap.put("29", "Very Light Orange");
+        colorCodeMap.put("30", "Grayish Brown");
+        colorCodeMap.put("31", "Dark Yellowish Brown");
+        colorCodeMap.put("32", "Dark Yellowish Brown");
+        colorCodeMap.put("33", "Grayish Orange");
+        colorCodeMap.put("34", "Moderate Yellowish Brown");
+        colorCodeMap.put("35", "Light Yellowish Orange");
+        colorCodeMap.put("36", "Dark Yellowish Orange");
+        colorCodeMap.put("37", "Yellowish Gray");
+        colorCodeMap.put("38", "Light Olive Gray");
+        colorCodeMap.put("39", "Olive Gray");
+        colorCodeMap.put("40", "Grayish Yellow");
+        colorCodeMap.put("41", "Dark Grayish Yellow");
+        colorCodeMap.put("42", "Moderate Olive Brown");
+        colorCodeMap.put("43", "Moderate Yellow");
+        colorCodeMap.put("44", "Light Olive Brown");
+        colorCodeMap.put("45", "Light Greenish Yellow");
+        colorCodeMap.put("46", "Light Olive");
+        colorCodeMap.put("47", "Grayish Olive");
+        colorCodeMap.put("48", "Moderate Greenish Yellow");
+        colorCodeMap.put("49", "Light Olive");
+        colorCodeMap.put("50", "Dark Greenish Yellow");
+        colorCodeMap.put("51", "Light Grayish Green");
+        colorCodeMap.put("52", "Moderate Grayish Green");
+        colorCodeMap.put("53", "Grayish Olive Green");
+        colorCodeMap.put("54", "Moderate Yellowish Green");
+        colorCodeMap.put("55", "Light Yellowish Green");
+        colorCodeMap.put("56", "Grayish Green");
+        colorCodeMap.put("57", "Dark Grayish Green");
+        colorCodeMap.put("58", "Moderate Yellowish Green");
+        colorCodeMap.put("59", "Dark Yellowish Green");
+        colorCodeMap.put("60", "Light Grayish Green");
+        colorCodeMap.put("61", "Grayish Green");
+        colorCodeMap.put("62", "Dark Green");
+        colorCodeMap.put("63", "Light Green");
+        colorCodeMap.put("64", "Light Green");
+        colorCodeMap.put("65", "Moderate Green");
+        colorCodeMap.put("66", "Very Light Green");
+        colorCodeMap.put("67", "Light Grayish Green");
+        colorCodeMap.put("68", "Grayish Green");
+        colorCodeMap.put("69", "Light Blue Green");
+        colorCodeMap.put("70", "Grayish Blue Green");
+        colorCodeMap.put("71", "Grayish Purple");
+        colorCodeMap.put("72", "Very Dark Purple");
+        colorCodeMap.put("73", "Light Reddish Purple");
+        colorCodeMap.put("74", "Grayish Purple Red");
+        colorCodeMap.put("75", "Dark Red Purple");
+        colorCodeMap.put("76", "White");
+        colorCodeMap.put("77", "Very Light Gray");
+        colorCodeMap.put("78", "Light Gray");
+        colorCodeMap.put("79", "Moderate Light Gray");
+        colorCodeMap.put("80", "Moderate Gray");
+        colorCodeMap.put("81", "Moderate Dark Gray");
+        colorCodeMap.put("82", "Dark Gray");
+        colorCodeMap.put("83", "Black");
+        colorCodeMap.put("84", "Light Brownish Gray");
+        colorCodeMap.put("85", "Brownish Gray");
+        colorCodeMap.put("86", "Yellowish Gray");
+        colorCodeMap.put("87", "Light Olive Gray");
+        colorCodeMap.put("88", "Olive Gray");
+        colorCodeMap.put("89", "Pinkish Gray");
+        colorCodeMap.put("90", "Light Greenish Gray");
+        colorCodeMap.put("91", "Greenish Gray");
+        colorCodeMap.put("92", "Dark Greenish Gray");
+        colorCodeMap.put("93", "Greenish Black");
+        colorCodeMap.put("94", "Light Greenish Gray");
+        colorCodeMap.put("95", "Greenish Gray");
+        colorCodeMap.put("96", "Dark Greenish Gray");
+        colorCodeMap.put("97", "Greenish Black");
+        colorCodeMap.put("98", "Light Bluish Gray");
+        colorCodeMap.put("99", "Moderate Bluish Gray");
+        colorCodeMap.put("0A", "Red");
+        colorCodeMap.put("0B", "Dark Red");
+        colorCodeMap.put("0C", "Orangish Red");
+        colorCodeMap.put("0D", "Light Orangish Red");
+        colorCodeMap.put("0E", "Dark Orangish Red");
+        colorCodeMap.put("0F", "Purplish Red");
+        colorCodeMap.put("1A", "Orange");
+        colorCodeMap.put("1B", "Light Orange");
+        colorCodeMap.put("1C", "Dark Orange");
+        colorCodeMap.put("1D", "Reddish Orange");
+        colorCodeMap.put("1E", "Light Reddish Orange");
+        colorCodeMap.put("1F", "Dark Reddish Orange");
+        colorCodeMap.put("2A", "Yellow");
+        colorCodeMap.put("2B", "Light Yellow");
+        colorCodeMap.put("2C", "Dark Yellow");
+        colorCodeMap.put("2D", "Greenish Yellow");
+        colorCodeMap.put("2E", "Cream");
+        colorCodeMap.put("2F", "Buff");
+        colorCodeMap.put("3A", "Green");
+        colorCodeMap.put("3B", "Yellowish Green");
+        colorCodeMap.put("3C", "Bluish Green");
+        colorCodeMap.put("3D", "Dark Bluish Green");
+        colorCodeMap.put("3E", "Olive");
+        colorCodeMap.put("3F", "Dark Olive");
+        colorCodeMap.put("4A", "Blue");
+        colorCodeMap.put("4B", "Light Blue");
+        colorCodeMap.put("4C", "Dark Blue");
+        colorCodeMap.put("4D", "Greenish Blue");
+        colorCodeMap.put("4E", "Light Greenish Blue");
+        colorCodeMap.put("4F", "Dark Greenish Blue");
+        colorCodeMap.put("5A", "Brown");
+        colorCodeMap.put("5B", "Tan");
+        colorCodeMap.put("5C", "Light Tan");
+        colorCodeMap.put("5D", "Dark Tan");
+        colorCodeMap.put("5E", "Reddish Brown");
+        colorCodeMap.put("5F", "Dark Grayish Brown");
+        colorCodeMap.put("6A", "No Code");
+        colorCodeMap.put("6B", "No Code");
+        colorCodeMap.put("6C", "No Code");
+        colorCodeMap.put("6D", "No Code");
+        colorCodeMap.put("6E", "No Code");
+        colorCodeMap.put("6F", "No Code");
+        colorCodeMap.put("7A", "Gray");
+        colorCodeMap.put("7B", "No Code");
+        colorCodeMap.put("7C", "No Code");
+        colorCodeMap.put("7D", "No Code");
+        colorCodeMap.put("7E", "No Code");
+        colorCodeMap.put("7F", "No Code");
+        colorCodeMap.put("8A", "No Code");
+        colorCodeMap.put("8B", "No Code");
+        colorCodeMap.put("8C", "No Code");
+        colorCodeMap.put("8D", "No Code");
+        colorCodeMap.put("8E", "No Code");
+        colorCodeMap.put("8F", "No Code");
+        colorCodeMap.put("9A", "End Of Color List");
     }
     
     private void initializeGeoLogCodeMap() {
-        getGeoLogCodeMap().put("A", "Time");
-        getGeoLogCodeMap().put("B", "Video");
-        getGeoLogCodeMap().put("C", "Caliper");
-        getGeoLogCodeMap().put("E", "Electric");
-        getGeoLogCodeMap().put("F", "Fluid Conductivity");
-        getGeoLogCodeMap().put("G", "Geologist");
-        getGeoLogCodeMap().put("H", "Magnetic");
-        getGeoLogCodeMap().put("I", "Induction");
-        getGeoLogCodeMap().put("J", "Gamma");
-        getGeoLogCodeMap().put("K", "Dipmeter");
-        getGeoLogCodeMap().put("L", "Laterlog");
-        getGeoLogCodeMap().put("M", "Micro Laterlog");
-        getGeoLogCodeMap().put("N", "Neutron");
-        getGeoLogCodeMap().put("P", "Photo");
-        getGeoLogCodeMap().put("Q", "Radio Activity");
-        getGeoLogCodeMap().put("S", "Sonic");
-        getGeoLogCodeMap().put("T", "Temperature");
-        getGeoLogCodeMap().put("U", "Gamma-Gamma");
-        getGeoLogCodeMap().put("V", "Fluid Velocity");
-        getGeoLogCodeMap().put("Z", "Other");
+        geoLogCodeMap.put("A", "Time");
+        geoLogCodeMap.put("B", "Video");
+        geoLogCodeMap.put("C", "Caliper");
+        geoLogCodeMap.put("E", "Electric");
+        geoLogCodeMap.put("F", "Fluid Conductivity");
+        geoLogCodeMap.put("G", "Geologist");
+        geoLogCodeMap.put("H", "Magnetic");
+        geoLogCodeMap.put("I", "Induction");
+        geoLogCodeMap.put("J", "Gamma");
+        geoLogCodeMap.put("K", "Dipmeter");
+        geoLogCodeMap.put("L", "Laterlog");
+        geoLogCodeMap.put("M", "Micro Laterlog");
+        geoLogCodeMap.put("N", "Neutron");
+        geoLogCodeMap.put("P", "Photo");
+        geoLogCodeMap.put("Q", "Radio Activity");
+        geoLogCodeMap.put("S", "Sonic");
+        geoLogCodeMap.put("T", "Temperature");
+        geoLogCodeMap.put("U", "Gamma-Gamma");
+        geoLogCodeMap.put("V", "Fluid Velocity");
+        geoLogCodeMap.put("Z", "Other");
     }
     
     private void initializeCountyCodeMap() {
-        getCountyCodeMap().put("AA", "Alachua");
-        getCountyCodeMap().put("BK", "Baker");
-        getCountyCodeMap().put("BW", "Broward");
-        getCountyCodeMap().put("BF", "Bradford");
-        getCountyCodeMap().put("BV", "Brevard");
-        getCountyCodeMap().put("BY", "Bay");
-        getCountyCodeMap().put("CN", "Calhoun");
-        getCountyCodeMap().put("CH", "Charlotte");
-        getCountyCodeMap().put("CI", "Citrus");
-        getCountyCodeMap().put("CY", "Clay");
-        getCountyCodeMap().put("CO", "Columbia");
-        getCountyCodeMap().put("CR", "Collier");
-        getCountyCodeMap().put("DD", "Dade");
-        getCountyCodeMap().put("DS", "Desoto");
-        getCountyCodeMap().put("DX", "Dixie");
-        getCountyCodeMap().put("DU", "Duval");
-        getCountyCodeMap().put("ES", "Escambia");
-        getCountyCodeMap().put("FG", "Flagler");
-        getCountyCodeMap().put("FK", "Franklin");
-        getCountyCodeMap().put("GA", "Gadsden");
-        getCountyCodeMap().put("GR", "Gilchrist");
-        getCountyCodeMap().put("GL", "Glades");
-        getCountyCodeMap().put("GF", "Gulf");
-        getCountyCodeMap().put("HD", "Hardee");
-        getCountyCodeMap().put("HY", "Hendry");
-        getCountyCodeMap().put("HI", "Highlands");
-        getCountyCodeMap().put("HL", "Hillsborough");
-        getCountyCodeMap().put("HM", "Hamilton");
-        getCountyCodeMap().put("HO", "Holmes");
-        getCountyCodeMap().put("HR", "Hernando");
-        getCountyCodeMap().put("IR", "Indian River");
-        getCountyCodeMap().put("JK", "Jackson");
-        getCountyCodeMap().put("JF", "Jefferson");
-        getCountyCodeMap().put("LF", "Lafayette");
-        getCountyCodeMap().put("LB", "Liberty");
-        getCountyCodeMap().put("LE", "Lee");
-        getCountyCodeMap().put("LK", "Lake");
-        getCountyCodeMap().put("LN", "Leon");
-        getCountyCodeMap().put("LV", "Levy");
-        getCountyCodeMap().put("MD", "Madison");
-        getCountyCodeMap().put("MT", "Martin");
-        getCountyCodeMap().put("MO", "Monroe");
-        getCountyCodeMap().put("MR", "Marion");
-        getCountyCodeMap().put("MN", "Manatee");
-        getCountyCodeMap().put("NA", "Nassau");
-        getCountyCodeMap().put("OE", "Okeechobee");
-        getCountyCodeMap().put("OA", "Okaloosa");
-        getCountyCodeMap().put("OR", "Orange");
-        getCountyCodeMap().put("OS", "Osceola");
-        getCountyCodeMap().put("PS", "Pasco");
-        getCountyCodeMap().put("PB", "Palm Beach");
-        getCountyCodeMap().put("PI", "Pinellas");
-        getCountyCodeMap().put("PO", "Polk");
-        getCountyCodeMap().put("PU", "Putnam");
-        getCountyCodeMap().put("SA", "Sarasota");
-        getCountyCodeMap().put("SE", "Seminole");
-        getCountyCodeMap().put("SJ", "St Johns");
-        getCountyCodeMap().put("SL", "St Lucie");
-        getCountyCodeMap().put("SM", "Sumter");
-        getCountyCodeMap().put("SR", "Santa Rosa");
-        getCountyCodeMap().put("SW", "Suwannee");
-        getCountyCodeMap().put("TY", "Taylor");
-        getCountyCodeMap().put("UN", "Union");
-        getCountyCodeMap().put("VO", "Volusia");
-        getCountyCodeMap().put("WK", "Wakulla");
-        getCountyCodeMap().put("WL", "Walton");
-        getCountyCodeMap().put("WS", "Washington");
-        getCountyCodeMap().put("OF", "Offshore");
+        countyCodeMap.put("AA", "Alachua");
+        countyCodeMap.put("BK", "Baker");
+        countyCodeMap.put("BW", "Broward");
+        countyCodeMap.put("BF", "Bradford");
+        countyCodeMap.put("BV", "Brevard");
+        countyCodeMap.put("BY", "Bay");
+        countyCodeMap.put("CN", "Calhoun");
+        countyCodeMap.put("CH", "Charlotte");
+        countyCodeMap.put("CI", "Citrus");
+        countyCodeMap.put("CY", "Clay");
+        countyCodeMap.put("CO", "Columbia");
+        countyCodeMap.put("CR", "Collier");
+        countyCodeMap.put("DD", "Dade");
+        countyCodeMap.put("DS", "Desoto");
+        countyCodeMap.put("DX", "Dixie");
+        countyCodeMap.put("DU", "Duval");
+        countyCodeMap.put("ES", "Escambia");
+        countyCodeMap.put("FG", "Flagler");
+        countyCodeMap.put("FK", "Franklin");
+        countyCodeMap.put("GA", "Gadsden");
+        countyCodeMap.put("GR", "Gilchrist");
+        countyCodeMap.put("GL", "Glades");
+        countyCodeMap.put("GF", "Gulf");
+        countyCodeMap.put("HD", "Hardee");
+        countyCodeMap.put("HY", "Hendry");
+        countyCodeMap.put("HI", "Highlands");
+        countyCodeMap.put("HL", "Hillsborough");
+        countyCodeMap.put("HM", "Hamilton");
+        countyCodeMap.put("HO", "Holmes");
+        countyCodeMap.put("HR", "Hernando");
+        countyCodeMap.put("IR", "Indian River");
+        countyCodeMap.put("JK", "Jackson");
+        countyCodeMap.put("JF", "Jefferson");
+        countyCodeMap.put("LF", "Lafayette");
+        countyCodeMap.put("LB", "Liberty");
+        countyCodeMap.put("LE", "Lee");
+        countyCodeMap.put("LK", "Lake");
+        countyCodeMap.put("LN", "Leon");
+        countyCodeMap.put("LV", "Levy");
+        countyCodeMap.put("MD", "Madison");
+        countyCodeMap.put("MT", "Martin");
+        countyCodeMap.put("MO", "Monroe");
+        countyCodeMap.put("MR", "Marion");
+        countyCodeMap.put("MN", "Manatee");
+        countyCodeMap.put("NA", "Nassau");
+        countyCodeMap.put("OE", "Okeechobee");
+        countyCodeMap.put("OA", "Okaloosa");
+        countyCodeMap.put("OR", "Orange");
+        countyCodeMap.put("OS", "Osceola");
+        countyCodeMap.put("PS", "Pasco");
+        countyCodeMap.put("PB", "Palm Beach");
+        countyCodeMap.put("PI", "Pinellas");
+        countyCodeMap.put("PO", "Polk");
+        countyCodeMap.put("PU", "Putnam");
+        countyCodeMap.put("SA", "Sarasota");
+        countyCodeMap.put("SE", "Seminole");
+        countyCodeMap.put("SJ", "St Johns");
+        countyCodeMap.put("SL", "St Lucie");
+        countyCodeMap.put("SM", "Sumter");
+        countyCodeMap.put("SR", "Santa Rosa");
+        countyCodeMap.put("SW", "Suwannee");
+        countyCodeMap.put("TY", "Taylor");
+        countyCodeMap.put("UN", "Union");
+        countyCodeMap.put("VO", "Volusia");
+        countyCodeMap.put("WK", "Wakulla");
+        countyCodeMap.put("WL", "Walton");
+        countyCodeMap.put("WS", "Washington");
+        countyCodeMap.put("OF", "Offshore");
     }
 
     /**
      * @return the rockTypeMap
      */
-    public Map getRockTypeMap() {
+    public HashMap<String, String> getRockTypeMap() {
         return rockTypeMap;
     }
 
     /**
      * @param rockTypeMap the rockTypeMap to set
      */
-    public void setRockTypeMap(Map rockTypeMap) {
+    public void setRockTypeMap(HashMap<String, String> rockTypeMap) {
         this.rockTypeMap = rockTypeMap;
     }
 
     /**
      * @return the porosityCodeMap
      */
-    public Map getPorosityCodeMap() {
+    public HashMap<String, String> getPorosityCodeMap() {
         return porosityCodeMap;
     }
 
     /**
      * @param porosityCodeMap the porosityCodeMap to set
      */
-    public void setPorosityCodeMap(Map porosityCodeMap) {
+    public void setPorosityCodeMap(HashMap<String, String> porosityCodeMap) {
         this.porosityCodeMap = porosityCodeMap;
     }
 
     /**
      * @return the grainSizeCodeMap
      */
-    public Map getGrainSizeCodeMap() {
+    public HashMap<String, String> getGrainSizeCodeMap() {
         return grainSizeCodeMap;
     }
 
     /**
      * @param grainSizeCodeMap the grainSizeCodeMap to set
      */
-    public void setGrainSizeCodeMap(Map grainSizeCodeMap) {
+    public void setGrainSizeCodeMap(HashMap<String, String> grainSizeCodeMap) {
         this.grainSizeCodeMap = grainSizeCodeMap;
     }
 
     /**
      * @return the roundnessCodeMap
      */
-    public Map getRoundnessCodeMap() {
+    public HashMap<String, String> getRoundnessCodeMap() {
         return roundnessCodeMap;
     }
 
     /**
      * @param roundnessCodeMap the roundnessCodeMap to set
      */
-    public void setRoundnessCodeMap(Map roundnessCodeMap) {
+    public void setRoundnessCodeMap(HashMap<String, String> roundnessCodeMap) {
         this.roundnessCodeMap = roundnessCodeMap;
     }
 
     /**
      * @return the sphericityCodeMap
      */
-    public Map getSphericityCodeMap() {
+    public HashMap<String, String> getSphericityCodeMap() {
         return sphericityCodeMap;
     }
 
     /**
      * @param sphericityCodeMap the sphericityCodeMap to set
      */
-    public void setSphericityCodeMap(Map sphericityCodeMap) {
+    public void setSphericityCodeMap(HashMap<String, String> sphericityCodeMap) {
         this.sphericityCodeMap = sphericityCodeMap;
     }
 
     /**
      * @return the grainTypeCodeMap
      */
-    public Map getGrainTypeCodeMap() {
+    public HashMap<String, String> getGrainTypeCodeMap() {
         return grainTypeCodeMap;
     }
 
     /**
      * @param grainTypeCodeMap the grainTypeCodeMap to set
      */
-    public void setGrainTypeCodeMap(Map grainTypeCodeMap) {
+    public void setGrainTypeCodeMap(HashMap<String, String> grainTypeCodeMap) {
         this.grainTypeCodeMap = grainTypeCodeMap;
     }
 
     /**
      * @return the alterationCodeMap
      */
-    public Map getAlterationCodeMap() {
+    public HashMap<String, String> getAlterationCodeMap() {
         return alterationCodeMap;
     }
 
     /**
      * @param alterationCodeMap the alterationCodeMap to set
      */
-    public void setAlterationCodeMap(Map alterationCodeMap) {
+    public void setAlterationCodeMap(HashMap<String, String> alterationCodeMap) {
         this.alterationCodeMap = alterationCodeMap;
     }
 
     /**
      * @return the crystallinityCodeMap
      */
-    public Map getCrystallinityCodeMap() {
+    public HashMap<String, String> getCrystallinityCodeMap() {
         return crystallinityCodeMap;
     }
 
     /**
      * @param crystallinityCodeMap the crystallinityCodeMap to set
      */
-    public void setCrystallinityCodeMap(Map crystallinityCodeMap) {
+    public void setCrystallinityCodeMap(HashMap<String, String> crystallinityCodeMap) {
         this.crystallinityCodeMap = crystallinityCodeMap;
     }
 
     /**
      * @return the indurationCodeMap
      */
-    public Map getIndurationCodeMap() {
+    public HashMap<String, String> getIndurationCodeMap() {
         return indurationCodeMap;
     }
 
     /**
      * @param indurationCodeMap the indurationCodeMap to set
      */
-    public void setIndurationCodeMap(Map indurationCodeMap) {
+    public void setIndurationCodeMap(HashMap<String, String> indurationCodeMap) {
         this.indurationCodeMap = indurationCodeMap;
     }
 
     /**
      * @return the cementCodeMap
      */
-    public Map getCementCodeMap() {
+    public HashMap<String, String> getCementCodeMap() {
         return cementCodeMap;
     }
 
     /**
      * @param cementCodeMap the cementCodeMap to set
      */
-    public void setCementCodeMap(Map cementCodeMap) {
+    public void setCementCodeMap(HashMap<String, String> cementCodeMap) {
         this.cementCodeMap = cementCodeMap;
     }
 
     /**
      * @return the sedimentaryCodeMap
      */
-    public Map getSedimentaryCodeMap() {
+    public HashMap<String, String> getSedimentaryCodeMap() {
         return sedimentaryCodeMap;
     }
 
     /**
      * @param sedimentaryCodeMap the sedimentaryCodeMap to set
      */
-    public void setSedimentaryCodeMap(Map sedimentaryCodeMap) {
+    public void setSedimentaryCodeMap(HashMap<String, String> sedimentaryCodeMap) {
         this.sedimentaryCodeMap = sedimentaryCodeMap;
     }
 
     /**
      * @return the featureCodeMap
      */
-    public Map getFeatureCodeMap() {
+    public HashMap<String, String> getFeatureCodeMap() {
         return featureCodeMap;
     }
 
     /**
      * @param featureCodeMap the featureCodeMap to set
      */
-    public void setFeatureCodeMap(Map featureCodeMap) {
+    public void setFeatureCodeMap(HashMap<String, String> featureCodeMap) {
         this.featureCodeMap = featureCodeMap;
     }
 
     /**
      * @return the fossilCodeMap
      */
-    public Map getFossilCodeMap() {
+    public HashMap<String, String> getFossilCodeMap() {
         return fossilCodeMap;
     }
 
     /**
      * @param fossilCodeMap the fossilCodeMap to set
      */
-    public void setFossilCodeMap(Map fossilCodeMap) {
+    public void setFossilCodeMap(HashMap<String, String> fossilCodeMap) {
         this.fossilCodeMap = fossilCodeMap;
     }
 
     /**
      * @return the colorCodeMap
      */
-    public Map getColorCodeMap() {
+    public HashMap<String, String> getColorCodeMap() {
         return colorCodeMap;
     }
 
     /**
      * @param colorCodeMap the colorCodeMap to set
      */
-    public void setColorCodeMap(Map colorCodeMap) {
+    public void setColorCodeMap(HashMap<String, String> colorCodeMap) {
         this.colorCodeMap = colorCodeMap;
     }
 
     /**
      * @return the geoLogCodeMap
      */
-    public Map getGeoLogCodeMap() {
+    public HashMap<String, String> getGeoLogCodeMap() {
         return geoLogCodeMap;
     }
 
     /**
      * @param geoLogCodeMap the geoLogCodeMap to set
      */
-    public void setGeoLogCodeMap(Map geoLogCodeMap) {
+    public void setGeoLogCodeMap(HashMap<String, String> geoLogCodeMap) {
         this.geoLogCodeMap = geoLogCodeMap;
     }
 
     /**
      * @return the countyCodeMap
      */
-    public Map getCountyCodeMap() {
+    public HashMap<String, String> getCountyCodeMap() {
         return countyCodeMap;
     }
 
     /**
      * @param countyCodeMap the countyCodeMap to set
      */
-    public void setCountyCodeMap(Map countyCodeMap) {
+    public void setCountyCodeMap(HashMap<String, String> countyCodeMap) {
         this.countyCodeMap = countyCodeMap;
     }
 
     /**
      * @return the mineralCodeMap
      */
-    public Map getMineralCodeMap() {
+    public HashMap<String, String> getMineralCodeMap() {
         return mineralCodeMap;
     }
 
     /**
      * @param mineralCodeMap the mineralCodeMap to set
      */
-    public void setMineralCodeMap(Map mineralCodeMap) {
+    public void setMineralCodeMap(HashMap<String, String> mineralCodeMap) {
         this.mineralCodeMap = mineralCodeMap;
     }
 
     /**
      * @return the formationCodeMap
      */
-    public Map getFormationCodeMap() {
+    public HashMap<String, String> getFormationCodeMap() {
         return formationCodeMap;
     }
 
     /**
      * @param formationCodeMap the formationCodeMap to set
      */
-    public void setFormationCodeMap(Map formationCodeMap) {
+    public void setFormationCodeMap(HashMap<String, String> formationCodeMap) {
         this.formationCodeMap = formationCodeMap;
     }
-    
 }

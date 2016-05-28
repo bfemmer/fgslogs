@@ -43,7 +43,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -56,7 +55,7 @@ import javax.swing.tree.DefaultTreeModel;
 public class WellLogController {
     private WellLogView view;
     private WellLogModel model;
-    private Map componentMap;
+    private Map<String, Component> componentMap;
     
     public WellLogController() {
         
