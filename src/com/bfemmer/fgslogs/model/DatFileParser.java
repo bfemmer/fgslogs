@@ -251,10 +251,14 @@ public class DatFileParser implements FileParser {
             if (line.length() >= SAMPLES_END_INDEX) {
                 temp = line.substring(SAMPLES_BEGIN_INDEX, SAMPLES_END_INDEX).trim();
                 if (temp.length() > 0) wellLog.setSampleCount(Integer.valueOf(temp));
-                
+            }
+            
+            if (line.length() >= FROM_DEPTH_END_INDEX) {
                 temp = line.substring(FROM_DEPTH_BEGIN_INDEX, FROM_DEPTH_END_INDEX).trim();
                 if (temp.length() > 0) wellLog.setFromDepth(Double.valueOf(temp));
-
+            }
+            
+            if (line.length() >= TO_DEPTH_END_INDEX) {
                 temp = line.substring(TO_DEPTH_BEGIN_INDEX, TO_DEPTH_END_INDEX).trim();
                 if (temp.length() > 0) wellLog.setToDepth(Double.valueOf(temp));
             }
