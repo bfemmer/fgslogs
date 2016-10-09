@@ -29,7 +29,6 @@ public class Formation {
     private double toDepth;
     private String formationCode;
     
-    
     public Formation() {
         fromDepth = -1;
         toDepth = -1;

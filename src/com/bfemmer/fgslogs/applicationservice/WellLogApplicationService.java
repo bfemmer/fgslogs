@@ -33,7 +33,7 @@ import java.util.List;
  * @author bfemmer
  */
 public class WellLogApplicationService {
-    private WellLogRepository wellLogRepository;
+    private final WellLogRepository wellLogRepository;
     
     public WellLogApplicationService(WellLogRepository wellLogRepository) {
         this.wellLogRepository = wellLogRepository;
