@@ -63,7 +63,6 @@ public class WellLogController {
         createComponentMap();
         
         // Clear out previous demo data in tree
-        //view.getTree().setModel(null);
         ((JTree)getComponentByName("wellTreeView")).setModel(null);
         
         resetEditor();
@@ -110,9 +109,6 @@ public class WellLogController {
                 // Set editor with data from selected well log
                 ((JEditorPane)getComponentByName("editorPane")).setText(wellLog.toHtml());
                 ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
-                
-//                JOptionPane.showMessageDialog(
-//                    null, treeSelectionEvent.getPath().getLastPathComponent().toString());
             });
     }
     
@@ -126,24 +122,10 @@ public class WellLogController {
         DefaultMutableTreeNode countyNode = new DefaultMutableTreeNode("Well Logs");
         
         // Create child nodes corresponding with each well log in the list
-//        model.getWellLogs().stream().forEach((wellLog) -> {
-//            countyNode.add(new DefaultMutableTreeNode(
-//                    "W-" + String.valueOf(wellLog.getWellNumber())));
-//        });
-
         model.getWellLogs().stream().forEach((wellLog) -> {
             DefaultMutableTreeNode node = new DefaultMutableTreeNode(wellLog);
             countyNode.add(node);
         });
-        
-//        for (WellLog wellLog : model.getWellLogs()) {
-//            DefaultMutableTreeNode node = new DefaultMutableTreeNode("W-" + String.valueOf(wellLog.getWellNumber()));
-//            node.setUserObject(wellLog);
-//        }
-//        model.getWellLogs().stream().forEach((wellLog) -> {
-//            DefaultMutableTreeNode node = new DefaultMutableTreeNode("W-" + String.valueOf(wellLog.getWellNumber()));
-//            node.setUserObject(wellLog);
-//        });
         
         // Set the model object for the tree
         tree.setModel(new DefaultTreeModel(countyNode));
@@ -161,10 +143,6 @@ public class WellLogController {
         dialogResult = openFile.showOpenDialog(null);
         
         if (dialogResult == JFileChooser.APPROVE_OPTION) {
-            // user selects a file
-//            JOptionPane.showMessageDialog(
-//                    null, openFile.getSelectedFile().toString());
-            
             WellLogApplicationService wellLogApplicationService = 
                         new WellLogApplicationService(
                                 new DatFileWellLogRepository(
