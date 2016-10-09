@@ -26,6 +26,7 @@ package com.bfemmer.fgslogs.controller;
 
 import com.bfemmer.fgslogs.applicationservice.WellLogApplicationService;
 import com.bfemmer.fgslogs.infrastructure.DatFileWellLogRepository;
+import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogModel;
 import com.bfemmer.fgslogs.view.WellLogView;
 import java.awt.Component;
@@ -92,18 +93,23 @@ public class WellLogController {
             });
         view.getWellTreeView().addTreeSelectionListener(
             (TreeSelectionEvent treeSelectionEvent) -> {
+                // If root node was selected, clear out editor and return
                 String well = treeSelectionEvent.getPath().getLastPathComponent().toString();
-
                 if (well.equals("Well Logs")) {
                     resetEditor();
                     return;
                 }
                 
-                int selectedWellNumber = Integer.parseInt(well.substring(2));
-                model.getWellLogs().stream().filter((log) -> (log.getWellNumber() == selectedWellNumber)).forEach((log) -> {
-                    ((JEditorPane)getComponentByName("editorPane")).setText(log.toHtml());
-                    ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
-                });
+                // Get access to tree object and selected node
+                JTree tree = ((JTree)getComponentByName("wellTreeView"));
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+                
+                // Extract object from node
+                WellLog wellLog = (WellLog)node.getUserObject();
+                
+                // Set editor with data from selected well log
+                ((JEditorPane)getComponentByName("editorPane")).setText(wellLog.toHtml());
+                ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
                 
 //                JOptionPane.showMessageDialog(
 //                    null, treeSelectionEvent.getPath().getLastPathComponent().toString());
@@ -117,16 +123,30 @@ public class WellLogController {
         tree.setModel(null);
         
         // Create top node with county name
-        DefaultMutableTreeNode county = new DefaultMutableTreeNode("Well Logs");
+        DefaultMutableTreeNode countyNode = new DefaultMutableTreeNode("Well Logs");
         
         // Create child nodes corresponding with each well log in the list
+//        model.getWellLogs().stream().forEach((wellLog) -> {
+//            countyNode.add(new DefaultMutableTreeNode(
+//                    "W-" + String.valueOf(wellLog.getWellNumber())));
+//        });
+
         model.getWellLogs().stream().forEach((wellLog) -> {
-            county.add(new DefaultMutableTreeNode(
-                    "W-" + String.valueOf(wellLog.getWellNumber())));
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode(wellLog);
+            countyNode.add(node);
         });
         
+//        for (WellLog wellLog : model.getWellLogs()) {
+//            DefaultMutableTreeNode node = new DefaultMutableTreeNode("W-" + String.valueOf(wellLog.getWellNumber()));
+//            node.setUserObject(wellLog);
+//        }
+//        model.getWellLogs().stream().forEach((wellLog) -> {
+//            DefaultMutableTreeNode node = new DefaultMutableTreeNode("W-" + String.valueOf(wellLog.getWellNumber()));
+//            node.setUserObject(wellLog);
+//        });
+        
         // Set the model object for the tree
-        tree.setModel(new DefaultTreeModel(county));
+        tree.setModel(new DefaultTreeModel(countyNode));
     }
     
     private void resetEditor() {

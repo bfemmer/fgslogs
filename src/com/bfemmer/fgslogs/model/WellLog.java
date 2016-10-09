@@ -781,7 +781,10 @@ public class WellLog {
         return completionDate;
     }
     
-    
+    @Override
+    public String toString() {
+        return "W-" + String.valueOf(wellNumber);
+    }
 //    public String createWellDetailsHtml2() {
 //        String html = "  <TABLE border=\"1\">\n" +
 //            "  <TR>\n" +
