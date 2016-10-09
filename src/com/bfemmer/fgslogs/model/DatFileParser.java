@@ -222,7 +222,7 @@ public class DatFileParser implements FileParser {
             Logger.getLogger(DatFileParser.class.getName()).log(Level.SEVERE, null, exception);
         }finally {
             try {
-                if (bufferedReader != null) bufferedReader.close();
+                bufferedReader.close();
             } catch (IOException ex) {
                 Logger.getLogger(DatFileParser.class.getName()).log(Level.SEVERE, null, ex);
                 return null;

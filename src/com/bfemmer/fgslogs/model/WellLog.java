@@ -403,10 +403,9 @@ public class WellLog {
             "      <TABLE>\n";
         
         //html += temp;
-        //formationHtml = "";
         formationHtml = formations.stream().map((formation) -> "      <TR>\n" +
             "        <TD align=\"right\">" + String.valueOf(formation.getFromDepth()) + "</TD>\n" +
-            "        <TD align=\"right\">" + String.valueOf(formation.getToDepth()) + "</TD>\n" +
+            "        <TD align=\"right\">" + (-1.0 == formation.getToDepth() ? "" : String.valueOf(formation.getToDepth())) + "</TD>\n" +
             "        <TD>" + formation.getFormationCode() + "</TD>\n" +
             "        <TD>" + codes.getFormationCodeMap().get(formation.getFormationCode()) + "</TD>\n" +
             "      </TR>\n").reduce(formationHtml, String::concat);
