@@ -56,10 +56,14 @@ public class WellLogApplicationService {
     }
     
     public List<String> getWellNumbersForCounty(String countyCode) {
-        return wellLogRepository.getWellNumbersForCounty(countyCode);
+        return wellLogRepository.getWellNumbersByCounty(countyCode);
     }
     
-    public WellLog getWellLogForWellNumber(int wellNumber) {
-        return wellLogRepository.getWellLogForWellNumber(wellNumber);
+    public List<WellLog> getWellLogForWellNumber(int wellNumber) {
+        return wellLogRepository.getWellLogByWellNumber(wellNumber);
+    }
+    
+    public WellLog getWellLogById(String id) {
+        return wellLogRepository.getWellLogById(id);
     }
 }

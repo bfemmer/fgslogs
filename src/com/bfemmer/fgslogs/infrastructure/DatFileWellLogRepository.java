@@ -53,7 +53,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
     }
 
     @Override
-    public int getWellLogCountForCounty(String countyCode) {
+    public int getWellLogCountByCounty(String countyCode) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
@@ -79,12 +79,17 @@ public class DatFileWellLogRepository implements WellLogRepository {
     }
 
     @Override
-    public List<String> getWellNumbersForCounty(String countyCode) {
+    public List<String> getWellNumbersByCounty(String countyCode) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public WellLog getWellLogForWellNumber(int wellNumber) {
+    public List<WellLog> getWellLogByWellNumber(int wellNumber) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public WellLog getWellLogById(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

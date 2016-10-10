@@ -30,6 +30,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -194,6 +195,7 @@ public class DatFileParser implements FileParser {
                 switch (recordId) {
                     case START_OF_WELL_RECORD:
                         wellLog = new WellLog();
+                        wellLog.setId(UUID.randomUUID().toString());
                         parseHeaderIntoWellLog (currentLine);
                         parseLocationIntoWellLog (currentLine);
                         parseDateIntoWellLog (currentLine);
@@ -603,7 +605,8 @@ public class DatFileParser implements FileParser {
         if (line.length() < POROSITY_END_INDEX) return;
         
         temp = line.substring(POROSITY_BEGIN_INDEX, POROSITY_END_INDEX).trim();
-
+        if ("".equals(temp)) temp = "-1";
+        
         try {
             wellLog.getSamples().get(wellLog.getSamples().size() - 1)
                     .setPorosity(Integer.valueOf(temp));
@@ -635,9 +638,6 @@ public class DatFileParser implements FileParser {
                 .getPorosityCodes().add(data);
             }
         }
-        
-//        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
-//                .getPorosityCodes().addAll(Arrays.asList(dataArray));
     }
     
     private void parseGrainSize(String line) {

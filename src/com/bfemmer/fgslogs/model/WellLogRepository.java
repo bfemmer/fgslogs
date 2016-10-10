@@ -32,9 +32,10 @@ import java.util.List;
  */
 public interface WellLogRepository {
     int getWellLogCount();
-    int getWellLogCountForCounty(String countyCode);
+    int getWellLogCountByCounty(String countyCode);
     List<WellLog> getAllWellLogs();
     List<String> getAllWellNumbers();
-    List<String> getWellNumbersForCounty(String countyCode);
-    WellLog getWellLogForWellNumber(int wellNumber);
+    List<String> getWellNumbersByCounty(String countyCode);
+    List<WellLog> getWellLogByWellNumber(int wellNumber);
+    WellLog getWellLogById(String id);
 }

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WellLog {
+    private String id;
     private int wellNumber;
     private double bottomSampleDepth;
     private double totalDepth;
@@ -62,6 +63,20 @@ public class WellLog {
         location = new Location();
         formations = new ArrayList<>();
         samples = new ArrayList<>();
+    }
+    
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**
