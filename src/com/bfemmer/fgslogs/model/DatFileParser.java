@@ -53,7 +53,7 @@ public class DatFileParser implements FileParser {
     private static final int TOTAL_DEPTH_BEGIN_INDEX = 35;
     private static final int TOTAL_DEPTH_END_INDEX = 40;
     private static final int FROM_DEPTH_BEGIN_INDEX = 46;
-    private static final int FROM_DEPTH_END_INDEX = 51;
+    private static final int FROM_DEPTH_END_INDEX = 50;
     private static final int TO_DEPTH_BEGIN_INDEX = 51;
     private static final int TO_DEPTH_END_INDEX = 56;
     
@@ -238,28 +238,35 @@ public class DatFileParser implements FileParser {
         try {
             temp = line.substring(WELL_NUMBER_BEGIN_INDEX, WELL_NUMBER_END_INDEX).trim();
             wellLog.setWellNumber(Integer.valueOf(temp));
+            System.out.println("------- Well Number: " + temp);
             
             temp = line.substring(BOT_DEPTH_BEGIN_INDEX, BOT_DEPTH_END_INDEX).trim();
+            System.out.println("------- Bottom Sample Depth: " + temp);
             if (temp.length() > 0) wellLog.setBottomSampleDepth(Double.valueOf(temp));
 
             temp = line.substring(TOTAL_DEPTH_BEGIN_INDEX, TOTAL_DEPTH_END_INDEX).trim();
+            System.out.println("------- Total Depth: " + temp);
             if (temp.length() > 0) wellLog.setTotalDepth(Double.valueOf(temp));
 
             temp = line.substring(ELEVATION_BEGIN_INDEX, ELEVATION_END_INDEX).trim();
+            System.out.println("------- Elevation: " + temp);
             if (temp.length() > 0) wellLog.setElevation(Integer.valueOf(temp));
 
             if (line.length() >= SAMPLES_END_INDEX) {
                 temp = line.substring(SAMPLES_BEGIN_INDEX, SAMPLES_END_INDEX).trim();
+                System.out.println("------- Sample Count: " + temp);
                 if (temp.length() > 0) wellLog.setSampleCount(Integer.valueOf(temp));
             }
             
             if (line.length() >= FROM_DEPTH_END_INDEX) {
                 temp = line.substring(FROM_DEPTH_BEGIN_INDEX, FROM_DEPTH_END_INDEX).trim();
+                System.out.println("------- From Depth: " + temp);
                 if (temp.length() > 0) wellLog.setFromDepth(Double.valueOf(temp));
             }
             
             if (line.length() >= TO_DEPTH_END_INDEX) {
                 temp = line.substring(TO_DEPTH_BEGIN_INDEX, TO_DEPTH_END_INDEX).trim();
+                System.out.println("------- To Depth: " + temp);
                 if (temp.length() > 0) wellLog.setToDepth(Double.valueOf(temp));
             }
         }

@@ -101,12 +101,15 @@ public class WellLogController {
                 
                 // Get access to tree object and selected node
                 JTree tree = ((JTree)getComponentByName("wellTreeView"));
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
                 
-                // Extract object from node
+                // Get selected node if it exists, and return if it does not
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+                if (node == null) return;
+                
+                // Extract WellLog object from node
                 WellLog wellLog = (WellLog)node.getUserObject();
                 
-                // Set editor with data from selected well log
+                // Set editor with data from selected node
                 ((JEditorPane)getComponentByName("editorPane")).setText(wellLog.toHtml());
                 ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
             });
@@ -116,6 +119,7 @@ public class WellLogController {
         JTree tree = ((JTree)getComponentByName("wellTreeView"));
         
         // Clear out previous data
+        tree.removeAll();
         tree.setModel(null);
         
         // Create top node with county name
