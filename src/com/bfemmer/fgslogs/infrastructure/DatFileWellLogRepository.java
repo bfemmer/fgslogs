@@ -75,7 +75,15 @@ public class DatFileWellLogRepository implements WellLogRepository {
 
     @Override
     public List<String> getAllWellNumbers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> wellNumbers = new ArrayList<>();
+        List<WellLog> wellLogs = getAllWellLogs();
+        
+        wellLogs.stream().map((wellLog) -> 
+                String.valueOf(wellLog.getWellNumber())).forEach((wellNumber) -> {
+            wellNumbers.add(wellNumber);
+        });
+        
+        return wellNumbers;
     }
 
     @Override
