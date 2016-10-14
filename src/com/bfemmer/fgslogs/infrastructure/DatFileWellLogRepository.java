@@ -926,8 +926,8 @@ public class DatFileWellLogRepository implements WellLogRepository {
         if (temp.length() == 0) return;
 
         // Split string into an array of individual minerals and percentages
-        dataArray = temp.split("(?<=\\d)(?=\\D)");
-
+        dataArray = parseMineralCodesIntoArray(temp);
+        
         for (String value : dataArray) {
             Mineral mineral = new Mineral();
 
@@ -945,7 +945,15 @@ public class DatFileWellLogRepository implements WellLogRepository {
                     if (temp.contains("T")) {
                         // The value "T" was seen in the bay county file
                         // for well log 17337
-                        mineral.setPercentage(-1);
+                        mineral.setPercentage(1);
+                    }
+                    else if (temp.contains("<")) {
+                        // The value "<" was seen in the charlott county file
+                        // for well log 10232. This symbol implies less than
+                        // then the next number. For simplification, just
+                        // round this number up to the value.
+                        temp = temp.substring(1, temp.length()).trim();
+                        mineral.setPercentage(Integer.valueOf(temp));
                     }
                     else {
                         mineral.setPercentage(Integer.valueOf(temp));
@@ -953,12 +961,30 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 }
 
             } catch (NumberFormatException e) {
+                System.out.println("DatFileRepo.parseMineralsIntoSample: Sample = " + wellLog.getSamples().size());
+                System.out.println("DatFileRepo.parseMineralsIntoSample: Code = " + mineral.getCode());
                 System.out.println("DatFileRepo.parseMineralsIntoSample:" + temp + " - " + value);
             }
 
             wellLog.getSamples().get(wellLog.getSamples().size() - 1)
                     .getAccessoryMinerals().add(mineral);
         }
+    }
+    
+    private String[] parseMineralCodesIntoArray(String line) {
+        List<String> codes = new ArrayList<>();
+        String[] dataArray;
+        int index = 0;
+        
+        while (index < line.length()) {
+            codes.add(line.substring(index, Math.min(index + 3,line.length())));
+            index=index + 3;
+        }
+        
+        dataArray = new String[codes.size()];
+        codes.toArray(dataArray);
+        
+        return dataArray;
     }
     
     private void parseFeaturesIntoSample(String line) {
