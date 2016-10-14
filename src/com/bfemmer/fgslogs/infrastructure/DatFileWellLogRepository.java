@@ -61,8 +61,8 @@ public class DatFileWellLogRepository implements WellLogRepository {
     private static final int TOTAL_DEPTH_BEGIN_INDEX = 35;
     private static final int TOTAL_DEPTH_END_INDEX = 40;
     private static final int FROM_DEPTH_BEGIN_INDEX = 46;
-    private static final int FROM_DEPTH_END_INDEX = 50;
-    private static final int TO_DEPTH_BEGIN_INDEX = 51;
+    private static final int FROM_DEPTH_END_INDEX = 51;
+    private static final int TO_DEPTH_BEGIN_INDEX = 52;
     private static final int TO_DEPTH_END_INDEX = 56;
     
     private static final int ELEVATION_BEGIN_INDEX = 40;
