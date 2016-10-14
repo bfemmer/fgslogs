@@ -571,6 +571,12 @@ public class WellLog {
                 sampleHtml += temp;
             }
             
+            temp = getCommentsAsRecord(sample);
+            if (temp.length() > 0) {
+                temp = "\n<br>" + temp;
+                sampleHtml += temp;
+            }
+            
             temp = "        </TD>\n" +
             "      </TR>\n";
             
@@ -781,6 +787,18 @@ public class WellLog {
                 if (count++ > 0) temp += ", ";
                 temp += codes.getFossilCodeMap().get(code);
             }
+        }
+
+        return temp;
+    }
+    
+    private String getCommentsAsRecord(Sample sample) {
+        String temp = "";
+        LookupCodes codes = new LookupCodes();
+        int count = 0;
+        
+        if (!sample.getComments().isEmpty()) {
+            temp = "Comment(s): " + sample.getComments();
         }
 
         return temp;
