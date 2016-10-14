@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WellLog {
+    private String id;
     private int wellNumber;
     private double bottomSampleDepth;
     private double totalDepth;
@@ -62,6 +63,20 @@ public class WellLog {
         location = new Location();
         formations = new ArrayList<>();
         samples = new ArrayList<>();
+    }
+    
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**
@@ -403,10 +418,9 @@ public class WellLog {
             "      <TABLE>\n";
         
         //html += temp;
-        //formationHtml = "";
         formationHtml = formations.stream().map((formation) -> "      <TR>\n" +
             "        <TD align=\"right\">" + String.valueOf(formation.getFromDepth()) + "</TD>\n" +
-            "        <TD align=\"right\">" + String.valueOf(formation.getToDepth()) + "</TD>\n" +
+            "        <TD align=\"right\">" + (-1.0 == formation.getToDepth() ? "" : String.valueOf(formation.getToDepth())) + "</TD>\n" +
             "        <TD>" + formation.getFormationCode() + "</TD>\n" +
             "        <TD>" + codes.getFormationCodeMap().get(formation.getFormationCode()) + "</TD>\n" +
             "      </TR>\n").reduce(formationHtml, String::concat);
@@ -552,6 +566,12 @@ public class WellLog {
             }
             
             temp = getFossilsAsRecord(sample);
+            if (temp.length() > 0) {
+                temp = "\n<br>" + temp;
+                sampleHtml += temp;
+            }
+            
+            temp = getCommentsAsRecord(sample);
             if (temp.length() > 0) {
                 temp = "\n<br>" + temp;
                 sampleHtml += temp;
@@ -772,6 +792,18 @@ public class WellLog {
         return temp;
     }
     
+    private String getCommentsAsRecord(Sample sample) {
+        String temp = "";
+        LookupCodes codes = new LookupCodes();
+        int count = 0;
+        
+        if (!sample.getComments().isEmpty()) {
+            temp = "Comment(s): " + sample.getComments();
+        }
+
+        return temp;
+    }
+    
     public String getCompletionDate() {
         String completionDate;
         
@@ -782,7 +814,10 @@ public class WellLog {
         return completionDate;
     }
     
-    
+    @Override
+    public String toString() {
+        return "W-" + String.valueOf(wellNumber);
+    }
 //    public String createWellDetailsHtml2() {
 //        String html = "  <TABLE border=\"1\">\n" +
 //            "  <TR>\n" +

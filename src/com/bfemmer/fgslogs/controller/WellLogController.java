@@ -26,6 +26,7 @@ package com.bfemmer.fgslogs.controller;
 
 import com.bfemmer.fgslogs.applicationservice.WellLogApplicationService;
 import com.bfemmer.fgslogs.infrastructure.DatFileWellLogRepository;
+import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogModel;
 import com.bfemmer.fgslogs.view.WellLogView;
 import java.awt.Component;
@@ -62,7 +63,6 @@ public class WellLogController {
         createComponentMap();
         
         // Clear out previous demo data in tree
-        //view.getTree().setModel(null);
         ((JTree)getComponentByName("wellTreeView")).setModel(null);
         
         resetEditor();
@@ -92,21 +92,26 @@ public class WellLogController {
             });
         view.getWellTreeView().addTreeSelectionListener(
             (TreeSelectionEvent treeSelectionEvent) -> {
+                // If root node was selected, clear out editor and return
                 String well = treeSelectionEvent.getPath().getLastPathComponent().toString();
-
                 if (well.equals("Well Logs")) {
                     resetEditor();
                     return;
                 }
                 
-                int selectedWellNumber = Integer.parseInt(well.substring(2));
-                model.getWellLogs().stream().filter((log) -> (log.getWellNumber() == selectedWellNumber)).forEach((log) -> {
-                    ((JEditorPane)getComponentByName("editorPane")).setText(log.toHtml());
-                    ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
-                });
+                // Get access to tree object and selected node
+                JTree tree = ((JTree)getComponentByName("wellTreeView"));
                 
-//                JOptionPane.showMessageDialog(
-//                    null, treeSelectionEvent.getPath().getLastPathComponent().toString());
+                // Get selected node if it exists, and return if it does not
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+                if (node == null) return;
+                
+                // Extract WellLog object from node
+                WellLog wellLog = (WellLog)node.getUserObject();
+                
+                // Set editor with data from selected node
+                ((JEditorPane)getComponentByName("editorPane")).setText(wellLog.toHtml());
+                ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
             });
     }
     
@@ -114,19 +119,20 @@ public class WellLogController {
         JTree tree = ((JTree)getComponentByName("wellTreeView"));
         
         // Clear out previous data
+        tree.removeAll();
         tree.setModel(null);
         
         // Create top node with county name
-        DefaultMutableTreeNode county = new DefaultMutableTreeNode("Well Logs");
+        DefaultMutableTreeNode countyNode = new DefaultMutableTreeNode("Well Logs");
         
         // Create child nodes corresponding with each well log in the list
         model.getWellLogs().stream().forEach((wellLog) -> {
-            county.add(new DefaultMutableTreeNode(
-                    "W-" + String.valueOf(wellLog.getWellNumber())));
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode(wellLog);
+            countyNode.add(node);
         });
         
         // Set the model object for the tree
-        tree.setModel(new DefaultTreeModel(county));
+        tree.setModel(new DefaultTreeModel(countyNode));
     }
     
     private void resetEditor() {
@@ -141,10 +147,6 @@ public class WellLogController {
         dialogResult = openFile.showOpenDialog(null);
         
         if (dialogResult == JFileChooser.APPROVE_OPTION) {
-            // user selects a file
-//            JOptionPane.showMessageDialog(
-//                    null, openFile.getSelectedFile().toString());
-            
             WellLogApplicationService wellLogApplicationService = 
                         new WellLogApplicationService(
                                 new DatFileWellLogRepository(

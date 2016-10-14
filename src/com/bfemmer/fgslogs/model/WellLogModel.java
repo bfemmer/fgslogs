@@ -28,7 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Convenience wrapper class for a list of well logs
+ * 
  * @author bfemmer
  */
 public class WellLogModel {
