@@ -62,7 +62,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
     private static final int TOTAL_DEPTH_END_INDEX = 40;
     private static final int FROM_DEPTH_BEGIN_INDEX = 46;
     private static final int FROM_DEPTH_END_INDEX = 51;
-    private static final int TO_DEPTH_BEGIN_INDEX = 52;
+    private static final int TO_DEPTH_BEGIN_INDEX = 51; // Was 52
     private static final int TO_DEPTH_END_INDEX = 56;
     
     private static final int ELEVATION_BEGIN_INDEX = 40;
@@ -304,21 +304,23 @@ public class DatFileWellLogRepository implements WellLogRepository {
             temp = line.substring(TOTAL_DEPTH_BEGIN_INDEX, TOTAL_DEPTH_END_INDEX).trim();
             if (temp.length() > 0) wellLog.setTotalDepth(Double.valueOf(temp));
 
-            temp = line.substring(ELEVATION_BEGIN_INDEX, ELEVATION_END_INDEX).trim();
-            if (temp.length() > 0) wellLog.setElevation(Integer.valueOf(temp));
-
+            if (line.length() >= ELEVATION_END_INDEX) {
+                temp = line.substring(ELEVATION_BEGIN_INDEX, ELEVATION_END_INDEX).trim();
+                if (!temp.isEmpty()) wellLog.setElevation(Double.valueOf(temp));
+            }
+            
             if (line.length() >= SAMPLES_END_INDEX) {
                 temp = line.substring(SAMPLES_BEGIN_INDEX, SAMPLES_END_INDEX).trim();
                 if (temp.length() > 0) wellLog.setSampleCount(Integer.valueOf(temp));
             }
             
             if (line.length() >= FROM_DEPTH_END_INDEX) {
-                temp = line.substring(FROM_DEPTH_BEGIN_INDEX, FROM_DEPTH_END_INDEX).trim();
+                temp = line.substring(FROM_DEPTH_BEGIN_INDEX, FROM_DEPTH_END_INDEX).replaceAll("\\s+","");
                 if (temp.length() > 0) wellLog.setFromDepth(Double.valueOf(temp));
             }
             
             if (line.length() >= TO_DEPTH_END_INDEX) {
-                temp = line.substring(TO_DEPTH_BEGIN_INDEX, TO_DEPTH_END_INDEX).trim();
+                temp = line.substring(TO_DEPTH_BEGIN_INDEX, TO_DEPTH_END_INDEX).replaceAll("\\s+","");
                 if (temp.length() > 0) wellLog.setToDepth(Double.valueOf(temp));
             }
         }
@@ -454,20 +456,45 @@ public class DatFileWellLogRepository implements WellLogRepository {
     
     private void parseFormationIntoWellLog(String line) {
         Formation formation = new Formation();
+        double lastToDepth = 0;
+        Formation previousFormation = null;
         String temp;
         
-        // From depth
-        temp = line.substring(FM_FROM_DEPTH_BEGIN_INDEX, FM_FROM_DEPTH_END_INDEX).trim();
-        if (temp.length() > 0) formation.setFromDepth(Double.valueOf(temp));
-
-        // To depth
-        temp = line.substring(FM_TO_DEPTH_BEGIN_INDEX, FM_TO_DEPTH_END_INDEX).trim();
-        if (temp.length() > 0) formation.setToDepth(Double.valueOf(temp));
+        // If only one depth is in the record, then the depth is the "to" depth
+        if (line.length() <= (FM_FROM_DEPTH_END_INDEX + 1)) {
+            // Get previous formation (if it exists) to get the last 
+            // "to depth" value and overwrite "lastToDepth" local variable.
+            if (!wellLog.getFormations().isEmpty()) {
+                previousFormation = wellLog.getFormations()
+                        .get(wellLog.getFormations().size() - 1);
+                lastToDepth = previousFormation.getToDepth();
+            }
         
-        // Formation code
-        if (line.length() > FM_TO_DEPTH_END_INDEX)
-            formation.setFormationCode(
-                line.substring(FM_CODE_BEGIN_INDEX, FM_CODE_END_INDEX).trim());
+            // From depth
+            formation.setFromDepth(lastToDepth);
+            
+            // To depth
+            temp = line.substring(FM_FROM_DEPTH_BEGIN_INDEX, FM_FROM_DEPTH_END_INDEX).trim();
+            if (temp.length() > 0) formation.setToDepth(Double.valueOf(temp));
+            
+            // Formation code
+            formation.setFormationCode(previousFormation.getFormationCode());
+        }
+        else {
+            // From depth
+            temp = line.substring(FM_FROM_DEPTH_BEGIN_INDEX, FM_FROM_DEPTH_END_INDEX).trim();
+            if (temp.length() > 0) formation.setFromDepth(Double.valueOf(temp));
+
+            // To depth
+            temp = line.substring(FM_TO_DEPTH_BEGIN_INDEX, FM_TO_DEPTH_END_INDEX).trim();
+            if (temp.length() > 0) formation.setToDepth(Double.valueOf(temp));
+
+            // Formation code
+            if (line.length() > FM_TO_DEPTH_END_INDEX)
+                formation.setFormationCode(
+                    line.substring(FM_CODE_BEGIN_INDEX, FM_CODE_END_INDEX).trim());
+        }
+        
                 
         // Add formation to well log
         wellLog.getFormations().add(formation);
@@ -953,10 +980,10 @@ public class DatFileWellLogRepository implements WellLogRepository {
                         // then the next number. For simplification, just
                         // round this number up to the value.
                         temp = temp.substring(1, temp.length()).trim();
-                        mineral.setPercentage(Integer.valueOf(temp));
+                        mineral.setPercentage(Double.valueOf(temp));
                     }
                     else {
-                        mineral.setPercentage(Integer.valueOf(temp));
+                        mineral.setPercentage(Double.valueOf(temp));
                     }
                 }
 

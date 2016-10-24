@@ -29,7 +29,7 @@ package com.bfemmer.fgslogs.model;
  * @author bfemmer
  */
 public class Mineral {
-    private int percentage;
+    private double percentage;
     private String code;
         
     public Mineral() {
@@ -41,14 +41,14 @@ public class Mineral {
     /**
      * @return the percentage
      */
-    public int getPercentage() {
+    public double getPercentage() {
         return percentage;
     }
 
     /**
      * @param percentage the percentage to set
      */
-    public void setPercentage(int percentage) {
+    public void setPercentage(double percentage) {
         this.percentage = percentage;
     }
 

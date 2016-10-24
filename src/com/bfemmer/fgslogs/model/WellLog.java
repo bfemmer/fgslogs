@@ -35,7 +35,7 @@ public class WellLog {
     private double fromDepth;
     private double toDepth;
     private int sampleCount;
-    private int elevation;
+    private double elevation;
     private int completionDateYear;
     private int completionDateMonth;
     private int completionDateDay;
@@ -166,14 +166,14 @@ public class WellLog {
     /**
      * @return the elevation
      */
-    public int getElevation() {
+    public double getElevation() {
         return elevation;
     }
 
     /**
      * @param elevation the elevation to set
      */
-    public void setElevation(int elevation) {
+    public void setElevation(double elevation) {
         this.elevation = elevation;
     }
 
@@ -469,8 +469,8 @@ public class WellLog {
         for (Sample sample : samples) {
             temp = "";
             
-            temp += "        <TD valign=\"top\" align=\"right\">" + String.valueOf(sample.getFromDepth()) + "</TD>\n" +
-            "        <TD valign=\"top\" align=\"right\">" + String.valueOf(sample.getToDepth()) + "</TD>\n" +
+            temp += "        <TD valign=\"top\" align=\"right\">" + String.format("%.2f", sample.getFromDepth()) + "</TD>\n" +
+            "        <TD valign=\"top\" align=\"right\">" + String.format("%.2f", sample.getToDepth()) + "</TD>\n" +
             "        <TD>" + codes.getRockTypeMap().get(sample.getRockTypeCode());
             
             // Process "As Above"
@@ -768,7 +768,7 @@ public class WellLog {
                 if (count++ > 0) temp += ", ";
                 temp += codes.getMineralCodeMap().get(mineral.getCode());
                 temp += " (";
-                temp += String.valueOf(mineral.getPercentage());
+                temp += String.valueOf(String.format("%.2f", mineral.getPercentage()));
                 temp += "%)";
             }
         }
