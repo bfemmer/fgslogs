@@ -807,7 +807,7 @@ public class WellLog {
     public String getCompletionDate() {
         String completionDate;
         
-        completionDate = String.valueOf(completionDateYear);
+        completionDate = String.format("%02d", completionDateYear);
         completionDate += String.format("%02d", completionDateMonth);
         completionDate += String.format("%02d", completionDateDay);
             
