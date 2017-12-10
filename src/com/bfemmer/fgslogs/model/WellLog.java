@@ -29,7 +29,7 @@ import java.util.List;
 
 public class WellLog {
     private String id;
-    private int wellNumber;
+    private int wellLogNumber;
     private double bottomSampleDepth;
     private double totalDepth;
     private double fromDepth;
@@ -80,17 +80,17 @@ public class WellLog {
     }
 
     /**
-     * @return the wellNumber
+     * @return the wellLogNumber
      */
-    public int getWellNumber() {
-        return wellNumber;
+    public int getWellLogNumber() {
+        return wellLogNumber;
     }
 
     /**
-     * @param wellNumber the wellNumber to set
+     * @param wellLogNumber the wellLogNumber to set
      */
-    public void setWellNumber(int wellNumber) {
-        this.wellNumber = wellNumber;
+    public void setWellLogNumber(int wellLogNumber) {
+        this.wellLogNumber = wellLogNumber;
     }
 
     /**
@@ -328,7 +328,7 @@ public class WellLog {
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>Well Number: </i></TD>" +
-            "        <TD align=\"right\"> <font color=\"blue\">W-" + wellNumber + "</FONT></TD>\n" +
+            "        <TD align=\"right\"> <font color=\"blue\">W-" + wellLogNumber + "</FONT></TD>\n" +
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>Total Depth (ft): </i></TD>" +
@@ -816,7 +816,7 @@ public class WellLog {
     
     @Override
     public String toString() {
-        return "W-" + String.valueOf(wellNumber);
+        return "W-" + String.valueOf(wellLogNumber);
     }
 //    public String createWellDetailsHtml2() {
 //        String html = "  <TABLE border=\"1\">\n" +
@@ -830,7 +830,7 @@ public class WellLog {
 //            "      </TR>\n" +
 //            "      <TR>\n" +
 //            "        <TD>Well Number: </TD>" +
-//            "        <TD align=\"right\">W-" + wellNumber + "</TD>\n" +
+//            "        <TD align=\"right\">W-" + wellLogNumber + "</TD>\n" +
 //            "      </TR>\n" +
 //            "      <TR>\n" +
 //            "        <TD>Total Depth (ft): </TD>" +
@@ -867,7 +867,7 @@ public class WellLog {
 //            "      </TR>\n" +
 //            "      <TR>\n" +
 //            "        <TD><i>Well Number: </i></TD>" +
-//            "        <TD align=\"right\"> <font color=\"blue\">W-" + wellNumber + "</FONT></TD>\n" +
+//            "        <TD align=\"right\"> <font color=\"blue\">W-" + wellLogNumber + "</FONT></TD>\n" +
 //            "      </TR>\n" +
 //            "      <TR>\n" +
 //            "        <TD><i>Total Depth (ft): </i></TD>" +

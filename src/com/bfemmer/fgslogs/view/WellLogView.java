@@ -54,6 +54,7 @@ public class WellLogView {
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
     private JMenuItem openMenuItem;
+    private JMenuItem exportMenuItem;
     private JMenuItem printMenuItem;
     private JPopupMenu.Separator fileMenuSeparator;
     private JMenuItem exitMenuItem;
@@ -75,6 +76,7 @@ public class WellLogView {
         mainMenuBar = new JMenuBar();
         fileMenu = new JMenu();
         openMenuItem = new JMenuItem();
+        exportMenuItem = new JMenuItem();
         printMenuItem = new JMenuItem();
         fileMenuSeparator = new JPopupMenu.Separator();
         exitMenuItem = new JMenuItem();
@@ -105,25 +107,30 @@ public class WellLogView {
         fileMenu.setText("File");
         fileMenu.setName("fileMenu"); // NOI18N
 
-        getOpenMenuItem().setAccelerator(KeyStroke.getKeyStroke(
+        openMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_O, InputEvent.CTRL_MASK));
-        getOpenMenuItem().setText("Open ...");
-        getOpenMenuItem().setName("openMenuItem"); // NOI18N
-        fileMenu.add(getOpenMenuItem());
+        openMenuItem.setText("Open ...");
+        openMenuItem.setName("openMenuItem"); // NOI18N
+        fileMenu.add(openMenuItem);
+        
+        exportMenuItem.setText("Export to JSON ...");
+        exportMenuItem.setName("exportMenuItem"); // NOI18N
+        fileMenu.add(exportMenuItem);
 
-        getPrintMenuItem().setAccelerator(KeyStroke.getKeyStroke(
+        printMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_P, InputEvent.CTRL_MASK));
-        getPrintMenuItem().setText("Print");
-        getPrintMenuItem().setActionCommand("Print");
-        getPrintMenuItem().setName("printMenuItem"); // NOI18N
-        fileMenu.add(getPrintMenuItem());
+        printMenuItem.setText("Print");
+        printMenuItem.setActionCommand("Print");
+        printMenuItem.setName("printMenuItem"); // NOI18N
+        fileMenu.add(printMenuItem);
+        
         fileMenu.add(fileMenuSeparator);
 
-        getExitMenuItem().setAccelerator(KeyStroke.getKeyStroke(
+        exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_Q, InputEvent.CTRL_MASK));
-        getExitMenuItem().setText("Exit");
-        getExitMenuItem().setName("exitMenuItem"); // NOI18N
-        fileMenu.add(getExitMenuItem());
+        exitMenuItem.setText("Exit");
+        exitMenuItem.setName("exitMenuItem"); // NOI18N
+        fileMenu.add(exitMenuItem);
 
         mainMenuBar.add(fileMenu);
 
@@ -181,6 +188,13 @@ public class WellLogView {
      */
     public JMenuItem getOpenMenuItem() {
         return openMenuItem;
+    }
+    
+    /**
+     * @return the exportMenuItem
+     */
+    public JMenuItem getExportMenuItem() {
+        return exportMenuItem;
     }
 
     /**

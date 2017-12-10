@@ -25,6 +25,7 @@ SOFTWARE.
 package com.bfemmer.fgslogs.model;
 
 public class Location {
+    private int wellLogNumber;
     private String countyCode;
     private String township;
     private String range;
@@ -278,5 +279,19 @@ public class Location {
         dmsLocation += String.format("%02d", lngSeconds) + "S";
         
         return dmsLocation;
+    }
+
+    /**
+     * @return the wellLogNumber
+     */
+    public int getWellLogNumber() {
+        return wellLogNumber;
+    }
+
+    /**
+     * @param wellLogNumber the wellLogNumber to set
+     */
+    public void setWellLogNumber(int wellLogNumber) {
+        this.wellLogNumber = wellLogNumber;
     }
 }

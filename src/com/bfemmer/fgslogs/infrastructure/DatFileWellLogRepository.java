@@ -213,7 +213,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         List<String> wellNumbers = new ArrayList<>();
         
         wellLogs.stream().map((log) -> 
-                String.valueOf(log.getWellNumber())).forEach((wellNumber) -> {
+                String.valueOf(log.getWellLogNumber())).forEach((wellNumber) -> {
             wellNumbers.add(wellNumber);
         });
         
@@ -293,7 +293,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         
         try {
             temp = line.substring(WELL_NUMBER_BEGIN_INDEX, WELL_NUMBER_END_INDEX).trim();
-            wellLog.setWellNumber(Integer.valueOf(temp));
+            wellLog.setWellLogNumber(Integer.valueOf(temp));
             System.out.println("------- Well Number: " + temp);
             
             temp = line.substring(BOT_DEPTH_BEGIN_INDEX, BOT_DEPTH_END_INDEX).trim();

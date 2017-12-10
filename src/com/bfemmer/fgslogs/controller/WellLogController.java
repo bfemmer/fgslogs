@@ -74,6 +74,10 @@ public class WellLogController {
                 loadLogFileWithDialog();
                 resetEditor();
             });
+        view.getExportMenuItem().addActionListener(
+            (ActionEvent actionEvent) -> {
+                exportJsonFilesWithDialog();
+            });
         view.getPrintMenuItem().addActionListener(
             (ActionEvent actionEvent) -> {
                 try {
@@ -143,18 +147,36 @@ public class WellLogController {
     private void loadLogFileWithDialog() {
         int dialogResult;
         
-        JFileChooser openFile = new JFileChooser();
-        dialogResult = openFile.showOpenDialog(null);
+        JFileChooser chooser = new JFileChooser();
+        dialogResult = chooser.showOpenDialog(null);
         
         if (dialogResult == JFileChooser.APPROVE_OPTION) {
             WellLogApplicationService wellLogApplicationService = 
                         new WellLogApplicationService(
                                 new DatFileWellLogRepository(
-                                        openFile.getSelectedFile().toString()));
+                                        chooser.getSelectedFile().toString()));
                 
             model.setWellLogs(wellLogApplicationService.getAllWellLogs());
-            view.getFrame().setTitle("FGSLOGS (Lithology Logs): " + openFile.getSelectedFile().toString());
+            view.getFrame().setTitle("FGSLOGS (Lithology Logs): " + chooser.getSelectedFile().toString());
             updateTree();
+        }
+    }
+    
+    private void exportJsonFilesWithDialog() {
+        int dialogResult;
+        
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Select directory to export JSON files to");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        
+        dialogResult = chooser.showOpenDialog(null);
+        
+        if (dialogResult == JFileChooser.APPROVE_OPTION) {
+            for (WellLog wellLog : model.getWellLogs()) {
+                // TODO convert wellLog to JSON and write to disk
+            }
         }
     }
     

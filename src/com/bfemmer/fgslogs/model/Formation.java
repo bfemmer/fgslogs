@@ -25,6 +25,7 @@ SOFTWARE.
 package com.bfemmer.fgslogs.model;
 
 public class Formation {
+    private int wellLogNumber;
     private double fromDepth;
     private double toDepth;
     private String formationCode;
@@ -75,6 +76,20 @@ public class Formation {
      */
     public void setFormationCode(String formationCode) {
         this.formationCode = formationCode;
+    }
+
+    /**
+     * @return the wellLogNumber
+     */
+    public int getWellLogNumber() {
+        return wellLogNumber;
+    }
+
+    /**
+     * @param wellLogNumber the wellLogNumber to set
+     */
+    public void setWellLogNumber(int wellLogNumber) {
+        this.wellLogNumber = wellLogNumber;
     }
     
 }

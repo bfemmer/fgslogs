@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sample {
+    private int wellLogNumber;
     private double fromDepth;
     private double toDepth;
     private String rockTypeCode;
@@ -398,6 +399,20 @@ public class Sample {
      */
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    /**
+     * @return the wellLogNumber
+     */
+    public int getWellLogNumber() {
+        return wellLogNumber;
+    }
+
+    /**
+     * @param wellLogNumber the wellLogNumber to set
+     */
+    public void setWellLogNumber(int wellLogNumber) {
+        this.wellLogNumber = wellLogNumber;
     }
 
 }
