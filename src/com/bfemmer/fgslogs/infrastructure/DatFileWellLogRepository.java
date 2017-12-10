@@ -47,6 +47,7 @@ import java.util.logging.Logger;
  * @author bfemmer
  */
 public class DatFileWellLogRepository implements WellLogRepository {
+    // Record types
     private static final String START_OF_WELL_RECORD = "1";
     private static final String OWNER_DRILLER_RECORD = "2";
     private static final String WORKED_BY_RECORD = "3";
@@ -54,22 +55,11 @@ public class DatFileWellLogRepository implements WellLogRepository {
     private static final String SAMPLE_RECORD = "6";
     private static final String END_OF_WELL_RECORD = "9";
     
+    // Record 1
     private static final int WELL_NUMBER_BEGIN_INDEX = 1;
     private static final int WELL_NUMBER_END_INDEX = 6;
     private static final int BOT_DEPTH_BEGIN_INDEX = 6;
     private static final int BOT_DEPTH_END_INDEX = 11;
-    private static final int TOTAL_DEPTH_BEGIN_INDEX = 35;
-    private static final int TOTAL_DEPTH_END_INDEX = 40;
-    private static final int FROM_DEPTH_BEGIN_INDEX = 46;
-    private static final int FROM_DEPTH_END_INDEX = 51;
-    private static final int TO_DEPTH_BEGIN_INDEX = 51; // Was 52
-    private static final int TO_DEPTH_END_INDEX = 56;
-    
-    private static final int ELEVATION_BEGIN_INDEX = 40;
-    private static final int ELEVATION_END_INDEX = 43;
-    private static final int SAMPLES_BEGIN_INDEX = 43;
-    private static final int SAMPLES_END_INDEX = 46;
-    
     private static final int COUNTY_BEGIN_INDEX = 11;
     private static final int COUNTY_END_INDEX = 13;
     private static final int TOWNSHIP_BEGIN_INDEX = 13;
@@ -80,21 +70,28 @@ public class DatFileWellLogRepository implements WellLogRepository {
     private static final int SECTION_END_INDEX = 21;
     private static final int QTRSECTION_BEGIN_INDEX = 21;
     private static final int QTRSECTION_END_INDEX = 23;
-    
     private static final int LAT_DEG_BEGIN_INDEX = 23;
     private static final int LAT_DEG_END_INDEX = 25;
     private static final int LAT_MIN_BEGIN_INDEX = 25;
     private static final int LAT_MIN_END_INDEX = 27;
     private static final int LAT_SEC_BEGIN_INDEX = 27;
     private static final int LAT_SEC_END_INDEX = 29;
-    
     private static final int LNG_DEG_BEGIN_INDEX = 29;
     private static final int LNG_DEG_END_INDEX = 31;
     private static final int LNG_MIN_BEGIN_INDEX = 31;
     private static final int LNG_MIN_END_INDEX = 33;
     private static final int LNG_SEC_BEGIN_INDEX = 33;
     private static final int LNG_SEC_END_INDEX = 35;
-    
+    private static final int TOTAL_DEPTH_BEGIN_INDEX = 35;
+    private static final int TOTAL_DEPTH_END_INDEX = 40;
+    private static final int ELEVATION_BEGIN_INDEX = 40;
+    private static final int ELEVATION_END_INDEX = 43;
+    private static final int SAMPLES_BEGIN_INDEX = 43;
+    private static final int SAMPLES_END_INDEX = 46;
+    private static final int FROM_DEPTH_BEGIN_INDEX = 46;
+    private static final int FROM_DEPTH_END_INDEX = 51;
+    private static final int TO_DEPTH_BEGIN_INDEX = 51;
+    private static final int TO_DEPTH_END_INDEX = 56;
     private static final int YEAR_BEGIN_INDEX = 56;
     private static final int YEAR_END_INDEX = 58;
     private static final int MONTH_BEGIN_INDEX = 58;
@@ -102,6 +99,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
     private static final int DAY_BEGIN_INDEX = 60;
     private static final int DAY_END_INDEX = 62;
     
+    // Record 4
     private static final int FM_FROM_DEPTH_BEGIN_INDEX = 6;
     private static final int FM_FROM_DEPTH_END_INDEX = 11;
     private static final int FM_TO_DEPTH_BEGIN_INDEX = 13;
