@@ -29,10 +29,13 @@ import com.bfemmer.fgslogs.infrastructure.DatFileWellLogRepository;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogModel;
 import com.bfemmer.fgslogs.view.WellLogView;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.print.PrinterException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +44,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -172,11 +176,26 @@ public class WellLogController {
         chooser.setAcceptAllFileFilterUsed(false);
         
         dialogResult = chooser.showOpenDialog(null);
-        
+
         if (dialogResult == JFileChooser.APPROVE_OPTION) {
             for (WellLog wellLog : model.getWellLogs()) {
-                // TODO convert wellLog to JSON and write to disk
+                ObjectMapper mapper = new ObjectMapper();
+                
+                //Object to JSON in file
+                try {
+                    mapper.writeValue(
+                            new File(chooser.getSelectedFile() +
+                                    File.separator +
+                                    String.valueOf(wellLog.getWellLogNumber()) + 
+                                    ".json"), wellLog);
+                } catch (IOException ex) {
+                    Logger.getLogger(WellLogController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+            
+            JOptionPane.showMessageDialog(null, 
+                    "Export of DAT file to JSON files in selected directory complete.", 
+                    "Operation Completed", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
