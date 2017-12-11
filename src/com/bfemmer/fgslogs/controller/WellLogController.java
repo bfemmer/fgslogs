@@ -59,12 +59,14 @@ public class WellLogController {
     private final WellLogModel model;
     private Map<String, Component> componentMap;
     private File currentDirectory;
+    private String selectedDatFile;
     
     public WellLogController(WellLogModel model, WellLogView view) {
         this.model = model;
         this.view = view;
         
         currentDirectory = new java.io.File(".");
+        selectedDatFile = "";
         
         // Create map of all components in the frame
         createComponentMap();
@@ -83,7 +85,7 @@ public class WellLogController {
             });
         view.getExportMenuItem().addActionListener(
             (ActionEvent actionEvent) -> {
-                exportJsonFilesWithDialog();
+                exportJsonFileWithDialog();
             });
         view.getPrintMenuItem().addActionListener(
             (ActionEvent actionEvent) -> {
@@ -161,6 +163,7 @@ public class WellLogController {
         
         if (dialogResult == JFileChooser.APPROVE_OPTION) {
             currentDirectory = chooser.getCurrentDirectory();
+            selectedDatFile = chooser.getSelectedFile().getName();
             
             WellLogApplicationService wellLogApplicationService = 
                         new WellLogApplicationService(
@@ -170,6 +173,44 @@ public class WellLogController {
             model.setWellLogs(wellLogApplicationService.getAllWellLogs());
             view.getFrame().setTitle("FGSLOGS (Lithology Logs): " + chooser.getSelectedFile().toString());
             updateTree();
+        }
+    }
+    
+    private void exportJsonFileWithDialog() {
+        int dialogResult;
+        
+        if ("".equals(selectedDatFile)) {
+            JOptionPane.showMessageDialog(null, 
+                    "DAT file must be opened first.", 
+                    "Invalid Operation", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Select directory to export JSON files to");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        
+        dialogResult = chooser.showOpenDialog(null);
+
+        if (dialogResult == JFileChooser.APPROVE_OPTION) {
+            ObjectMapper mapper = new ObjectMapper();
+                
+            //Object to JSON in file
+            try {
+                mapper.writeValue(
+                        new File(chooser.getSelectedFile() +
+                                File.separator +
+                                String.valueOf(selectedDatFile) + 
+                                ".json"), model.getWellLogs());
+            } catch (IOException ex) {
+                Logger.getLogger(WellLogController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            JOptionPane.showMessageDialog(null, 
+                    "Export of DAT file to JSON files in selected directory complete.", 
+                    "Operation Completed", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
