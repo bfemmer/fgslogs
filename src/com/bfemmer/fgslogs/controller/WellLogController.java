@@ -58,10 +58,13 @@ public class WellLogController {
     private final WellLogView view;
     private final WellLogModel model;
     private Map<String, Component> componentMap;
+    private File currentDirectory;
     
     public WellLogController(WellLogModel model, WellLogView view) {
         this.model = model;
         this.view = view;
+        
+        currentDirectory = new java.io.File(".");
         
         // Create map of all components in the frame
         createComponentMap();
@@ -152,9 +155,13 @@ public class WellLogController {
         int dialogResult;
         
         JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(currentDirectory);
+        
         dialogResult = chooser.showOpenDialog(null);
         
         if (dialogResult == JFileChooser.APPROVE_OPTION) {
+            currentDirectory = chooser.getCurrentDirectory();
+            
             WellLogApplicationService wellLogApplicationService = 
                         new WellLogApplicationService(
                                 new DatFileWellLogRepository(

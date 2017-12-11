@@ -417,7 +417,6 @@ public class WellLog {
             "    <TD align=\"center\">\n" +
             "      <TABLE>\n";
         
-        //html += temp;
         formationHtml = formations.stream().map((formation) -> "      <TR>\n" +
             "        <TD align=\"right\">" + String.valueOf(formation.getFromDepth()) + "</TD>\n" +
             "        <TD align=\"right\">" + (-1.0 == formation.getToDepth() ? "" : String.valueOf(formation.getToDepth())) + "</TD>\n" +
@@ -425,11 +424,7 @@ public class WellLog {
             "        <TD>" + codes.getFormationCodeMap().get(formation.getFormationCode()) + "</TD>\n" +
             "      </TR>\n").reduce(formationHtml, String::concat);
         
-//        for (Formation formation : formations) {
-//            
-//        }
 
-        //html += temp;
         endHtml = "      </TABLE>\n" +
             "    </TD>\n" +
             "  </TR>\n" +
@@ -456,16 +451,7 @@ public class WellLog {
             "  <TR>\n" +
             "    <TD align=\"center\">\n" +
             "      <TABLE>\n";
-        
-//        sampleHtml = samples.stream().map((sample) -> "      <TR>\n" +
-//            "        <TD align=\"right\">" + String.valueOf(sample.getFromDepth()) + "</TD>\n" +
-//            "        <TD align=\"right\">" + String.valueOf(sample.getToDepth()) + "</TD>\n" +
-//            "        <TD>" + codes.getRockTypeMap().get(sample.getRockTypeCode()) + "; " +
-//            "        " + codes.getColorCodeMap().get(sample.getRockColorCodeMin()) +
-//            "        </TD>\n" +
-//            "      </TR>\n").reduce(sampleHtml, String::concat);
-        
-        
+                
         for (Sample sample : samples) {
             temp = "";
             
@@ -497,7 +483,6 @@ public class WellLog {
             }
             
             sampleHtml += temp;
-            
             
             temp = getPorosityAsRecord(sample);
             if (temp.length() > 0) {
@@ -794,9 +779,7 @@ public class WellLog {
     
     private String getCommentsAsRecord(Sample sample) {
         String temp = "";
-        LookupCodes codes = new LookupCodes();
-        int count = 0;
-        
+                
         if (!sample.getComments().isEmpty()) {
             temp = "Comment(s): " + sample.getComments();
         }
@@ -818,123 +801,4 @@ public class WellLog {
     public String toString() {
         return "W-" + String.valueOf(wellLogNumber);
     }
-//    public String createWellDetailsHtml2() {
-//        String html = "  <TABLE border=\"1\">\n" +
-//            "  <TR>\n" +
-//            "    <TD colspan=\"2\" align=\"center\"><b>Lithology Well Log</b></TD>\n" +
-//            "  </TR>\n" +
-//            "  <TR>\n" +
-//            "    <TD>\n" +
-//            "      <TR>\n" +
-//            "        <TD colspan=\"2\" align=\"center\"><b>Summary Information</b></TD>" +
-//            "      </TR>\n" +
-//            "      <TR>\n" +
-//            "        <TD>Well Number: </TD>" +
-//            "        <TD align=\"right\">W-" + wellLogNumber + "</TD>\n" +
-//            "      </TR>\n" +
-//            "      <TR>\n" +
-//            "        <TD>Total Depth (ft): </TD>" +
-//            "        <TD align=\"right\">" + String.valueOf(totalDepth) + "</TD>\n" +
-//            "      </TR>\n" +
-//            "      <TR>\n" +
-//            "        <TD colspan=\"2\">" + String.valueOf(sampleCount) + " samples from " + String.valueOf(fromDepth) + " to " + String.valueOf(toDepth) + "ft</TD>" +
-//            "      </TR>\n" +
-//            "    </TD>\n" +
-//            "    <TD>\n" +
-//            "      <TR>\n" +
-//            "        <TD colspan=\"2\" align=\"center\"><b>Location Data</b></TD>" +
-//            "      </TR>\n" +
-//            "    </TD>\n" +
-//            "  </TR>\n";
-//            
-//        
-//        return html;
-//    }
-//    
-//    public String createWellDetailsHtml3() {
-//        LookupCodes codes = new LookupCodes();
-//        String temp = "";
-//        
-//        String html = "  <CENTER>" +
-//            "<TABLE WIDTH=\"550\">\n" +
-//            "  <TR>\n" +
-//            "    <TD colspan=\"2\" align=\"center\"><b>Lithology Well Log</b></TD>\n" +
-//            "  </TR>\n" +
-//            "  <TR>\n" +
-//            "    <TD><TABLE>\n" +
-//            "      <TR>\n" +
-//            "        <TD colspan=\"2\" align=\"center\"><b>Summary Information</b></TD>" +
-//            "      </TR>\n" +
-//            "      <TR>\n" +
-//            "        <TD><i>Well Number: </i></TD>" +
-//            "        <TD align=\"right\"> <font color=\"blue\">W-" + wellLogNumber + "</FONT></TD>\n" +
-//            "      </TR>\n" +
-//            "      <TR>\n" +
-//            "        <TD><i>Total Depth (ft): </i></TD>" +
-//            "        <TD align=\"right\"> <font color=\"blue\">" + String.valueOf(totalDepth) + "</FONT></TD>\n" +
-//            "      </TR>\n" +
-//            "      <TR>\n" +
-//            "        <TD colspan=\"2\" align=\"center\"> <font color=\"blue\">" + String.valueOf(sampleCount) + "</FONT> <i>sample(s) from</i> <font color=\"blue\">" + String.valueOf(fromDepth) + "</FONT> <i>to</i> <font color=\"blue\">" + String.valueOf(toDepth) + "</FONT> ft</TD>" +
-//            "      </TR>\n" +
-//            "      <TR>\n" +
-//            "        <TD></TD>" +
-//            "      </TR>\n" +
-//            "      <TR>\n" +
-//            "        <TD><i>Completion Date (YYMMDD): </i></TD>" +
-//            "        <TD align=\"right\"> <font color=\"blue\">" + getCompletionDate() + "</FONT></TD>" +
-//            "      </TR>\n" +
-//            "    </TABLE></TD>\n" +
-//            "    <TD align=\"right\"><TABLE>\n" +
-//            "      <TR>\n" +
-//            "        <TD colspan=\"2\" align=\"center\"><b>Location Data</b></TD>" +
-//            "      </TR>\n" +
-//            "      <TR>\n" +
-//            "        <TD><i>County: </i></TD>" +
-//            "        <TD align=\"right\"> <font color=\"blue\">" + codes.getCountyCodeMap().get(location.getCountyCode()) + "</FONT></TD>\n" +
-//            "      </TR>\n" +
-//            "      <TR>\n" +
-//            "        <TD><i>PLSS: </i></TD>" +
-//            "        <TD align=\"right\"> <font color=\"blue\">" + location.getPLSSCode() + "</FONT></TD>\n" +
-//            "      </TR>\n" +
-//            "      <TR>\n" +
-//            "        <TD><i>Latitude: </i></TD>" +
-//            "        <TD align=\"right\"> <font color=\"blue\">" + location.getLatDMS() + "</FONT></TD>\n" +
-//            "      </TR>\n" +
-//            "      <TR>\n" +
-//            "        <TD><i>Longitude: </i></TD>" +
-//            "        <TD align=\"right\"> <font color=\"blue\">" + location.getLongDMS() + "</FONT></TD>\n" +
-//            "      </TR>\n" +
-//            "      <TR>\n" +
-//            "        <TD><i>Elevation (ft): </i></TD>" +
-//            "        <TD align=\"right\"> <font color=\"blue\">" + String.valueOf(elevation) + "</FONT></TD>\n" +
-//            "      </TR>\n" +
-//            "    </TABLE></TD>\n" +
-//            "  </TR>\n" +
-//            "  <TR>\n" +
-//            "    <TD colspan=\"2\" align=\"left\"><i>Owner/Driller: </i> <font size=\"2\" color=\"blue\">" + ownerDriller + "</FONT></TD>\n" +
-//            "  </TR>\n" +
-//            "  <TR>\n" +
-//            "    <TD colspan=\"2\" align=\"left\"><i>Worked By: </i> <font size=\"2\" color=\"blue\">" + workedBy + "</FONT></TD>\n" +
-//            "  </TR>\n" +
-//            "  <TR>\n" +
-//            "    <TD colspan=\"2\" align=\"center\"><b>Formations</b></TD>\n" +
-//            "  </TR>\n" +
-//            "  <TR>\n" +
-//            "    <TD colspan=\"2\" align=\"center\"><TABLE>\n";
-//            
-//        temp = formations.stream().map((formation) -> "      <TR>\n" +
-//            "        <TD align=\"right\">" + String.valueOf(formation.getFromDepth()) + "</TD>" +
-//            "        <TD align=\"right\">" + String.valueOf(formation.getToDepth()) + "</TD>" +
-//            "        <TD>" + formation.getFormationCode() + "</TD>" +
-//            "        <TD>" + codes.getFormationCodeMap().get(formation.getFormationCode()) + "</TD>" +
-//            "      </TR>\n").reduce(temp, String::concat);
-//
-//        html += temp;
-//        html += "    </TABLE></TD>\n" +
-//        "  </TR>\n";
-//            
-//        
-//        return html;
-//    }
-//    
 }
