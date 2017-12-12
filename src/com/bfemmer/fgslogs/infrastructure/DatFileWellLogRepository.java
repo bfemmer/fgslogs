@@ -293,7 +293,18 @@ public class DatFileWellLogRepository implements WellLogRepository {
         
         try {
             temp = line.substring(WELL_NUMBER_BEGIN_INDEX, WELL_NUMBER_END_INDEX).trim();
-            wellLog.setWellLogNumber(Integer.valueOf(temp));
+            
+            // Well number can be "000NA" where N/A was assigned for the log
+            // Catch this exception here to log the condition, but continue
+            try{
+                int i = Integer.parseInt(temp);
+                wellLog.setWellLogNumber(Integer.valueOf(temp));
+            }
+            catch(NumberFormatException nfe) {
+                wellLog.setWellLogNumber(0);
+                Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.WARNING, null, nfe);
+            }
+            
             System.out.println("------- Well Number: " + temp);
             
             temp = line.substring(BOT_DEPTH_BEGIN_INDEX, BOT_DEPTH_END_INDEX).trim();
@@ -453,6 +464,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
     }
     
     private void parseFormationIntoWellLog(String line) {
+        LookupCodes codes = new LookupCodes();
         Formation formation = new Formation();
         double lastToDepth = 0;
         Formation previousFormation = null;
@@ -477,6 +489,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
             
             // Formation code
             formation.setFormationCode(previousFormation.getFormationCode());
+            formation.setFormationName(previousFormation.getFormationName());
         }
         else {
             // From depth
@@ -488,9 +501,12 @@ public class DatFileWellLogRepository implements WellLogRepository {
             if (temp.length() > 0) formation.setToDepth(Double.valueOf(temp));
 
             // Formation code
-            if (line.length() > FM_TO_DEPTH_END_INDEX)
+            if (line.length() > FM_TO_DEPTH_END_INDEX) {
                 formation.setFormationCode(
                     line.substring(FM_CODE_BEGIN_INDEX, FM_CODE_END_INDEX).trim());
+                formation.setFormationName(
+                        codes.getFormationCodeMap().get(formation.getFormationCode()));
+            }
         }
         
                 

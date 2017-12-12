@@ -421,7 +421,7 @@ public class WellLog {
             "        <TD align=\"right\">" + String.valueOf(formation.getFromDepth()) + "</TD>\n" +
             "        <TD align=\"right\">" + (-1.0 == formation.getToDepth() ? "" : String.valueOf(formation.getToDepth())) + "</TD>\n" +
             "        <TD>" + formation.getFormationCode() + "</TD>\n" +
-            "        <TD>" + codes.getFormationCodeMap().get(formation.getFormationCode()) + "</TD>\n" +
+            "        <TD>" + formation.getFormationName() + "</TD>\n" +
             "      </TR>\n").reduce(formationHtml, String::concat);
         
 

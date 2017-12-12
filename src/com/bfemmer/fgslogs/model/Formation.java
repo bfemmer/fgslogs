@@ -29,11 +29,21 @@ public class Formation {
     private double fromDepth;
     private double toDepth;
     private String formationCode;
+    private String formationName;
     
     public Formation() {
         fromDepth = -1;
         toDepth = -1;
         formationCode = "";
+        formationName = "";
+    }
+    
+    public Formation(double fromDepth, double toDepth, String formationCode,
+            String formationName) {
+        this.fromDepth = fromDepth;
+        this.toDepth = toDepth;
+        this.formationCode = formationCode;
+        this.formationName = formationName;
     }
 
     /**
@@ -70,12 +80,26 @@ public class Formation {
     public String getFormationCode() {
         return formationCode;
     }
-
+    
     /**
      * @param formationCode the formationCode to set
      */
     public void setFormationCode(String formationCode) {
         this.formationCode = formationCode;
+    }
+    
+    /**
+     * @return the formationName
+     */
+    public String getFormationName() {
+        return formationName;
+    }
+    
+    /**
+     * @param formationName the formationName to set
+     */
+    public void setFormationName(String formationName) {
+        this.formationName = formationName;
     }
 
     /**
