@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2016 Bill Femmer
+Copyright (c) 2017 Bill Femmer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,64 +22,60 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.bfemmer.fgslogs.model;
+package com.bfemmer.fgslogs.modelview;
 
-public class Formation {
-    private double fromDepth;
-    private double toDepth;
-    private String formationCode;
+import com.bfemmer.fgslogs.model.Formation;
+import com.bfemmer.fgslogs.model.LookupCodes;
+
+/**
+ *
+ * @author bfemmer
+ */
+public class FormationView {
+    private final int wellLogNumber;
+    private final String formationName;
+    private final Formation formation;
     
-    public Formation() {
-        fromDepth = -1;
-        toDepth = -1;
-        formationCode = "";
+    public FormationView(int wellLogNumber, Formation formation) {
+        this.wellLogNumber = wellLogNumber;
+        this.formation = formation;
+        
+        LookupCodes codes = new LookupCodes();
+        formationName = codes.getFormationCodeMap().get(this.formation.getFormationCode());
     }
     
-    public Formation(double fromDepth, double toDepth, String formationCode) {
-        this.fromDepth = fromDepth;
-        this.toDepth = toDepth;
-        this.formationCode = formationCode;
-    }
-
     /**
      * @return the fromDepth
      */
     public double getFromDepth() {
-        return fromDepth;
-    }
-
-    /**
-     * @param fromDepth the fromDepth to set
-     */
-    public void setFromDepth(double fromDepth) {
-        this.fromDepth = fromDepth;
+        return formation.getFromDepth();
     }
 
     /**
      * @return the toDepth
      */
     public double getToDepth() {
-        return toDepth;
-    }
-
-    /**
-     * @param toDepth the toDepth to set
-     */
-    public void setToDepth(double toDepth) {
-        this.toDepth = toDepth;
+        return formation.getToDepth();
     }
 
     /**
      * @return the formationCode
      */
     public String getFormationCode() {
-        return formationCode;
+        return formation.getFormationCode();
     }
     
     /**
-     * @param formationCode the formationCode to set
+     * @return the formationName
      */
-    public void setFormationCode(String formationCode) {
-        this.formationCode = formationCode;
-    }    
+    public String getFormationName() {
+        return formationName;
+    }
+    
+    /**
+     * @return the wellLogNumber
+     */
+    public int getWellLogNumber() {
+        return wellLogNumber;
+    }
 }

@@ -24,6 +24,7 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
+import com.bfemmer.fgslogs.modelview.FormationView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class WellLog {
     private String ownerDriller;
     private String workedBy;
     private Location location;
-    private List<Formation> formations;
+    private List<FormationView> formations;
     private List<Sample> samples;
     
     /**
@@ -264,14 +265,14 @@ public class WellLog {
     /**
      * @return the formations
      */
-    public List<Formation> getFormations() {
+    public List<FormationView> getFormations() {
         return formations;
     }
 
     /**
      * @param formations the formation to set
      */
-    public void setFormations(List<Formation> formations) {
+    public void setFormations(List<FormationView> formations) {
         this.formations = formations;
     }
 

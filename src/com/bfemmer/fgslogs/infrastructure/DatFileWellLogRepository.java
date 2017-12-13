@@ -30,6 +30,7 @@ import com.bfemmer.fgslogs.model.Mineral;
 import com.bfemmer.fgslogs.model.Sample;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogRepository;
+import com.bfemmer.fgslogs.modelview.FormationView;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -302,7 +303,6 @@ public class DatFileWellLogRepository implements WellLogRepository {
             }
             catch(NumberFormatException nfe) {
                 wellLog.setWellLogNumber(0);
-                Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.WARNING, null, nfe);
             }
             
             System.out.println("------- Well Number: " + temp);
@@ -464,10 +464,9 @@ public class DatFileWellLogRepository implements WellLogRepository {
     }
     
     private void parseFormationIntoWellLog(String line) {
-        LookupCodes codes = new LookupCodes();
+        FormationView previousFormation = null;
         Formation formation = new Formation();
         double lastToDepth = 0;
-        Formation previousFormation = null;
         String temp;
         
         // If only one depth is in the record, then the depth is the "to" depth
@@ -489,7 +488,6 @@ public class DatFileWellLogRepository implements WellLogRepository {
             
             // Formation code
             formation.setFormationCode(previousFormation.getFormationCode());
-            formation.setFormationName(previousFormation.getFormationName());
         }
         else {
             // From depth
@@ -504,14 +502,13 @@ public class DatFileWellLogRepository implements WellLogRepository {
             if (line.length() > FM_TO_DEPTH_END_INDEX) {
                 formation.setFormationCode(
                     line.substring(FM_CODE_BEGIN_INDEX, FM_CODE_END_INDEX).trim());
-                formation.setFormationName(
-                        codes.getFormationCodeMap().get(formation.getFormationCode()));
             }
         }
         
                 
         // Add formation to well log
-        wellLog.getFormations().add(formation);
+        FormationView formationView = new FormationView(wellLog.getWellLogNumber(), formation);
+        wellLog.getFormations().add(formationView);
     }
     
     private void parseSampleIntoWellLog(String line) {
