@@ -31,6 +31,7 @@ import com.bfemmer.fgslogs.model.Sample;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogRepository;
 import com.bfemmer.fgslogs.modelview.FormationView;
+import com.bfemmer.fgslogs.modelview.SampleView;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -176,11 +177,13 @@ public class DatFileWellLogRepository implements WellLogRepository {
     
     String filename;
     WellLog wellLog;
+    List<Sample> samples;
     List<WellLog> wellLogs;
     
     public DatFileWellLogRepository(String filename) {
         this.filename = filename;
         wellLog = new WellLog();
+        samples = new ArrayList<>();
         wellLogs = new ArrayList<>();
     }
 
@@ -253,6 +256,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 switch (recordId) {
                     case START_OF_WELL_RECORD:
                         wellLog = new WellLog();
+                        samples = new ArrayList<>();
                         wellLog.setId(UUID.randomUUID().toString());
                         parseHeaderIntoWellLog (currentLine);
                         parseLocationIntoWellLog (currentLine);
@@ -268,14 +272,21 @@ public class DatFileWellLogRepository implements WellLogRepository {
                         parseFormationIntoWellLog (currentLine);
                         break;
                     case SAMPLE_RECORD:
-                        parseSampleIntoWellLog (currentLine);
+                        parseSampleIntoList (currentLine);
                         break;
                     case END_OF_WELL_RECORD:
                     default:
+                        for (Sample sample : samples) {
+                            SampleView sampleView = new SampleView(
+                                    wellLog.getWellLogNumber(), sample);
+                            wellLog.getSamples().add(sampleView);
+                        }
+                        
                         wellLogs.add(wellLog);
                         break;
                 }
             }
+            
         } catch (IOException e) {
             Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.SEVERE, null, e);
         } catch (Exception exception) {
@@ -504,14 +515,13 @@ public class DatFileWellLogRepository implements WellLogRepository {
                     line.substring(FM_CODE_BEGIN_INDEX, FM_CODE_END_INDEX).trim());
             }
         }
-        
-                
+            
         // Add formation to well log
         FormationView formationView = new FormationView(wellLog.getWellLogNumber(), formation);
         wellLog.getFormations().add(formationView);
     }
     
-    private void parseSampleIntoWellLog(String line) {
+    private void parseSampleIntoList(String line) {
         String temp;
         double lastToDepth = 0;
         Sample lastSample = null;
@@ -520,9 +530,9 @@ public class DatFileWellLogRepository implements WellLogRepository {
         
         // Get last sample (if it exists) to get the last "to depth" value and
         // overwrite "lastToDepth" local variable.
-        if (!wellLog.getSamples().isEmpty()) {
-            lastSample = wellLog.getSamples()
-                    .get(wellLog.getSamples().size() - 1);
+        if (!samples.isEmpty()) {
+            lastSample = samples
+                    .get(samples.size() - 1);
             lastToDepth = lastSample.getToDepth();
         }
         
@@ -554,7 +564,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
             
             // We have enough information to add the sample to 
             // the well log at this point
-            wellLog.getSamples().add(sample);
+            samples.add(sample);
             
             parseSampleDepth(line);
             
@@ -665,8 +675,8 @@ public class DatFileWellLogRepository implements WellLogRepository {
         if (!temp.equals(""))
             fraction = Double.valueOf(temp) * 0.1;
 
-        wellLog.getSamples().get(
-            wellLog.getSamples().size() - 1).setToDepth(depth + fraction);
+        samples.get(
+            samples.size() - 1).setToDepth(depth + fraction);
     }
     
     private void parseRockColors(String line) {
@@ -675,14 +685,14 @@ public class DatFileWellLogRepository implements WellLogRepository {
         if (line.length() < ROCK_COLOR_END_INDEX) return;
         
         temp = line.substring(ROCK_COLOR_BEGIN_INDEX, ROCK_COLOR_END_INDEX).trim();
-        wellLog.getSamples().get(
-            wellLog.getSamples().size() - 1).setRockColorCodeMin(temp);
+        samples.get(
+            samples.size() - 1).setRockColorCodeMin(temp);
 
         if (line.length() < ROCK_COLOR2_END_INDEX) return;
         
         temp = line.substring(ROCK_COLOR2_BEGIN_INDEX, ROCK_COLOR2_END_INDEX).trim();
-        wellLog.getSamples().get(
-            wellLog.getSamples().size() - 1).setRockColorCodeMax(temp);
+        samples.get(
+            samples.size() - 1).setRockColorCodeMax(temp);
     }
     
     private void parsePorosity(String line) {
@@ -696,7 +706,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         if ("".equals(temp)) temp = "-1";
         
         try {
-            wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+            samples.get(samples.size() - 1)
                     .setPorosity(Integer.valueOf(temp));
         } catch (NumberFormatException e) {
             System.out.println("DatFileRepo.parsePorosity-NumberFormat: " + temp);
@@ -722,7 +732,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         
         for (String data : dataArray) {
             if (codes.getPorosityCodeMap().containsKey(data)) {
-            wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+            samples.get(samples.size() - 1)
                 .getPorosityCodes().add(data);
             }
         }
@@ -735,7 +745,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         
         temp = line.substring(GRAIN_SIZE_BEGIN_INDEX, GRAIN_SIZE_END_INDEX).trim();
         
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+        samples.get(samples.size() - 1)
                 .setGrainSizeCode(temp);
     }
     
@@ -746,14 +756,14 @@ public class DatFileWellLogRepository implements WellLogRepository {
         
         temp = line.substring(RANGE_MIN_BEGIN_INDEX, RANGE_MIN_END_INDEX).trim();
         
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
-                .setGrainRangeMin(temp);
+        samples.get(samples.size() - 1)
+                .setGrainRangeCodeMin(temp);
         
         if (line.length() < RANGE_MAX_END_INDEX) return;
         
         temp = line.substring(RANGE_MAX_BEGIN_INDEX, RANGE_MAX_END_INDEX).trim();
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
-                .setGrainRangeMax(temp);
+        samples.get(samples.size() - 1)
+                .setGrainRangeCodeMax(temp);
     }
     
     private void parseRoundness(String line) {
@@ -763,14 +773,14 @@ public class DatFileWellLogRepository implements WellLogRepository {
         
         temp = line.substring(ROUNDNESS_MIN_BEGIN_INDEX, ROUNDNESS_MIN_END_INDEX).trim();
         
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
-                .setRoundnessMin(temp);
+        samples.get(samples.size() - 1)
+                .setRoundnessCodeMin(temp);
         
         if (line.length() < ROUNDNESS_MAX_END_INDEX) return;
         
         temp = line.substring(ROUNDNESS_MAX_BEGIN_INDEX, ROUNDNESS_MAX_END_INDEX).trim();
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
-                .setRoundnessMax(temp);
+        samples.get(samples.size() - 1)
+                .setRoundnessCodeMax(temp);
     }
     
     private void parseSphericity(String line) {
@@ -779,7 +789,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         if (line.length() < SPHERICITY_END_INDEX) return;
         
         temp= line.substring(SPHERICITY_BEGIN_INDEX, SPHERICITY_END_INDEX).trim();
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+        samples.get(samples.size() - 1)
                 .setSphericityCode(temp);
     }
     
@@ -800,7 +810,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
 
         temp = line.substring(GRAIN_TYPE_BEGIN_INDEX, endIndex).trim();
         dataArray = temp.split("");
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+        samples.get(samples.size() - 1)
                 .getGrainTypeCodes().addAll(Arrays.asList(dataArray));
     }
     
@@ -812,7 +822,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         temp = line.substring(LIMESTONE_GRAIN_SIZE_BEGIN_INDEX, 
                 LIMESTONE_GRAIN_SIZE_END_INDEX).trim();
         
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+        samples.get(samples.size() - 1)
                 .setGrainSizeCode(temp);
     }
     
@@ -824,15 +834,15 @@ public class DatFileWellLogRepository implements WellLogRepository {
         temp = line.substring(LIMESTONE_RANGE_MIN_BEGIN_INDEX, 
                 LIMESTONE_RANGE_MIN_END_INDEX).trim();
         
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
-                .setGrainRangeMin(temp);
+        samples.get(samples.size() - 1)
+                .setGrainRangeCodeMin(temp);
         
         if (line.length() < LIMESTONE_RANGE_MIN_END_INDEX) return;
         
         temp = line.substring(LIMESTONE_RANGE_MAX_BEGIN_INDEX, 
                 LIMESTONE_RANGE_MAX_END_INDEX).trim();
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
-                .setGrainRangeMax(temp);
+        samples.get(samples.size() - 1)
+                .setGrainRangeCodeMax(temp);
     }
     
     private void parseAlterationCode(String line) {
@@ -843,7 +853,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         temp = line.substring(ALTERATION_BEGIN_INDEX, 
                 ALTERATION_END_INDEX).trim();
         
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+        samples.get(samples.size() - 1)
                 .setAlterationCode(temp);
     }
     
@@ -855,7 +865,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         temp = line.substring(CRYSTALLINITY_BEGIN_INDEX, 
                 CRYSTALLINITY_END_INDEX).trim();
         
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+        samples.get(samples.size() - 1)
                 .setCrystallinityCode(temp);
     }
     
@@ -867,7 +877,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         temp = line.substring(DOLOMITE_GRAIN_SIZE_BEGIN_INDEX, 
                 DOLOMITE_GRAIN_SIZE_END_INDEX).trim();
         
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+        samples.get(samples.size() - 1)
                 .setGrainSizeCode(temp);
     }
     
@@ -879,15 +889,15 @@ public class DatFileWellLogRepository implements WellLogRepository {
         temp = line.substring(DOLOMITE_RANGE_MIN_BEGIN_INDEX, 
                 DOLOMITE_RANGE_MIN_END_INDEX).trim();
         
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
-                .setGrainRangeMin(temp);
+        samples.get(samples.size() - 1)
+                .setGrainRangeCodeMin(temp);
         
         if (line.length() < DOLOMITE_RANGE_MAX_END_INDEX) return;
         
         temp = line.substring(DOLOMITE_RANGE_MAX_BEGIN_INDEX, 
                 DOLOMITE_RANGE_MAX_END_INDEX).trim();
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
-                .setGrainRangeMax(temp);
+        samples.get(samples.size() - 1)
+                .setGrainRangeCodeMax(temp);
     }
     
     private void parseCementTypesIntoSample(String line) {
@@ -907,7 +917,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
 
         temp = line.substring(CEMENTS_BEGIN_INDEX, endIndex).trim();
         dataArray = temp.split("");
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+        samples.get(samples.size() - 1)
                 .getCementTypeCodes().addAll(Arrays.asList(dataArray));
     }
     
@@ -917,7 +927,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         if (line.length() < INDURATION_END_INDEX) return;
 
         temp = line.substring(INDURATION_BEGIN_INDEX, INDURATION_END_INDEX).trim();
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+        samples.get(samples.size() - 1)
                 .setIndurationCode(temp);
     }
     
@@ -938,7 +948,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
 
         temp = line.substring(SEDIMENTARY_BEGIN_INDEX, endIndex).trim();
         dataArray = temp.split("");
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+        samples.get(samples.size() - 1)
                 .getSedimentaryCodes().addAll(Arrays.asList(dataArray));
     }
     
@@ -999,13 +1009,13 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("DatFileRepo.parseMineralsIntoSample: Sample = " + wellLog.getSamples().size());
+                System.out.println("DatFileRepo.parseMineralsIntoSample: Sample = " + samples.size());
                 System.out.println("DatFileRepo.parseMineralsIntoSample: Code = " + mineral.getCode());
                 System.out.println("DatFileRepo.parseMineralsIntoSample:" + temp + " - " + value);
             }
 
-            wellLog.getSamples().get(wellLog.getSamples().size() - 1)
-                    .getAccessoryMinerals().add(mineral);
+            samples.get(samples.size() - 1)
+                    .getAccessoryMineralCodes().add(mineral);
         }
     }
     
@@ -1042,7 +1052,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
 
         temp = line.substring(FEATURES_BEGIN_INDEX, endIndex).trim();
         dataArray = temp.split("");
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+        samples.get(samples.size() - 1)
                 .getOtherFeatureCodes().addAll(Arrays.asList(dataArray));
     }
     
@@ -1054,7 +1064,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
 
         temp = line.substring(FOSSILS_INDEX).trim();
         dataArray = temp.split("");
-        wellLog.getSamples().get(wellLog.getSamples().size() - 1)
+        samples.get(samples.size() - 1)
                 .getFossilCodes().addAll(Arrays.asList(dataArray));
     }
             

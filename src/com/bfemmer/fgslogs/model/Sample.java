@@ -39,16 +39,16 @@ public class Sample {
     private String alterationCode;
     private String crystallinityCode;
     private String grainSizeCode;
-    private String grainRangeMin;
-    private String grainRangeMax;
-    private String roundnessMin;
-    private String roundnessMax;
+    private String grainRangeCodeMin;
+    private String grainRangeCodeMax;
+    private String roundnessCodeMin;
+    private String roundnessCodeMax;
     private String sphericityCode;
     private List<String> grainTypeCodes;
     private String indurationCode;
     private List<String> cementTypeCodes;
     private List<String> sedimentaryCodes;
-    private List<Mineral> accessoryMinerals;
+    private List<Mineral> accessoryMineralCodes;
     private List<String> otherFeatureCodes;
     private List<String> fossilCodes;
     private String comments;
@@ -64,16 +64,16 @@ public class Sample {
         alterationCode = "";
         crystallinityCode = "";
         grainSizeCode = "";
-        grainRangeMin = "";
-        grainRangeMax = "";
-        roundnessMin = "";
-        roundnessMax = "";
+        grainRangeCodeMin = "";
+        grainRangeCodeMax = "";
+        roundnessCodeMin = "";
+        roundnessCodeMax = "";
         sphericityCode = "";
         grainTypeCodes = new ArrayList<>();
         cementTypeCodes = new ArrayList<>();
         indurationCode = "";
         sedimentaryCodes = new ArrayList<>();
-        accessoryMinerals = new ArrayList<>();
+        accessoryMineralCodes = new ArrayList<>();
         otherFeatureCodes = new ArrayList<>();
         fossilCodes = new ArrayList<>();
         comments = "";
@@ -192,59 +192,59 @@ public class Sample {
     }
     
     /**
-     * @return the grainRangeMin
+     * @return the grainRangeCodeMin
      */
-    public String getGrainRangeMin() {
-        return grainRangeMin;
+    public String getGrainRangeCodeMin() {
+        return grainRangeCodeMin;
     }
 
     /**
-     * @param grainRangeMin the grainRangeMin to set
+     * @param grainRangeCodeMin the grainRangeCodeMin to set
      */
-    public void setGrainRangeMin(String grainRangeMin) {
-        this.grainRangeMin = grainRangeMin;
+    public void setGrainRangeCodeMin(String grainRangeCodeMin) {
+        this.grainRangeCodeMin = grainRangeCodeMin;
     }
 
     /**
-     * @return the grainRangeMax
+     * @return the grainRangeCodeMax
      */
-    public String getGrainRangeMax() {
-        return grainRangeMax;
+    public String getGrainRangeCodeMax() {
+        return grainRangeCodeMax;
     }
 
     /**
-     * @param grainRangeMax the grainRangeMax to set
+     * @param grainRangeCodeMax the grainRangeCodeMax to set
      */
-    public void setGrainRangeMax(String grainRangeMax) {
-        this.grainRangeMax = grainRangeMax;
+    public void setGrainRangeCodeMax(String grainRangeCodeMax) {
+        this.grainRangeCodeMax = grainRangeCodeMax;
     }
     
     /**
-     * @return the roundnessMin
+     * @return the roundnessCodeMin
      */
-    public String getRoundnessMin() {
-        return roundnessMin;
+    public String getRoundnessCodeMin() {
+        return roundnessCodeMin;
     }
 
     /**
-     * @param roundnessMin the roundnessMin to set
+     * @param roundnessCodeMin the roundnessCodeMin to set
      */
-    public void setRoundnessMin(String roundnessMin) {
-        this.roundnessMin = roundnessMin;
+    public void setRoundnessCodeMin(String roundnessCodeMin) {
+        this.roundnessCodeMin = roundnessCodeMin;
     }
 
     /**
-     * @return the roundnessMax
+     * @return the roundnessCodeMax
      */
-    public String getRoundnessMax() {
-        return roundnessMax;
+    public String getRoundnessCodeMax() {
+        return roundnessCodeMax;
     }
 
     /**
-     * @param roundnessMax the roundnessMax to set
+     * @param roundnessCodeMax the roundnessCodeMax to set
      */
-    public void setRoundnessMax(String roundnessMax) {
-        this.roundnessMax = roundnessMax;
+    public void setRoundnessCodeMax(String roundnessCodeMax) {
+        this.roundnessCodeMax = roundnessCodeMax;
     }
 
     /**
@@ -346,17 +346,17 @@ public class Sample {
     }
     
     /**
-     * @return the accessoryMinerals
+     * @return the accessoryMineralCodes
      */
-    public List<Mineral> getAccessoryMinerals() {
-        return accessoryMinerals;
+    public List<Mineral> getAccessoryMineralCodes() {
+        return accessoryMineralCodes;
     }
     
     /**
-     * @param accessoryMinerals the accessoryMinerals to set
+     * @param accessoryMineralCodes the accessoryMineralCodes to set
      */
-    public void setAccessoryMinerals(List<Mineral> accessoryMinerals) {
-        this.accessoryMinerals = accessoryMinerals;
+    public void setAccessoryMineralCodes(List<Mineral> accessoryMineralCodes) {
+        this.accessoryMineralCodes = accessoryMineralCodes;
     }
     
     /**

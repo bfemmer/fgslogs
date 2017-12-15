@@ -25,6 +25,8 @@ SOFTWARE.
 package com.bfemmer.fgslogs.model;
 
 import com.bfemmer.fgslogs.modelview.FormationView;
+import com.bfemmer.fgslogs.modelview.MineralView;
+import com.bfemmer.fgslogs.modelview.SampleView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +46,7 @@ public class WellLog {
     private String workedBy;
     private Location location;
     private List<FormationView> formations;
-    private List<Sample> samples;
+    private List<SampleView> samples;
     
     /**
      * Constructor
@@ -279,15 +281,15 @@ public class WellLog {
     /**
      * @return the sample
      */
-    public List<Sample> getSamples() {
+    public List<SampleView> getSamples() {
         return samples;
     }
 
     /**
-     * @param sample the sample to set
+     * @param sampleViews the sample to set
      */
-    public void setSamples(List<Sample> sample) {
-        this.samples = sample;
+    public void setSamples(List<SampleView> sampleViews) {
+        this.samples = sampleViews;
     }
  
     public String toHtml() {
@@ -438,7 +440,6 @@ public class WellLog {
     }
     
     public String addSampleSectionToHtml(String html) {
-        LookupCodes codes = new LookupCodes();
         String beginHtml;
         String sampleHtml = "";
         String endHtml;
@@ -453,12 +454,12 @@ public class WellLog {
             "    <TD align=\"center\">\n" +
             "      <TABLE>\n";
                 
-        for (Sample sample : samples) {
+        for (SampleView sample : samples) {
             temp = "";
             
             temp += "        <TD valign=\"top\" align=\"right\">" + String.format("%.2f", sample.getFromDepth()) + "</TD>\n" +
             "        <TD valign=\"top\" align=\"right\">" + String.format("%.2f", sample.getToDepth()) + "</TD>\n" +
-            "        <TD>" + codes.getRockTypeMap().get(sample.getRockTypeCode());
+            "        <TD>" + sample.getRockType();
             
             // Process "As Above"
             if (sample.getRockTypeCode().equals("V")) {
@@ -476,10 +477,10 @@ public class WellLog {
             
             // Process rock colors on line 1
             if (!sample.getRockColorCodeMin().equals("")) {
-                temp += "; " + codes.getColorCodeMap().get(sample.getRockColorCodeMin());
+                temp += "; " + sample.getRockColorMin();
                 String x = sample.getRockColorCodeMax();
                 if (!sample.getRockColorCodeMax().equals("")) {
-                    temp += " to " + codes.getColorCodeMap().get(sample.getRockColorCodeMax());
+                    temp += " to " + sample.getRockColorMax();
                 }
             }
             
@@ -586,9 +587,8 @@ public class WellLog {
         return html + temp;
     }
     
-    private String getPorosityAsRecord(Sample sample) {
+    private String getPorosityAsRecord(SampleView sample) {
         String temp = "";
-        LookupCodes codes = new LookupCodes();
         int count = 0;
         
         if (sample.getPorosity() != -1) {
@@ -598,161 +598,151 @@ public class WellLog {
         if (sample.getPorosityCodes().size() > 0) {
             if (sample.getPorosity() != -1) temp += ": ";
             
-            for (String code : sample.getPorosityCodes()) {
+            for (String value : sample.getPorosityValues()) {
                 if (count++ > 0) temp += ", ";
-                temp += codes.getPorosityCodeMap().get(code);
+                temp += value;
             }
         }
 
         return temp;
     }
     
-    private String getAlterationAsRecord(Sample sample) {
+    private String getAlterationAsRecord(SampleView sample) {
         String temp = "";
-        LookupCodes codes = new LookupCodes();
         
         if (!sample.getAlterationCode().equals("")) {
-            temp += codes.getAlterationCodeMap().get(sample.getAlterationCode());
+            temp += sample.getAlteration();
             temp += " Altered";
         }
 
         return temp;
     }
     
-    private String getCrystallinityAsRecord(Sample sample) {
+    private String getCrystallinityAsRecord(SampleView sample) {
         String temp = "";
-        LookupCodes codes = new LookupCodes();
         
         if (!sample.getCrystallinityCode().equals("")) {
             temp += "Crystallinity: ";
-            temp += codes.getCrystallinityCodeMap().get(sample.getCrystallinityCode());
+            temp += sample.getCrystallinity();
         }
 
         return temp;
     }
     
-    private String getGrainTypesAsRecord(Sample sample) {
+    private String getGrainTypesAsRecord(SampleView sample) {
         String temp = "";
-        LookupCodes codes = new LookupCodes();
         int count = 0;
         
         if (sample.getGrainTypeCodes().size() > 0) {
             temp = "Grain Type(s): ";
-            for (String code : sample.getGrainTypeCodes()) {
+            for (String grainType : sample.getGrainTypes()) {
                 if (count++ > 0) temp += ", ";
-                temp += codes.getGrainTypeCodeMap().get(code);
+                temp += grainType;
             }
         }
 
         return temp;
     }
     
-    private String getGrainSizeAsRecord(Sample sample) {
+    private String getGrainSizeAsRecord(SampleView sample) {
         String temp = "";
-        LookupCodes codes = new LookupCodes();
         
         if (!sample.getGrainSizeCode().equals("")) {
             temp = "Grain Size: ";
-            temp += codes.getGrainSizeCodeMap().get(sample.getGrainSizeCode());
+            temp += sample.getGrainSize();
         }
 
         return temp;
     }
     
-    private String getRangeAsRecord(Sample sample) {
+    private String getRangeAsRecord(SampleView sample) {
         String temp = "";
-        LookupCodes codes = new LookupCodes();
         
-        if (!sample.getGrainRangeMin().equals("")) {
+        if (!sample.getGrainRangeCodeMin().equals("")) {
             temp = "Range: ";
-            temp += codes.getGrainSizeCodeMap().get(sample.getGrainRangeMin());
+            temp += sample.getGrainRangeMin();
         }
 
-        if (!sample.getGrainRangeMax().equals("")) {
+        if (!sample.getGrainRangeCodeMax().equals("")) {
             temp += " to ";
-            temp += codes.getGrainSizeCodeMap().get(sample.getGrainRangeMax());
+            temp += sample.getGrainRangeMax();
         }
 
         return temp;
     }
     
-    private String getRoundnessAndSphericityAsRecord(Sample sample) {
+    private String getRoundnessAndSphericityAsRecord(SampleView sample) {
         String temp = "";
-        LookupCodes codes = new LookupCodes();
         
-        if (!sample.getRoundnessMin().equals("")) {
+        if (!sample.getRoundnessCodeMin().equals("")) {
             temp = "Roundness: ";
-            temp += codes.getRoundnessCodeMap().get(sample.getRoundnessMin());
+            temp += sample.getRoundnessMin();
         }
         
-        if (!sample.getRoundnessMax().equals("")) {
+        if (!sample.getRoundnessCodeMax().equals("")) {
             temp += " to ";
-            temp += codes.getRoundnessCodeMap().get(sample.getRoundnessMax());
+            temp += sample.getRoundnessMax();
         }
         
         if (!sample.getSphericityCode().equals("")) {
-            if (!sample.getRoundnessMin().equals("")) temp += "; ";
-            temp += codes.getSphericityCodeMap().get(sample.getSphericityCode());
+            if (!sample.getRoundnessCodeMin().equals("")) temp += "; ";
+            temp += sample.getSphericity();
             temp += " Sphericity";
         }
 
         return temp;
     }
     
-    private String getIndurationAsRecord(Sample sample) {
+    private String getIndurationAsRecord(SampleView sample) {
         String temp = "";
-        LookupCodes codes = new LookupCodes();
         
         if (!sample.getIndurationCode().equals("")) {
-            temp += codes.getIndurationCodeMap().get(sample.getIndurationCode());
+            temp += sample.getInduration();
             temp += " Induration";
         }
 
         return temp;
     }
     
-    private String getCementTypesAsRecord(Sample sample) {
+    private String getCementTypesAsRecord(SampleView sample) {
         String temp = "";
-        LookupCodes codes = new LookupCodes();
         int count = 0;
         
         if (sample.getCementTypeCodes().size() > 0) {
             temp = "Cement Type(s): ";
-            for (String code : sample.getCementTypeCodes()) {
+            for (String cementType : sample.getCementTypes()) {
                 if (count++ > 0) temp += ", ";
-                temp += codes.getCementCodeMap().get(code);
+                temp += cementType;
             }
         }
 
         return temp;
     }
     
-    private String getSedimentaryAsRecord(Sample sample) {
+    private String getSedimentaryAsRecord(SampleView sample) {
         String temp = "";
-        LookupCodes codes = new LookupCodes();
         int count = 0;
         
         if (sample.getSedimentaryCodes().size() > 0) {
             temp = "Sedimentary: ";
-            for (String code : sample.getSedimentaryCodes()) {
+            for (String value : sample.getSedimentaryValues()) {
                 if (count++ > 0) temp += ", ";
-                temp += codes.getSedimentaryCodeMap().get(code);
+                temp += value;
             }
         }
 
         return temp;
     }
     
-    private String getAccessoryMineralsAsRecord(Sample sample) {
+    private String getAccessoryMineralsAsRecord(SampleView sample) {
         String temp = "";
-        LookupCodes codes = new LookupCodes();
         int count = 0;
         
-        if (sample.getAccessoryMinerals().size() > 0) {
+        if (sample.getAccessoryMineralCodes().size() > 0) {
             temp = "Accessory Minerals(s): ";
-            for (Mineral mineral : sample.getAccessoryMinerals()) {
+            for (MineralView mineral : sample.getAccessoryMinerals()) {
                 if (count++ > 0) temp += ", ";
-                temp += codes.getMineralCodeMap().get(mineral.getCode());
+                temp += mineral.getName();
                 temp += " (";
                 temp += String.valueOf(String.format("%.2f", mineral.getPercentage()));
                 temp += "%)";
@@ -762,23 +752,22 @@ public class WellLog {
         return temp;
     }
     
-    private String getFossilsAsRecord(Sample sample) {
+    private String getFossilsAsRecord(SampleView sample) {
         String temp = "";
-        LookupCodes codes = new LookupCodes();
         int count = 0;
         
         if (sample.getFossilCodes().size() > 0) {
             temp = "Fossil(s): ";
-            for (String code : sample.getFossilCodes()) {
+            for (String fossil : sample.getFossils()) {
                 if (count++ > 0) temp += ", ";
-                temp += codes.getFossilCodeMap().get(code);
+                temp += fossil;
             }
         }
 
         return temp;
     }
     
-    private String getCommentsAsRecord(Sample sample) {
+    private String getCommentsAsRecord(SampleView sample) {
         String temp = "";
                 
         if (!sample.getComments().isEmpty()) {
