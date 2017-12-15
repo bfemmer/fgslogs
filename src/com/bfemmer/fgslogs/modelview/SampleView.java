@@ -35,25 +35,25 @@ import java.util.List;
  */
 public class SampleView {
     private final int wellLogNumber;
-    private final String rockType;
-    private final String rockColorMin;
-    private final String rockColorMax;
-    private List<String> porosityValues;
-    private final String alteration;
-    private final String crystallinity;
-    private final String grainSize;
-    private final String grainRangeMin;
-    private final String grainRangeMax;
-    private final String roundnessMin;
-    private final String roundnessMax;
-    private final String sphericity;
-    private final List<String> grainTypes;
-    private final String induration;
-    private List<String> cementTypes;
-    private List<String> sedimentaryValues;
-    private List<MineralView> accessoryMinerals;
-    private List<String> otherFeatures;
-    private List<String> fossils;
+//    private final String rockType;
+//    private final String rockColorMin;
+//    private final String rockColorMax;
+//    private List<String> porosityValues;
+//    private final String alteration;
+//    private final String crystallinity;
+//    private final String grainSize;
+//    private final String grainRangeMin;
+//    private final String grainRangeMax;
+//    private final String roundnessMin;
+//    private final String roundnessMax;
+//    private final String sphericity;
+//    private final List<String> grainTypes;
+//    private final String induration;
+//    private List<String> cementTypes;
+//    private List<String> sedimentaryValues;
+//    private List<MineralView> accessoryMinerals;
+//    private List<String> otherFeatures;
+//    private List<String> fossils;
     private final Sample sample;
     
     public SampleView(int wellLogNumber, Sample sample) {
@@ -61,56 +61,56 @@ public class SampleView {
         this.sample = sample;
         
         LookupCodes codes = new LookupCodes();
-        rockType = codes.getRockTypeMap().get(this.sample.getRockTypeCode());
-        rockColorMin = codes.getColorCodeMap().get(this.sample.getRockColorCodeMin());
-        rockColorMax = codes.getColorCodeMap().get(this.sample.getRockColorCodeMax());
+//        rockType = codes.getRockTypeMap().get(this.sample.getRockTypeCode());
+//        rockColorMin = codes.getColorCodeMap().get(this.sample.getRockColorCodeMin());
+//        rockColorMax = codes.getColorCodeMap().get(this.sample.getRockColorCodeMax());
         
-        porosityValues = new ArrayList<>();
-        sample.getPorosityCodes().forEach((value) -> {
-            porosityValues.add(codes.getPorosityCodeMap().get(value));
-        });
+//        porosityValues = new ArrayList<>();
+//        sample.getPorosityCodes().forEach((value) -> {
+//            porosityValues.add(codes.getPorosityCodeMap().get(value));
+//        });
                
-        alteration = codes.getAlterationCodeMap().get(this.sample.getAlterationCode());
-        crystallinity = codes.getCrystallinityCodeMap().get(this.sample.getCrystallinityCode());
-        grainSize = codes.getGrainSizeCodeMap().get(this.sample.getGrainSizeCode());
-        grainRangeMin = codes.getGrainSizeCodeMap().get(this.sample.getGrainRangeCodeMin());
-        grainRangeMax = codes.getGrainSizeCodeMap().get(this.sample.getGrainRangeCodeMax());
-        roundnessMin = codes.getRoundnessCodeMap().get(this.sample.getRoundnessCodeMin());
-        roundnessMax = codes.getRoundnessCodeMap().get(this.sample.getRoundnessCodeMax());
-        sphericity = codes.getSphericityCodeMap().get(this.sample.getSphericityCode());
+//        alteration = codes.getAlterationCodeMap().get(this.sample.getAlterationCode());
+//        crystallinity = codes.getCrystallinityCodeMap().get(this.sample.getCrystallinityCode());
+//        grainSize = codes.getGrainSizeCodeMap().get(this.sample.getGrainSizeCode());
+//        grainRangeMin = codes.getGrainSizeCodeMap().get(this.sample.getGrainRangeCodeMin());
+//        grainRangeMax = codes.getGrainSizeCodeMap().get(this.sample.getGrainRangeCodeMax());
+//        roundnessMin = codes.getRoundnessCodeMap().get(this.sample.getRoundnessCodeMin());
+//        roundnessMax = codes.getRoundnessCodeMap().get(this.sample.getRoundnessCodeMax());
+//        sphericity = codes.getSphericityCodeMap().get(this.sample.getSphericityCode());
         
-        grainTypes = new ArrayList<>();
-        sample.getGrainTypeCodes().forEach((value) -> {
-            grainTypes.add(codes.getGrainTypeCodeMap().get(value));
-        });
+//        grainTypes = new ArrayList<>();
+//        sample.getGrainTypeCodes().forEach((value) -> {
+//            grainTypes.add(codes.getGrainTypeCodeMap().get(value));
+//        });
         
-        induration = codes.getIndurationCodeMap().get(this.sample.getIndurationCode());
+//        induration = codes.getIndurationCodeMap().get(this.sample.getIndurationCode());
         
-        cementTypes = new ArrayList<>();
-        sample.getCementTypeCodes().forEach((value) -> {
-            cementTypes.add(codes.getCementCodeMap().get(value));
-        });
+//        cementTypes = new ArrayList<>();
+//        sample.getCementTypeCodes().forEach((value) -> {
+//            cementTypes.add(codes.getCementCodeMap().get(value));
+//        });
         
-        sedimentaryValues = new ArrayList<>();
-        sample.getSedimentaryCodes().forEach((value) -> {
-            sedimentaryValues.add(codes.getSedimentaryCodeMap().get(value));
-        });
+//        sedimentaryValues = new ArrayList<>();
+//        sample.getSedimentaryCodes().forEach((value) -> {
+//            sedimentaryValues.add(codes.getSedimentaryCodeMap().get(value));
+//        });
         
-        accessoryMinerals = new ArrayList<>();
-        sample.getAccessoryMineralCodes().forEach((mineral) -> {
-            MineralView mineralView = new MineralView(mineral);
-            accessoryMinerals.add(mineralView);
-        });
+//        accessoryMinerals = new ArrayList<>();
+//        sample.getAccessoryMineralCodes().forEach((mineral) -> {
+//            MineralView mineralView = new MineralView(mineral);
+//            accessoryMinerals.add(mineralView);
+//        });
         
-        otherFeatures = new ArrayList<>();
-        sample.getOtherFeatureCodes().forEach((value) -> {
-            otherFeatures.add(codes.getFeatureCodeMap().get(value));
-        });
+//        otherFeatures = new ArrayList<>();
+//        sample.getOtherFeatureCodes().forEach((value) -> {
+//            otherFeatures.add(codes.getFeatureCodeMap().get(value));
+//        });
         
-        fossils = new ArrayList<>();
-        sample.getFossilCodes().forEach((value) -> {
-            fossils.add(codes.getFossilCodeMap().get(value));
-        });
+//        fossils = new ArrayList<>();
+//        sample.getFossilCodes().forEach((value) -> {
+//            fossils.add(codes.getFossilCodeMap().get(value));
+//        });
     }
     
     /**
@@ -138,6 +138,10 @@ public class SampleView {
      * @return the rockTypeCode
      */
     public String getRockType() {
+        LookupCodes codes = new LookupCodes();
+        String rockType = codes
+                .getRockTypeMap()
+                .get(this.sample.getRockTypeCode());
         return rockType;
     }
 
@@ -152,7 +156,11 @@ public class SampleView {
      * @return the rockColorMin
      */
     public String getRockColorMin() {
-        return rockColorMin;
+        LookupCodes codes = new LookupCodes();
+        String rockColor = codes
+                .getColorCodeMap()
+                .get(this.sample.getRockColorCodeMin());
+        return rockColor;
     }
 
     /**
@@ -166,7 +174,11 @@ public class SampleView {
      * @return the rockColorMax
      */
     public String getRockColorMax() {
-        return rockColorMax;
+        LookupCodes codes = new LookupCodes();
+        String rockColor = codes
+                .getColorCodeMap()
+                .get(this.sample.getRockColorCodeMax());
+        return rockColor;
     }
 
     /**
@@ -187,6 +199,12 @@ public class SampleView {
      * @return the porosityValues
      */
     public List<String> getPorosityValues() {
+        List<String> porosityValues = new ArrayList<>();
+        LookupCodes codes = new LookupCodes();
+        
+        sample.getPorosityCodes().forEach((value) -> {
+            porosityValues.add(codes.getPorosityCodeMap().get(value));
+        });
         return porosityValues;
     }
 
@@ -201,6 +219,10 @@ public class SampleView {
      * @return the grainSize
      */
     public String getGrainSize() {
+        LookupCodes codes = new LookupCodes();
+        String grainSize = codes
+                .getGrainSizeCodeMap()
+                .get(this.sample.getGrainSizeCode());
         return grainSize;
     }
 
@@ -215,6 +237,11 @@ public class SampleView {
      * @return the grainRangeMin
      */
     public String getGrainRangeMin() {
+        LookupCodes codes = new LookupCodes();
+        String grainRangeMin = codes
+                .getGrainSizeCodeMap()
+                .get(this.sample.getGrainRangeCodeMin());
+        
         return grainRangeMin;
     }
 
@@ -229,6 +256,10 @@ public class SampleView {
      * @return the grainRangeMax
      */
     public String getGrainRangeMax() {
+        LookupCodes codes = new LookupCodes();
+        String grainRangeMax = codes
+                .getGrainSizeCodeMap()
+                .get(this.sample.getGrainRangeCodeMax());
         return grainRangeMax;
     }
 
@@ -243,6 +274,8 @@ public class SampleView {
      * @return the roundnessMin
      */
     public String getRoundnessMin() {
+        LookupCodes codes = new LookupCodes();
+        String roundnessMin = codes.getRoundnessCodeMap().get(this.sample.getRoundnessCodeMin());
         return roundnessMin;
     }
 
@@ -257,6 +290,8 @@ public class SampleView {
      * @return the roundnessMax
      */
     public String getRoundnessMax() {
+        LookupCodes codes = new LookupCodes();
+        String roundnessMax = codes.getRoundnessCodeMap().get(this.sample.getRoundnessCodeMax());
         return roundnessMax;
     }
 
@@ -271,6 +306,8 @@ public class SampleView {
      * @return the sphericity
      */
     public String getSphericity() {
+        LookupCodes codes = new LookupCodes();
+        String sphericity = codes.getSphericityCodeMap().get(this.sample.getSphericityCode());
         return sphericity;
     }
 
@@ -285,6 +322,11 @@ public class SampleView {
      * @return the grainTypes
      */
     public List<String> getGrainTypes() {
+        LookupCodes codes = new LookupCodes();
+        List<String> grainTypes = new ArrayList<>();
+        sample.getGrainTypeCodes().forEach((value) -> {
+            grainTypes.add(codes.getGrainTypeCodeMap().get(value));
+        });
         return grainTypes;
     }
 
@@ -296,9 +338,13 @@ public class SampleView {
     }
     
     /**
-     * @return the alterationCode
+     * @return the alteration description
      */
     public String getAlteration() {
+        LookupCodes codes = new LookupCodes();
+        String alteration = codes
+                .getAlterationCodeMap()
+                .get(this.sample.getAlterationCode());
         return alteration;
     }
 
@@ -313,6 +359,10 @@ public class SampleView {
      * @return the crystallinity
      */
     public String getCrystallinity() {
+        LookupCodes codes = new LookupCodes();
+        String crystallinity = codes
+                .getCrystallinityCodeMap()
+                .get(this.sample.getCrystallinityCode());
         return crystallinity;
     }
 
@@ -327,6 +377,10 @@ public class SampleView {
      * @return the induration
      */
     public String getInduration() {
+        LookupCodes codes = new LookupCodes();
+        String induration = codes
+                .getIndurationCodeMap()
+                .get(this.sample.getIndurationCode());
         return induration;
     }
 
@@ -341,6 +395,12 @@ public class SampleView {
      * @return the cementTypes
      */
     public List<String> getCementTypes() {
+        List<String> cementTypes = new ArrayList<>();
+        LookupCodes codes = new LookupCodes();
+        
+        sample.getCementTypeCodes().forEach((value) -> {
+            cementTypes.add(codes.getCementCodeMap().get(value));
+        });
         return cementTypes;
     }
 
@@ -355,6 +415,12 @@ public class SampleView {
      * @return the sedimentaryValues
      */
     public List<String> getSedimentaryValues() {
+        List<String> sedimentaryValues = new ArrayList<>();
+        LookupCodes codes = new LookupCodes();
+        
+        sample.getSedimentaryCodes().forEach((value) -> {
+            sedimentaryValues.add(codes.getSedimentaryCodeMap().get(value));
+        });
         return sedimentaryValues;
     }
 
@@ -369,6 +435,13 @@ public class SampleView {
      * @return the accessoryMinerals
      */
     public List<MineralView> getAccessoryMinerals() {
+        List<MineralView> accessoryMinerals = new ArrayList<>();
+        LookupCodes codes = new LookupCodes();
+        
+        sample.getAccessoryMineralCodes().forEach((mineral) -> {
+            MineralView mineralView = new MineralView(mineral);
+            accessoryMinerals.add(mineralView);
+        });
         return accessoryMinerals;
     }
     
@@ -383,6 +456,12 @@ public class SampleView {
      * @return the otherFeatures
      */
     public List<String> getOtherFeatures() {
+        List<String> otherFeatures = new ArrayList<>();
+        LookupCodes codes = new LookupCodes();
+        
+        sample.getOtherFeatureCodes().forEach((value) -> {
+            otherFeatures.add(codes.getFeatureCodeMap().get(value));
+        });
         return otherFeatures;
     }
 
@@ -397,6 +476,12 @@ public class SampleView {
      * @return the fossils
      */
     public List<String> getFossils() {
+        List<String> fossils = new ArrayList<>();
+        LookupCodes codes = new LookupCodes();
+        
+        sample.getFossilCodes().forEach((value) -> {
+            fossils.add(codes.getFossilCodeMap().get(value));
+        });
         return fossils;
     }
 

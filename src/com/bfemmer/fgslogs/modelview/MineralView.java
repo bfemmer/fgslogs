@@ -32,13 +32,9 @@ import com.bfemmer.fgslogs.model.Mineral;
  */
 public class MineralView {
     private final Mineral mineral;
-    private final String name;
     
     public MineralView(Mineral mineral) {
         this.mineral = mineral;
-        
-        LookupCodes codes = new LookupCodes();
-        name = codes.getMineralCodeMap().get(this.mineral.getCode());
     }
     
     /**
@@ -59,6 +55,8 @@ public class MineralView {
      * @return the name
      */
     public String getName() {
+        LookupCodes codes = new LookupCodes();
+        String name = codes.getMineralCodeMap().get(this.mineral.getCode());
         return name;
     }
 
