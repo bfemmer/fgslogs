@@ -25,23 +25,16 @@ SOFTWARE.
 package com.bfemmer.fgslogs.modelview;
 
 import com.bfemmer.fgslogs.model.Formation;
-import com.bfemmer.fgslogs.model.LookupCodes;
 
 /**
  *
  * @author bfemmer
  */
 public class FormationView {
-    private final int wellLogNumber;
-    private final String formationName;
     private final Formation formation;
     
-    public FormationView(int wellLogNumber, Formation formation) {
-        this.wellLogNumber = wellLogNumber;
-        this.formation = formation;
-        
-        LookupCodes codes = new LookupCodes();
-        formationName = codes.getFormationCodeMap().get(this.formation.getFormationCode());
+    public FormationView(Formation formation) {
+            this.formation = formation;
     }
     
     /**
@@ -69,13 +62,10 @@ public class FormationView {
      * @return the formationName
      */
     public String getFormationName() {
+        LookupCodes codes = new LookupCodes();
+        String formationName = codes
+                .getFormationCodeMap()
+                .get(this.formation.getFormationCode());
         return formationName;
-    }
-    
-    /**
-     * @return the wellLogNumber
-     */
-    public int getWellLogNumber() {
-        return wellLogNumber;
     }
 }

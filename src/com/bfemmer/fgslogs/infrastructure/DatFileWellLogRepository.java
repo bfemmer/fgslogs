@@ -25,7 +25,7 @@ SOFTWARE.
 package com.bfemmer.fgslogs.infrastructure;
 
 import com.bfemmer.fgslogs.model.Formation;
-import com.bfemmer.fgslogs.model.LookupCodes;
+import com.bfemmer.fgslogs.modelview.LookupCodes;
 import com.bfemmer.fgslogs.model.Mineral;
 import com.bfemmer.fgslogs.model.Sample;
 import com.bfemmer.fgslogs.model.WellLog;
@@ -282,6 +282,9 @@ public class DatFileWellLogRepository implements WellLogRepository {
                             wellLog.getSamples().add(sampleView);
                         }
                         
+                        // Override the sample count from the header with
+                        // the actual count in the list
+                        wellLog.setSampleCount(samples.size());
                         wellLogs.add(wellLog);
                         break;
                 }
@@ -329,10 +332,14 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 if (!temp.isEmpty()) wellLog.setElevation(Double.valueOf(temp));
             }
             
-            if (line.length() >= SAMPLES_END_INDEX) {
-                temp = line.substring(SAMPLES_BEGIN_INDEX, SAMPLES_END_INDEX).trim();
-                if (temp.length() > 0) wellLog.setSampleCount(Integer.valueOf(temp));
-            }
+            // Note: will use the actual count of samples found instead of
+            // the value found at SAMPLES_BEGIN_INDEX because many times
+            // the value is either omitted or is incorrect. The setSampleCount
+            // call is now made at the bottom of parseWellLogs().
+//            if (line.length() >= SAMPLES_END_INDEX) {
+//                temp = line.substring(SAMPLES_BEGIN_INDEX, SAMPLES_END_INDEX).trim();
+//                if (temp.length() > 0) wellLog.setSampleCount(Integer.valueOf(temp));
+//            }
             
             if (line.length() >= FROM_DEPTH_END_INDEX) {
                 temp = line.substring(FROM_DEPTH_BEGIN_INDEX, FROM_DEPTH_END_INDEX).replaceAll("\\s+","");
@@ -517,7 +524,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         }
             
         // Add formation to well log
-        FormationView formationView = new FormationView(wellLog.getWellLogNumber(), formation);
+        FormationView formationView = new FormationView(formation);
         wellLog.getFormations().add(formationView);
     }
     

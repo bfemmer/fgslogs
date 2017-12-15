@@ -24,7 +24,6 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.modelview;
 
-import com.bfemmer.fgslogs.model.LookupCodes;
 import com.bfemmer.fgslogs.model.Mineral;
 import com.bfemmer.fgslogs.model.Sample;
 import java.util.ArrayList;

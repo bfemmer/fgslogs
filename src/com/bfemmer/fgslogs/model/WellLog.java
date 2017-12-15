@@ -24,6 +24,7 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
+import com.bfemmer.fgslogs.modelview.LookupCodes;
 import com.bfemmer.fgslogs.modelview.FormationView;
 import com.bfemmer.fgslogs.modelview.MineralView;
 import com.bfemmer.fgslogs.modelview.SampleView;
