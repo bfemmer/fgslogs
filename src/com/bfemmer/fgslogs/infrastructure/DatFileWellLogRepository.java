@@ -175,10 +175,10 @@ public class DatFileWellLogRepository implements WellLogRepository {
     private static final int FEATURES_END_INDEX = 67;
     private static final int FOSSILS_INDEX = 67;
     
-    String filename;
-    WellLog wellLog;
-    List<Sample> samples;
-    List<WellLog> wellLogs;
+    private String filename;
+    private WellLog wellLog;
+    private List<Sample> samples;
+    private List<WellLog> wellLogs;
     
     public DatFileWellLogRepository(String filename) {
         this.filename = filename;
@@ -312,7 +312,6 @@ public class DatFileWellLogRepository implements WellLogRepository {
             // Well number can be "000NA" where N/A was assigned for the log
             // Catch this exception here to log the condition, but continue
             try{
-                int i = Integer.parseInt(temp);
                 wellLog.setWellLogNumber(Integer.valueOf(temp));
             }
             catch(NumberFormatException nfe) {
@@ -343,12 +342,23 @@ public class DatFileWellLogRepository implements WellLogRepository {
             
             if (line.length() >= FROM_DEPTH_END_INDEX) {
                 temp = line.substring(FROM_DEPTH_BEGIN_INDEX, FROM_DEPTH_END_INDEX).replaceAll("\\s+","");
-                if (temp.length() > 0) wellLog.setFromDepth(Double.valueOf(temp));
+                try {
+                    if (temp.length() > 0) wellLog.setFromDepth(Double.valueOf(temp));
+                }
+                catch(NumberFormatException nfe) {
+                    wellLog.setFromDepth(0);
+                }
+                
             }
             
             if (line.length() >= TO_DEPTH_END_INDEX) {
                 temp = line.substring(TO_DEPTH_BEGIN_INDEX, TO_DEPTH_END_INDEX).replaceAll("\\s+","");
-                if (temp.length() > 0) wellLog.setToDepth(Double.valueOf(temp));
+                try {
+                    if (temp.length() > 0) wellLog.setToDepth(Double.valueOf(temp));
+                }
+                catch(NumberFormatException nfe) {
+                    wellLog.setFromDepth(0);
+                }
             }
         }
         catch (Exception e) {
