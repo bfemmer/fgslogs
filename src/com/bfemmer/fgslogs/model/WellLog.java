@@ -24,12 +24,10 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
+import com.bfemmer.fgslogs.viewmodel.LocationViewModel;
 import com.bfemmer.fgslogs.viewmodel.LookupCodes;
-import com.bfemmer.fgslogs.viewmodel.FormationViewModel;
 import com.bfemmer.fgslogs.viewmodel.MineralViewModel;
 import com.bfemmer.fgslogs.viewmodel.SampleViewModel;
-import java.util.ArrayList;
-import java.util.List;
 
 public class WellLog {
     private String id;
@@ -45,7 +43,7 @@ public class WellLog {
     private int completionDateDay;
     private String ownerDriller;
     private String workedBy;
-    private Location location;
+    private LocationViewModel location;
     private FormationCollection formationCollection;
     private SampleCollection sampleCollection;
     
@@ -64,7 +62,6 @@ public class WellLog {
         completionDateDay = -1;
         ownerDriller = "";
         workedBy = ""; 
-        location = new Location();
     }
     
     /**
@@ -252,14 +249,14 @@ public class WellLog {
     /**
      * @return the location
      */
-    public Location getLocation() {
+    public LocationViewModel getLocation() {
         return location;
     }
 
     /**
      * @param location the location to set
      */
-    public void setLocation(Location location) {
+    public void setLocation(LocationViewModel location) {
         this.location = location;
     }
 
@@ -353,7 +350,7 @@ public class WellLog {
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>County: </i></TD>" +
-            "        <TD align=\"right\"> <font color=\"blue\">" + codes.getCountyCodeMap().get(location.getCountyCode()) + "</FONT></TD>\n" +
+            "        <TD align=\"right\"> <font color=\"blue\">" + location.getCountyName() + "</FONT></TD>\n" +
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>PLSS: </i></TD>" +

@@ -26,6 +26,7 @@ package com.bfemmer.fgslogs.infrastructure;
 
 import com.bfemmer.fgslogs.model.Formation;
 import com.bfemmer.fgslogs.model.FormationCollection;
+import com.bfemmer.fgslogs.model.Location;
 import com.bfemmer.fgslogs.viewmodel.LookupCodes;
 import com.bfemmer.fgslogs.model.Mineral;
 import com.bfemmer.fgslogs.model.Sample;
@@ -33,6 +34,7 @@ import com.bfemmer.fgslogs.model.SampleCollection;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogRepository;
 import com.bfemmer.fgslogs.viewmodel.FormationViewModel;
+import com.bfemmer.fgslogs.viewmodel.LocationViewModel;
 import com.bfemmer.fgslogs.viewmodel.SampleViewModel;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -180,6 +182,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
     private final String filename;
     private final List<WellLog> wellLogs;
     private WellLog wellLog;
+    private Location location;
     private List<Sample> samples;
     private List<FormationViewModel> formations;
    
@@ -264,7 +267,13 @@ public class DatFileWellLogRepository implements WellLogRepository {
                         samples = new ArrayList<>();
                         formations = new ArrayList<>();
                         wellLog.setId(UUID.randomUUID().toString());
+                        
                         parseHeaderIntoWellLog (currentLine);
+                        
+                        // Location created here after the header is processed
+                        // in order to get wellLogNumber and id.
+                        location = new Location(UUID.randomUUID().toString(), 
+                                wellLog.getId(), wellLog.getWellLogNumber());
                         parseLocationIntoWellLog (currentLine);
                         parseDateIntoWellLog (currentLine);
                         break;
@@ -282,6 +291,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                         break;
                     case END_OF_WELL_RECORD:
                     default:
+                        // Process samples
                         SampleCollection sampleCollection = new SampleCollection(
                             UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
                         
@@ -290,16 +300,23 @@ public class DatFileWellLogRepository implements WellLogRepository {
                                     sampleCollection.getSamples().add(sampleView);
                         });
                         
+                        // Process formations
                         FormationCollection formationCollection = new FormationCollection(
                             UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
                         
                         formationCollection.setFormations(formations);
                         
+                        // Process location
+                        LocationViewModel locationViewModel = new LocationViewModel(location);
+                        
                         // Override the sample count from the header with
                         // the actual count in the list
                         wellLog.setSampleCount(samples.size());
+                        
+                        // Add collections to wellLog and and add log to list
                         wellLog.setSampleCollection(sampleCollection);
                         wellLog.setFormationCollection(formationCollection);
+                        wellLog.setLocation(locationViewModel);
                         wellLogs.add(wellLog);
                         break;
                 }
@@ -363,7 +380,6 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 catch(NumberFormatException nfe) {
                     wellLog.setFromDepth(0);
                 }
-                
             }
             
             if (line.length() >= TO_DEPTH_END_INDEX) {
@@ -383,7 +399,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
     
     private void parseLocationIntoWellLog(String line) {
         try {
-            wellLog.getLocation().setCountyCode(
+            location.setCountyCode(
                     line.substring(COUNTY_BEGIN_INDEX, COUNTY_END_INDEX).trim());
             
             // Township, Range, Section, and Quartersection
@@ -403,18 +419,18 @@ public class DatFileWellLogRepository implements WellLogRepository {
         // Prepend "0" to township if length is too short
         temp = line.substring(TOWNSHIP_BEGIN_INDEX, TOWNSHIP_END_INDEX).trim();
         if (temp.length() < 3) temp = "0" + temp;
-        wellLog.getLocation().setTownship(temp);
+        location.setTownship(temp);
 
         // Prepend "0" to range if length is too short
         temp = line.substring(RANGE_BEGIN_INDEX, RANGE_END_INDEX).trim();
         if (temp.length() < 3) temp = "0" + temp;
-        wellLog.getLocation().setRange(temp);
+        location.setRange(temp);
 
         temp = line.substring(SECTION_BEGIN_INDEX, SECTION_END_INDEX).trim();
         if (temp.length() > 0) 
-            wellLog.getLocation().setSection(Integer.valueOf(temp));
+            location.setSection(Integer.valueOf(temp));
 
-        wellLog.getLocation().setQuarterSection(
+        location.setQuarterSection(
                 line.substring(QTRSECTION_BEGIN_INDEX, QTRSECTION_END_INDEX).trim());
     }
     
@@ -431,33 +447,27 @@ public class DatFileWellLogRepository implements WellLogRepository {
         
         temp = line.substring(LAT_DEG_BEGIN_INDEX, LAT_DEG_END_INDEX).trim();
         if (temp.length() > 0) latDegrees = Integer.valueOf(temp);
-        wellLog.getLocation().setLatDegrees(latDegrees);
+        location.setLatDegrees(latDegrees);
 
         temp = line.substring(LAT_MIN_BEGIN_INDEX, LAT_MIN_END_INDEX).trim();
         if (temp.length() > 0) latMinutes = Integer.valueOf(temp);
-        wellLog.getLocation().setLatMinutes(latMinutes);
+        location.setLatMinutes(latMinutes);
 
         temp = line.substring(LAT_SEC_BEGIN_INDEX, LAT_SEC_END_INDEX).trim();
         if (temp.length() > 0) latSeconds = Integer.valueOf(temp);
-        wellLog.getLocation().setLatSeconds(latSeconds);
+        location.setLatSeconds(latSeconds);
 
         temp = line.substring(LNG_DEG_BEGIN_INDEX, LNG_DEG_END_INDEX).trim();
         if (temp.length() > 0) lngDegrees = Integer.valueOf(temp);
-        wellLog.getLocation().setLngDegrees(lngDegrees);
+        location.setLngDegrees(lngDegrees);
 
         temp = line.substring(LNG_MIN_BEGIN_INDEX, LNG_MIN_END_INDEX).trim();
         if (temp.length() > 0) lngMinutes = Integer.valueOf(temp);
-        wellLog.getLocation().setLngMinutes(lngMinutes);
+        location.setLngMinutes(lngMinutes);
 
         temp = line.substring(LNG_SEC_BEGIN_INDEX, LNG_SEC_END_INDEX).trim();
         if (temp.length() > 0) lngSeconds = Integer.valueOf(temp);
-        wellLog.getLocation().setLngSeconds(lngSeconds);
-
-        lat = fromDMStoDegrees(latDegrees, latMinutes, latSeconds);
-        lng = fromDMStoDegrees(lngDegrees, lngMinutes, lngSeconds);
-
-        wellLog.getLocation().setLatitude(lat);
-        wellLog.getLocation().setLongitude(lng);
+        location.setLngSeconds(lngSeconds);
     }
     
     private void parseDateIntoWellLog(String line) {
@@ -1104,24 +1114,5 @@ public class DatFileWellLogRepository implements WellLogRepository {
         if(original.length() == 0)
             return original;
         return original.substring(0, 1).toUpperCase() + original.substring(1);
-    }
-    
-    private double fromDMStoDegrees(int degrees, int minutes, int seconds) {
-        double decimal;
-        double fraction;
-        
-        if ((degrees == 0) &&
-            (minutes == 0) &&
-            (minutes == 0)) return 0;
-        
-        fraction = minutes / 60.0 + seconds / 3600.0;
-        
-        if (degrees < 0) {
-            decimal = (double)degrees - fraction;
-        } else {
-            decimal = (double)degrees + fraction;
-        }
-        
-        return decimal;
     }
 }

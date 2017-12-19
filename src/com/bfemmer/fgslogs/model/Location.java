@@ -24,8 +24,7 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
-public class Location {
-    private int wellLogNumber;
+public class Location extends WellLogCollection {
     private String countyCode;
     private String township;
     private String range;
@@ -37,10 +36,10 @@ public class Location {
     private int lngDegrees;
     private int lngMinutes;
     private int lngSeconds;
-    private double latitude;
-    private double longitude;
 
-    public Location() {
+    public Location(String id, String wellLogId, int wellLogNumber) {
+        super(id, wellLogId, wellLogNumber);
+        
         countyCode = "";
         township = "";
         range = "";
@@ -52,8 +51,6 @@ public class Location {
         lngDegrees = 0;
         lngMinutes = 0;
         lngSeconds = 0;
-        latitude = 0;
-        longitude = 0;
     }
     
     /**
@@ -208,90 +205,5 @@ public class Location {
      */
     public void setLngSeconds(int lngSeconds) {
         this.lngSeconds = lngSeconds;
-    }
-    
-    /**
-     * @return the latitude
-     */
-    public double getLatitude() {
-        return latitude;
-    }
-
-    /**
-     * @param latitude the latitude to set
-     */
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    /**
-     * @return the longitude
-     */
-    public double getLongitude() {
-        return longitude;
-    }
-
-    /**
-     * @param longitude the longitude to set
-     */
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getPLSSCode() {
-        String plssLocation;
-        
-        plssLocation = "T: " + township + " R: " + range;
-        plssLocation += " S: " + String.format("%02d", section);
-        plssLocation += " " + quarterSection;
-        
-        return plssLocation;
-    }
-    
-    public String getDMS() {
-        String dmsLocation;
-        
-        dmsLocation = String.format("%02d", latDegrees) + "D ";
-        dmsLocation += String.format("%02d", latMinutes) + "M ";
-        dmsLocation += String.format("%02d", latSeconds) + "S ";
-        dmsLocation += String.format("%02d", lngDegrees) + "D ";
-        dmsLocation += String.format("%02d", lngMinutes) + "M ";
-        dmsLocation += String.format("%02d", lngSeconds) + "S";
-        
-        return dmsLocation;
-    }
-    
-    public String getLatDMS() {
-        String dmsLocation;
-        
-        dmsLocation = String.format("%02d", latDegrees) + "D ";
-        dmsLocation += String.format("%02d", latMinutes) + "M ";
-        dmsLocation += String.format("%02d", latSeconds) + "S ";
-        
-        return dmsLocation;
-    }
-    
-    public String getLongDMS() {
-        String dmsLocation;
-        
-        dmsLocation = String.format("%02d", lngDegrees) + "D ";
-        dmsLocation += String.format("%02d", lngMinutes) + "M ";
-        dmsLocation += String.format("%02d", lngSeconds) + "S";
-        
-        return dmsLocation;
-    }
-
-    /**
-     * @return the wellLogNumber
-     */
-    public int getWellLogNumber() {
-        return wellLogNumber;
-    }
-
-    /**
-     * @param wellLogNumber the wellLogNumber to set
-     */
-    public void setWellLogNumber(int wellLogNumber) {
-        this.wellLogNumber = wellLogNumber;
     }
 }
