@@ -46,8 +46,8 @@ public class WellLog {
     private String ownerDriller;
     private String workedBy;
     private Location location;
-    private List<FormationViewModel> formations;
-    private List<SampleViewModel> samples;
+    private FormationCollection formationCollection;
+    private SampleCollection sampleCollection;
     
     /**
      * Constructor
@@ -65,8 +65,6 @@ public class WellLog {
         ownerDriller = "";
         workedBy = ""; 
         location = new Location();
-        formations = new ArrayList<>();
-        samples = new ArrayList<>();
     }
     
     /**
@@ -266,31 +264,31 @@ public class WellLog {
     }
 
     /**
-     * @return the formations
+     * @return the formationCollection
      */
-    public List<FormationViewModel> getFormations() {
-        return formations;
+    public FormationCollection getFormationCollection() {
+        return formationCollection;
     }
 
     /**
-     * @param formations the formation to set
+     * @param formationCollection the formationCollection to set
      */
-    public void setFormations(List<FormationViewModel> formations) {
-        this.formations = formations;
+    public void setFormationCollection(FormationCollection formationCollection) {
+        this.formationCollection = formationCollection;
     }
 
     /**
-     * @return the sample
+     * @return the sampleCollection
      */
-    public List<SampleViewModel> getSamples() {
-        return samples;
+    public SampleCollection getSampleCollection() {
+        return sampleCollection;
     }
 
     /**
-     * @param sampleViews the sample to set
+     * @param sampleCollection the sample to set
      */
-    public void setSamples(List<SampleViewModel> sampleViews) {
-        this.samples = sampleViews;
+    public void setSampleCollection(SampleCollection sampleCollection) {
+        this.sampleCollection = sampleCollection;
     }
  
     public String toHtml() {
@@ -421,7 +419,7 @@ public class WellLog {
             "    <TD align=\"center\">\n" +
             "      <TABLE>\n";
         
-        formationHtml = formations.stream().map((formation) -> "      <TR>\n" +
+        formationHtml = formationCollection.getFormations().stream().map((formation) -> "      <TR>\n" +
             "        <TD align=\"right\">" + String.valueOf(formation.getFromDepth()) + "</TD>\n" +
             "        <TD align=\"right\">" + (-1.0 == formation.getToDepth() ? "" : String.valueOf(formation.getToDepth())) + "</TD>\n" +
             "        <TD>" + formation.getFormationCode() + "</TD>\n" +
@@ -455,7 +453,7 @@ public class WellLog {
             "    <TD align=\"center\">\n" +
             "      <TABLE>\n";
                 
-        for (SampleViewModel sample : samples) {
+        for (SampleViewModel sample : sampleCollection.getSamples()) {
             temp = "";
             
             temp += "        <TD valign=\"top\" align=\"right\">" + String.format("%.2f", sample.getFromDepth()) + "</TD>\n" +

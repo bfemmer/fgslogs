@@ -25,9 +25,11 @@ SOFTWARE.
 package com.bfemmer.fgslogs.infrastructure;
 
 import com.bfemmer.fgslogs.model.Formation;
+import com.bfemmer.fgslogs.model.FormationCollection;
 import com.bfemmer.fgslogs.viewmodel.LookupCodes;
 import com.bfemmer.fgslogs.model.Mineral;
 import com.bfemmer.fgslogs.model.Sample;
+import com.bfemmer.fgslogs.model.SampleCollection;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogRepository;
 import com.bfemmer.fgslogs.viewmodel.FormationViewModel;
@@ -175,15 +177,18 @@ public class DatFileWellLogRepository implements WellLogRepository {
     private static final int FEATURES_END_INDEX = 67;
     private static final int FOSSILS_INDEX = 67;
     
-    private String filename;
+    private final String filename;
+    private final List<WellLog> wellLogs;
     private WellLog wellLog;
     private List<Sample> samples;
-    private List<WellLog> wellLogs;
+    private List<FormationViewModel> formations;
+   
     
     public DatFileWellLogRepository(String filename) {
         this.filename = filename;
         wellLog = new WellLog();
         samples = new ArrayList<>();
+        formations = new ArrayList<>();
         wellLogs = new ArrayList<>();
     }
 
@@ -257,6 +262,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                     case START_OF_WELL_RECORD:
                         wellLog = new WellLog();
                         samples = new ArrayList<>();
+                        formations = new ArrayList<>();
                         wellLog.setId(UUID.randomUUID().toString());
                         parseHeaderIntoWellLog (currentLine);
                         parseLocationIntoWellLog (currentLine);
@@ -276,15 +282,24 @@ public class DatFileWellLogRepository implements WellLogRepository {
                         break;
                     case END_OF_WELL_RECORD:
                     default:
-                        for (Sample sample : samples) {
-                            SampleViewModel sampleView = new SampleViewModel(
-                                    wellLog.getWellLogNumber(), sample);
-                            wellLog.getSamples().add(sampleView);
-                        }
+                        SampleCollection sampleCollection = new SampleCollection(
+                            UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
+                        
+                        samples.stream().map((sample) -> new SampleViewModel(
+                                sample)).forEachOrdered((sampleView) -> {
+                                    sampleCollection.getSamples().add(sampleView);
+                        });
+                        
+                        FormationCollection formationCollection = new FormationCollection(
+                            UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
+                        
+                        formationCollection.setFormations(formations);
                         
                         // Override the sample count from the header with
                         // the actual count in the list
                         wellLog.setSampleCount(samples.size());
+                        wellLog.setSampleCollection(sampleCollection);
+                        wellLog.setFormationCollection(formationCollection);
                         wellLogs.add(wellLog);
                         break;
                 }
@@ -501,9 +516,9 @@ public class DatFileWellLogRepository implements WellLogRepository {
         if (line.length() <= (FM_FROM_DEPTH_END_INDEX + 1)) {
             // Get previous formation (if it exists) to get the last 
             // "to depth" value and overwrite "lastToDepth" local variable.
-            if (!wellLog.getFormations().isEmpty()) {
-                previousFormation = wellLog.getFormations()
-                        .get(wellLog.getFormations().size() - 1);
+            if (!formations.isEmpty()) {
+                previousFormation = formations
+                        .get(formations.size() - 1);
                 lastToDepth = previousFormation.getToDepth();
             }
         
@@ -533,9 +548,9 @@ public class DatFileWellLogRepository implements WellLogRepository {
             }
         }
             
-        // Add formation to well log
+        // Add formation to list
         FormationViewModel formationView = new FormationViewModel(formation);
-        wellLog.getFormations().add(formationView);
+        formations.add(formationView);
     }
     
     private void parseSampleIntoList(String line) {

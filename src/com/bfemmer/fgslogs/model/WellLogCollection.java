@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2016 Bill Femmer
+Copyright (c) 2017 Bill Femmer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,25 +24,21 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
-public class Formation {
+/**
+ *
+ * @author bfemmer
+ */
+public class WellLogCollection {
     private String id;
     private String wellLogId;
-    private double fromDepth;
-    private double toDepth;
-    private String formationCode;
+    private int wellLogNumber;
     
-    public Formation() {
-        fromDepth = -1;
-        toDepth = -1;
-        formationCode = "";
+    public WellLogCollection(String id, String wellLogId, int wellLogNumber) {
+        this.id = id;
+        this.wellLogId = wellLogId;
+        this.wellLogNumber = wellLogNumber;
     }
     
-    public Formation(double fromDepth, double toDepth, String formationCode) {
-        this.fromDepth = fromDepth;
-        this.toDepth = toDepth;
-        this.formationCode = formationCode;
-    }
-
     /**
      * @return the id
      */
@@ -72,44 +68,16 @@ public class Formation {
     }
 
     /**
-     * @return the fromDepth
+     * @return the wellLogNumber
      */
-    public double getFromDepth() {
-        return fromDepth;
+    public int getWellLogNumber() {
+        return wellLogNumber;
     }
 
     /**
-     * @param fromDepth the fromDepth to set
+     * @param wellLogNumber the wellLogNumber to set
      */
-    public void setFromDepth(double fromDepth) {
-        this.fromDepth = fromDepth;
+    public void setWellLogNumber(int wellLogNumber) {
+        this.wellLogNumber = wellLogNumber;
     }
-
-    /**
-     * @return the toDepth
-     */
-    public double getToDepth() {
-        return toDepth;
-    }
-
-    /**
-     * @param toDepth the toDepth to set
-     */
-    public void setToDepth(double toDepth) {
-        this.toDepth = toDepth;
-    }
-
-    /**
-     * @return the formationCode
-     */
-    public String getFormationCode() {
-        return formationCode;
-    }
-    
-    /**
-     * @param formationCode the formationCode to set
-     */
-    public void setFormationCode(String formationCode) {
-        this.formationCode = formationCode;
-    }    
 }
