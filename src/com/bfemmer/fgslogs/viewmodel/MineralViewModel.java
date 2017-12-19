@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.bfemmer.fgslogs.modelview;
+package com.bfemmer.fgslogs.viewmodel;
 
 import com.bfemmer.fgslogs.model.Mineral;
 
@@ -30,10 +30,10 @@ import com.bfemmer.fgslogs.model.Mineral;
  *
  * @author bfemmer
  */
-public class MineralView {
+public class MineralViewModel {
     private final Mineral mineral;
     
-    public MineralView(Mineral mineral) {
+    public MineralViewModel(Mineral mineral) {
         this.mineral = mineral;
     }
     

@@ -25,13 +25,13 @@ SOFTWARE.
 package com.bfemmer.fgslogs.infrastructure;
 
 import com.bfemmer.fgslogs.model.Formation;
-import com.bfemmer.fgslogs.modelview.LookupCodes;
+import com.bfemmer.fgslogs.viewmodel.LookupCodes;
 import com.bfemmer.fgslogs.model.Mineral;
 import com.bfemmer.fgslogs.model.Sample;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogRepository;
-import com.bfemmer.fgslogs.modelview.FormationView;
-import com.bfemmer.fgslogs.modelview.SampleView;
+import com.bfemmer.fgslogs.viewmodel.FormationViewModel;
+import com.bfemmer.fgslogs.viewmodel.SampleViewModel;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -277,7 +277,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                     case END_OF_WELL_RECORD:
                     default:
                         for (Sample sample : samples) {
-                            SampleView sampleView = new SampleView(
+                            SampleViewModel sampleView = new SampleViewModel(
                                     wellLog.getWellLogNumber(), sample);
                             wellLog.getSamples().add(sampleView);
                         }
@@ -492,7 +492,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
     }
     
     private void parseFormationIntoWellLog(String line) {
-        FormationView previousFormation = null;
+        FormationViewModel previousFormation = null;
         Formation formation = new Formation();
         double lastToDepth = 0;
         String temp;
@@ -534,7 +534,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         }
             
         // Add formation to well log
-        FormationView formationView = new FormationView(formation);
+        FormationViewModel formationView = new FormationViewModel(formation);
         wellLog.getFormations().add(formationView);
     }
     

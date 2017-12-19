@@ -24,10 +24,10 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
-import com.bfemmer.fgslogs.modelview.LookupCodes;
-import com.bfemmer.fgslogs.modelview.FormationView;
-import com.bfemmer.fgslogs.modelview.MineralView;
-import com.bfemmer.fgslogs.modelview.SampleView;
+import com.bfemmer.fgslogs.viewmodel.LookupCodes;
+import com.bfemmer.fgslogs.viewmodel.FormationViewModel;
+import com.bfemmer.fgslogs.viewmodel.MineralViewModel;
+import com.bfemmer.fgslogs.viewmodel.SampleViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,8 +46,8 @@ public class WellLog {
     private String ownerDriller;
     private String workedBy;
     private Location location;
-    private List<FormationView> formations;
-    private List<SampleView> samples;
+    private List<FormationViewModel> formations;
+    private List<SampleViewModel> samples;
     
     /**
      * Constructor
@@ -268,28 +268,28 @@ public class WellLog {
     /**
      * @return the formations
      */
-    public List<FormationView> getFormations() {
+    public List<FormationViewModel> getFormations() {
         return formations;
     }
 
     /**
      * @param formations the formation to set
      */
-    public void setFormations(List<FormationView> formations) {
+    public void setFormations(List<FormationViewModel> formations) {
         this.formations = formations;
     }
 
     /**
      * @return the sample
      */
-    public List<SampleView> getSamples() {
+    public List<SampleViewModel> getSamples() {
         return samples;
     }
 
     /**
      * @param sampleViews the sample to set
      */
-    public void setSamples(List<SampleView> sampleViews) {
+    public void setSamples(List<SampleViewModel> sampleViews) {
         this.samples = sampleViews;
     }
  
@@ -455,7 +455,7 @@ public class WellLog {
             "    <TD align=\"center\">\n" +
             "      <TABLE>\n";
                 
-        for (SampleView sample : samples) {
+        for (SampleViewModel sample : samples) {
             temp = "";
             
             temp += "        <TD valign=\"top\" align=\"right\">" + String.format("%.2f", sample.getFromDepth()) + "</TD>\n" +
@@ -588,7 +588,7 @@ public class WellLog {
         return html + temp;
     }
     
-    private String getPorosityAsRecord(SampleView sample) {
+    private String getPorosityAsRecord(SampleViewModel sample) {
         String temp = "";
         int count = 0;
         
@@ -608,7 +608,7 @@ public class WellLog {
         return temp;
     }
     
-    private String getAlterationAsRecord(SampleView sample) {
+    private String getAlterationAsRecord(SampleViewModel sample) {
         String temp = "";
         
         if (!sample.getAlterationCode().equals("")) {
@@ -619,7 +619,7 @@ public class WellLog {
         return temp;
     }
     
-    private String getCrystallinityAsRecord(SampleView sample) {
+    private String getCrystallinityAsRecord(SampleViewModel sample) {
         String temp = "";
         
         if (!sample.getCrystallinityCode().equals("")) {
@@ -630,7 +630,7 @@ public class WellLog {
         return temp;
     }
     
-    private String getGrainTypesAsRecord(SampleView sample) {
+    private String getGrainTypesAsRecord(SampleViewModel sample) {
         String temp = "";
         int count = 0;
         
@@ -645,7 +645,7 @@ public class WellLog {
         return temp;
     }
     
-    private String getGrainSizeAsRecord(SampleView sample) {
+    private String getGrainSizeAsRecord(SampleViewModel sample) {
         String temp = "";
         
         if (!sample.getGrainSizeCode().equals("")) {
@@ -656,7 +656,7 @@ public class WellLog {
         return temp;
     }
     
-    private String getRangeAsRecord(SampleView sample) {
+    private String getRangeAsRecord(SampleViewModel sample) {
         String temp = "";
         
         if (!sample.getGrainRangeCodeMin().equals("")) {
@@ -672,7 +672,7 @@ public class WellLog {
         return temp;
     }
     
-    private String getRoundnessAndSphericityAsRecord(SampleView sample) {
+    private String getRoundnessAndSphericityAsRecord(SampleViewModel sample) {
         String temp = "";
         
         if (!sample.getRoundnessCodeMin().equals("")) {
@@ -694,7 +694,7 @@ public class WellLog {
         return temp;
     }
     
-    private String getIndurationAsRecord(SampleView sample) {
+    private String getIndurationAsRecord(SampleViewModel sample) {
         String temp = "";
         
         if (!sample.getIndurationCode().equals("")) {
@@ -705,7 +705,7 @@ public class WellLog {
         return temp;
     }
     
-    private String getCementTypesAsRecord(SampleView sample) {
+    private String getCementTypesAsRecord(SampleViewModel sample) {
         String temp = "";
         int count = 0;
         
@@ -720,7 +720,7 @@ public class WellLog {
         return temp;
     }
     
-    private String getSedimentaryAsRecord(SampleView sample) {
+    private String getSedimentaryAsRecord(SampleViewModel sample) {
         String temp = "";
         int count = 0;
         
@@ -735,13 +735,13 @@ public class WellLog {
         return temp;
     }
     
-    private String getAccessoryMineralsAsRecord(SampleView sample) {
+    private String getAccessoryMineralsAsRecord(SampleViewModel sample) {
         String temp = "";
         int count = 0;
         
         if (sample.getAccessoryMineralCodes().size() > 0) {
             temp = "Accessory Minerals(s): ";
-            for (MineralView mineral : sample.getAccessoryMinerals()) {
+            for (MineralViewModel mineral : sample.getAccessoryMinerals()) {
                 if (count++ > 0) temp += ", ";
                 temp += mineral.getName();
                 temp += " (";
@@ -753,7 +753,7 @@ public class WellLog {
         return temp;
     }
     
-    private String getFossilsAsRecord(SampleView sample) {
+    private String getFossilsAsRecord(SampleViewModel sample) {
         String temp = "";
         int count = 0;
         
@@ -768,7 +768,7 @@ public class WellLog {
         return temp;
     }
     
-    private String getCommentsAsRecord(SampleView sample) {
+    private String getCommentsAsRecord(SampleViewModel sample) {
         String temp = "";
                 
         if (!sample.getComments().isEmpty()) {

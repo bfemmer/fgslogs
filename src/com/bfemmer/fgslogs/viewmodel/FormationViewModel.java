@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.bfemmer.fgslogs.modelview;
+package com.bfemmer.fgslogs.viewmodel;
 
 import com.bfemmer.fgslogs.model.Formation;
 
@@ -30,10 +30,10 @@ import com.bfemmer.fgslogs.model.Formation;
  *
  * @author bfemmer
  */
-public class FormationView {
+public class FormationViewModel {
     private final Formation formation;
     
-    public FormationView(Formation formation) {
+    public FormationViewModel(Formation formation) {
             this.formation = formation;
     }
     

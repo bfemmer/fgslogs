@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.bfemmer.fgslogs.modelview;
+package com.bfemmer.fgslogs.viewmodel;
 
 import com.bfemmer.fgslogs.model.Mineral;
 import com.bfemmer.fgslogs.model.Sample;
@@ -33,7 +33,7 @@ import java.util.List;
  *
  * @author bfemmer
  */
-public class SampleView {
+public class SampleViewModel {
     private final int wellLogNumber;
 //    private final String rockType;
 //    private final String rockColorMin;
@@ -56,7 +56,7 @@ public class SampleView {
 //    private List<String> fossils;
     private final Sample sample;
     
-    public SampleView(int wellLogNumber, Sample sample) {
+    public SampleViewModel(int wellLogNumber, Sample sample) {
         this.wellLogNumber = wellLogNumber;
         this.sample = sample;
         
@@ -98,7 +98,7 @@ public class SampleView {
         
 //        accessoryMinerals = new ArrayList<>();
 //        sample.getAccessoryMineralCodes().forEach((mineral) -> {
-//            MineralView mineralView = new MineralView(mineral);
+//            MineralViewModel mineralView = new MineralViewModel(mineral);
 //            accessoryMinerals.add(mineralView);
 //        });
         
@@ -434,12 +434,12 @@ public class SampleView {
     /**
      * @return the accessoryMinerals
      */
-    public List<MineralView> getAccessoryMinerals() {
-        List<MineralView> accessoryMinerals = new ArrayList<>();
+    public List<MineralViewModel> getAccessoryMinerals() {
+        List<MineralViewModel> accessoryMinerals = new ArrayList<>();
         LookupCodes codes = new LookupCodes();
         
         sample.getAccessoryMineralCodes().forEach((mineral) -> {
-            MineralView mineralView = new MineralView(mineral);
+            MineralViewModel mineralView = new MineralViewModel(mineral);
             accessoryMinerals.add(mineralView);
         });
         return accessoryMinerals;
