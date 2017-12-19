@@ -25,7 +25,7 @@ package com.bfemmer.fgslogs;
 
 import com.bfemmer.fgslogs.controller.WellLogController;
 import com.bfemmer.fgslogs.model.WellLogModel;
-import com.bfemmer.fgslogs.view.WellLogView;
+import com.bfemmer.fgslogs.view.MainWindow;
 import javax.swing.SwingUtilities;
 
 /**
@@ -40,7 +40,7 @@ public class FGSLogs {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             WellLogModel model = new WellLogModel();
-            WellLogView view = new WellLogView();
+            MainWindow view = new MainWindow();
             WellLogController controller = new WellLogController(model, view);
 
             controller.control();

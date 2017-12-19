@@ -24,25 +24,11 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
-import com.bfemmer.fgslogs.viewmodel.LocationViewModel;
-import com.bfemmer.fgslogs.viewmodel.LookupCodes;
-import com.bfemmer.fgslogs.viewmodel.MineralViewModel;
-import com.bfemmer.fgslogs.viewmodel.SampleViewModel;
-
 public class WellLog {
     private String id;
     private int wellLogNumber;
-    private double bottomSampleDepth;
-    private double totalDepth;
-    private double fromDepth;
-    private double toDepth;
-    private int sampleCount;
-    private double elevation;
-    private int completionDateYear;
-    private int completionDateMonth;
-    private int completionDateDay;
-    private String ownerDriller;
-    private String workedBy;
+    
+    private SummaryEntity summaryEntity;
     private LocationEntity locationEntity;
     private FormationEntity formationEntity;
     private SampleEntity sampleEntity;
@@ -51,17 +37,7 @@ public class WellLog {
      * Constructor
      */
     public WellLog() {
-        bottomSampleDepth = -1;
-        totalDepth = -1;
-        fromDepth = -1;
-        toDepth = -1;
-        elevation = -1;
-        sampleCount = 0;
-        completionDateYear = -1;
-        completionDateMonth = -1;
-        completionDateDay = -1;
-        ownerDriller = "";
-        workedBy = ""; 
+        
     }
     
     /**
@@ -93,157 +69,17 @@ public class WellLog {
     }
 
     /**
-     * @return the bottomSampleDepth
+     * @return the summaryEntity
      */
-    public double getBottomSampleDepth() {
-        return bottomSampleDepth;
+    public SummaryEntity getSummaryEntity() {
+        return summaryEntity;
     }
 
     /**
-     * @param bottomSampleDepth the bottomSampleDepth to set
+     * @param summaryEntity the summaryEntity to set
      */
-    public void setBottomSampleDepth(double bottomSampleDepth) {
-        this.bottomSampleDepth = bottomSampleDepth;
-    }
-
-    /**
-     * @return the totalDepth
-     */
-    public double getTotalDepth() {
-        return totalDepth;
-    }
-
-    /**
-     * @param totalDepth the totalDepth to set
-     */
-    public void setTotalDepth(double totalDepth) {
-        this.totalDepth = totalDepth;
-    }
-
-    /**
-     * @return the fromDepth
-     */
-    public double getFromDepth() {
-        return fromDepth;
-    }
-
-    /**
-     * @param fromDepth the fromDepth to set
-     */
-    public void setFromDepth(double fromDepth) {
-        this.fromDepth = fromDepth;
-    }
-
-    /**
-     * @return the toDepth
-     */
-    public double getToDepth() {
-        return toDepth;
-    }
-
-    /**
-     * @param toDepth the toDepth to set
-     */
-    public void setToDepth(double toDepth) {
-        this.toDepth = toDepth;
-    }
-
-    /**
-     * @return the sampleCount
-     */
-    public int getSampleCount() {
-        return sampleCount;
-    }
-
-    /**
-     * @param sampleCount the sampleCount to set
-     */
-    public void setSampleCount(int sampleCount) {
-        this.sampleCount = sampleCount;
-    }
-
-    /**
-     * @return the elevation
-     */
-    public double getElevation() {
-        return elevation;
-    }
-
-    /**
-     * @param elevation the elevation to set
-     */
-    public void setElevation(double elevation) {
-        this.elevation = elevation;
-    }
-
-    /**
-     * @return the completionDateYear
-     */
-    public int getCompletionDateYear() {
-        return completionDateYear;
-    }
-
-    /**
-     * @param completionDateYear the completionDateYear to set
-     */
-    public void setCompletionDateYear(int completionDateYear) {
-        this.completionDateYear = completionDateYear;
-    }
-
-    /**
-     * @return the completionDateMonth
-     */
-    public int getCompletionDateMonth() {
-        return completionDateMonth;
-    }
-
-    /**
-     * @param completionDateMonth the completionDateMonth to set
-     */
-    public void setCompletionDateMonth(int completionDateMonth) {
-        this.completionDateMonth = completionDateMonth;
-    }
-
-    /**
-     * @return the completionDateDay
-     */
-    public int getCompletionDateDay() {
-        return completionDateDay;
-    }
-
-    /**
-     * @param completionDateDay the completionDateDay to set
-     */
-    public void setCompletionDateDay(int completionDateDay) {
-        this.completionDateDay = completionDateDay;
-    }
-
-    /**
-     * @return the ownerDriller
-     */
-    public String getOwnerDriller() {
-        return ownerDriller;
-    }
-
-    /**
-     * @param ownerDriller the ownerDriller to set
-     */
-    public void setOwnerDriller(String ownerDriller) {
-        this.ownerDriller = ownerDriller;
-    }
-
-    /**
-     * @return the workedBy
-     */
-    public String getWorkedBy() {
-        return workedBy;
-    }
-
-    /**
-     * @param workedBy the workedBy to set
-     */
-    public void setWorkedBy(String workedBy) {
-        this.workedBy = workedBy;
+    public void setSummaryEntity(SummaryEntity summaryEntity) {
+        this.summaryEntity = summaryEntity;
     }
 
     /**

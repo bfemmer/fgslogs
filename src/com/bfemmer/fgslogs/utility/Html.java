@@ -31,10 +31,9 @@ import com.bfemmer.fgslogs.viewmodel.SampleViewModel;
 
 /**
  *
- * @author bemmer
+ * @author bfemmer
  */
 public class Html {
-    private WellLog wellLog;
     
     public static String getHtmlReport(WellLog wellLog) {
         String html = createHtmlHeader();
@@ -78,10 +77,10 @@ public class Html {
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>Total Depth (ft): </i></TD>" +
-            "        <TD align=\"right\"> <font color=\"blue\">" + String.valueOf(wellLog.getTotalDepth()) + "</FONT></TD>\n" +
+            "        <TD align=\"right\"> <font color=\"blue\">" + String.valueOf(wellLog.getSummaryEntity().getSummary().getTotalDepth()) + "</FONT></TD>\n" +
             "      </TR>\n" +
             "      <TR>\n" +
-            "        <TD colspan=\"2\" align=\"center\"> <font color=\"blue\">" + String.valueOf(wellLog.getSampleCount()) + "</FONT> <i>sample(s) from</i> <font color=\"blue\">" + String.valueOf(wellLog.getFromDepth()) + "</FONT> <i>to</i> <font color=\"blue\">" + String.valueOf(wellLog.getToDepth()) + "</FONT> ft</TD>" +
+            "        <TD colspan=\"2\" align=\"center\"> <font color=\"blue\">" + String.valueOf(wellLog.getSummaryEntity().getSummary().getSampleCount()) + "</FONT> <i>sample(s) from</i> <font color=\"blue\">" + String.valueOf(wellLog.getSummaryEntity().getSummary().getFromDepth()) + "</FONT> <i>to</i> <font color=\"blue\">" + String.valueOf(wellLog.getSummaryEntity().getSummary().getToDepth()) + "</FONT> ft</TD>" +
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD></TD>" +
@@ -113,7 +112,7 @@ public class Html {
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>Elevation (ft): </i></TD>" +
-            "        <TD align=\"right\"> <font color=\"blue\">" + String.valueOf(wellLog.getElevation()) + "</FONT></TD>\n" +
+            "        <TD align=\"right\"> <font color=\"blue\">" + String.valueOf(wellLog.getSummaryEntity().getSummary().getElevation()) + "</FONT></TD>\n" +
             "      </TR>\n" +
             "    </TABLE></TD>\n" +
             "  </TR>\n" +
@@ -128,7 +127,7 @@ public class Html {
         temp = "<CENTER>" +
             "<TABLE WIDTH=\"550\">\n" +
             "  <TR>\n" +
-            "    <TD colspan=\"2\" align=\"left\"><i>Owner/Driller: </i> <font size=\"2\" color=\"blue\">" + wellLog.getOwnerDriller() + "</FONT></TD>\n" +
+            "    <TD colspan=\"2\" align=\"left\"><i>Owner/Driller: </i> <font size=\"2\" color=\"blue\">" + wellLog.getSummaryEntity().getSummary().getOwnerDriller() + "</FONT></TD>\n" +
             "  </TR>\n" +
             "</TABLE>\n" +
             "</CENTER>\n";
@@ -141,7 +140,7 @@ public class Html {
         temp = "<CENTER>" +
             "<TABLE WIDTH=\"550\">\n" +
             "  <TR>\n" +
-            "    <TD colspan=\"2\" align=\"left\"><i>Worked By: </i> <font size=\"2\" color=\"blue\">" + wellLog.getWorkedBy() + "</FONT></TD>\n" +
+            "    <TD colspan=\"2\" align=\"left\"><i>Worked By: </i> <font size=\"2\" color=\"blue\">" + wellLog.getSummaryEntity().getSummary().getWorkedBy() + "</FONT></TD>\n" +
             "  </TR>\n" +
             "</TABLE>\n" +
             "</CENTER>\n";
@@ -523,9 +522,12 @@ public class Html {
     private static String getCompletionDate(WellLog wellLog) {
         String completionDate;
         
-        completionDate = String.format("%02d", wellLog.getCompletionDateDay());
-        completionDate += String.format("%02d", wellLog.getCompletionDateMonth());
-        completionDate += String.format("%02d", wellLog.getCompletionDateDay());
+        completionDate = String.format("%02d", 
+                wellLog.getSummaryEntity().getSummary().getCompletionDateDay());
+        completionDate += String.format("%02d", 
+                wellLog.getSummaryEntity().getSummary().getCompletionDateMonth());
+        completionDate += String.format("%02d", 
+                wellLog.getSummaryEntity().getSummary().getCompletionDateDay());
             
         return completionDate;
     }

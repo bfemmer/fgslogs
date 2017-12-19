@@ -28,7 +28,7 @@ import com.bfemmer.fgslogs.applicationservice.WellLogApplicationService;
 import com.bfemmer.fgslogs.infrastructure.DatFileWellLogRepository;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogModel;
-import com.bfemmer.fgslogs.view.WellLogView;
+import com.bfemmer.fgslogs.view.MainWindow;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.Component;
 import java.awt.Container;
@@ -55,13 +55,13 @@ import javax.swing.tree.DefaultTreeModel;
  * @author bfemmer
  */
 public class WellLogController {
-    private final WellLogView view;
+    private final MainWindow view;
     private final WellLogModel model;
     private Map<String, Component> componentMap;
     private File currentDirectory;
     private String selectedDatFile;
     
-    public WellLogController(WellLogModel model, WellLogView view) {
+    public WellLogController(WellLogModel model, MainWindow view) {
         this.model = model;
         this.view = view;
         

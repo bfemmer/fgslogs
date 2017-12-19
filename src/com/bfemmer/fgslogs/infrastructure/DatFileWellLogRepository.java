@@ -32,6 +32,8 @@ import com.bfemmer.fgslogs.viewmodel.LookupCodes;
 import com.bfemmer.fgslogs.model.Mineral;
 import com.bfemmer.fgslogs.model.Sample;
 import com.bfemmer.fgslogs.model.SampleEntity;
+import com.bfemmer.fgslogs.model.Summary;
+import com.bfemmer.fgslogs.model.SummaryEntity;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogRepository;
 import com.bfemmer.fgslogs.viewmodel.FormationViewModel;
@@ -183,6 +185,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
     private final String filename;
     private final List<WellLog> wellLogs;
     private WellLog wellLog;
+    private Summary summary;
     private Location location;
     private List<Sample> samples;
     private List<FormationViewModel> formations;
@@ -265,6 +268,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 switch (recordId) {
                     case START_OF_WELL_RECORD:
                         wellLog = new WellLog();
+                        summary = new Summary();
                         samples = new ArrayList<>();
                         formations = new ArrayList<>();
                         location = new Location();
@@ -289,19 +293,23 @@ public class DatFileWellLogRepository implements WellLogRepository {
                     case END_OF_WELL_RECORD:
                     default:
                         // Process samples
-                        SampleEntity sampleCollection = new SampleEntity(
+                        SampleEntity sampleEntity = new SampleEntity(
                             UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
                         
                         samples.stream().map((sample) -> new SampleViewModel(
                                 sample)).forEachOrdered((sampleView) -> {
-                                    sampleCollection.getSamples().add(sampleView);
+                                    sampleEntity.getSamples().add(sampleView);
                         });
                         
+                        // Override the sample count from the header with
+                        // the actual count in the list above
+                        summary.setSampleCount(samples.size());
+                        
                         // Process formations
-                        FormationEntity formationCollection = new FormationEntity(
+                        FormationEntity formationEntity = new FormationEntity(
                             UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
                         
-                        formationCollection.setFormations(formations);
+                        formationEntity.setFormations(formations);
                         
                         // Process location
                         LocationViewModel locationViewModel = new LocationViewModel(location);
@@ -309,14 +317,17 @@ public class DatFileWellLogRepository implements WellLogRepository {
                             UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
                         locationEntity.setLocation(locationViewModel);
                         
-                        // Override the sample count from the header with
-                        // the actual count in the list
-                        wellLog.setSampleCount(samples.size());
+                        // Process summary
+                        SummaryEntity summaryEntity = new SummaryEntity(
+                            UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
+                        summaryEntity.setSummary(summary);
                         
-                        // Add collections to wellLog and and add log to list
-                        wellLog.setSampleEntity(sampleCollection);
-                        wellLog.setFormationEntity(formationCollection);
+                        // Add entities to wellLog
+                        wellLog.setSampleEntity(sampleEntity);
+                        wellLog.setFormationEntity(formationEntity);
                         wellLog.setLocationEntity(locationEntity);
+                        wellLog.setSummaryEntity(summaryEntity);
+                        
                         wellLogs.add(wellLog);
                         break;
                 }
@@ -353,14 +364,14 @@ public class DatFileWellLogRepository implements WellLogRepository {
             System.out.println("------- Well Number: " + temp);
             
             temp = line.substring(BOT_DEPTH_BEGIN_INDEX, BOT_DEPTH_END_INDEX).trim();
-            if (temp.length() > 0) wellLog.setBottomSampleDepth(Double.valueOf(temp));
+            if (temp.length() > 0) summary.setBottomSampleDepth(Double.valueOf(temp));
 
             temp = line.substring(TOTAL_DEPTH_BEGIN_INDEX, TOTAL_DEPTH_END_INDEX).trim();
-            if (temp.length() > 0) wellLog.setTotalDepth(Double.valueOf(temp));
+            if (temp.length() > 0) summary.setTotalDepth(Double.valueOf(temp));
 
             if (line.length() >= ELEVATION_END_INDEX) {
                 temp = line.substring(ELEVATION_BEGIN_INDEX, ELEVATION_END_INDEX).trim();
-                if (!temp.isEmpty()) wellLog.setElevation(Double.valueOf(temp));
+                if (!temp.isEmpty()) summary.setElevation(Double.valueOf(temp));
             }
             
             // Note: will use the actual count of samples found instead of
@@ -375,20 +386,20 @@ public class DatFileWellLogRepository implements WellLogRepository {
             if (line.length() >= FROM_DEPTH_END_INDEX) {
                 temp = line.substring(FROM_DEPTH_BEGIN_INDEX, FROM_DEPTH_END_INDEX).replaceAll("\\s+","");
                 try {
-                    if (temp.length() > 0) wellLog.setFromDepth(Double.valueOf(temp));
+                    if (temp.length() > 0) summary.setFromDepth(Double.valueOf(temp));
                 }
                 catch(NumberFormatException nfe) {
-                    wellLog.setFromDepth(0);
+                    summary.setFromDepth(0);
                 }
             }
             
             if (line.length() >= TO_DEPTH_END_INDEX) {
                 temp = line.substring(TO_DEPTH_BEGIN_INDEX, TO_DEPTH_END_INDEX).replaceAll("\\s+","");
                 try {
-                    if (temp.length() > 0) wellLog.setToDepth(Double.valueOf(temp));
+                    if (temp.length() > 0) summary.setToDepth(Double.valueOf(temp));
                 }
                 catch(NumberFormatException nfe) {
-                    wellLog.setFromDepth(0);
+                    summary.setFromDepth(0);
                 }
             }
         }
@@ -477,17 +488,17 @@ public class DatFileWellLogRepository implements WellLogRepository {
             if (line.length() > (YEAR_BEGIN_INDEX + 1)) {
                 temp = line.substring(YEAR_BEGIN_INDEX, YEAR_END_INDEX).trim();
                 if (temp.length() > 0)
-                    wellLog.setCompletionDateYear(Integer.valueOf(temp));
+                    summary.setCompletionDateYear(Integer.valueOf(temp));
 
                 if (line.length() > (MONTH_BEGIN_INDEX + 1)) {
                     temp = line.substring(MONTH_BEGIN_INDEX, MONTH_END_INDEX).trim();
                     if (temp.length() > 0)
-                        wellLog.setCompletionDateMonth(Integer.valueOf(temp));
+                        summary.setCompletionDateMonth(Integer.valueOf(temp));
 
                     if (line.length() > (DAY_BEGIN_INDEX + 1)) {
                         temp = line.substring(DAY_BEGIN_INDEX, DAY_END_INDEX).trim();
                         if (temp.length() > 0)
-                            wellLog.setCompletionDateDay(Integer.valueOf(temp));
+                            summary.setCompletionDateDay(Integer.valueOf(temp));
                     }
                 }
             }
@@ -497,23 +508,21 @@ public class DatFileWellLogRepository implements WellLogRepository {
     }
     
     private void parseOwnerDrillerIntoWellLog(String line) {
-        String ownerDriller = wellLog.getOwnerDriller();
+        String ownerDriller = summary.getOwnerDriller();
         
         if (ownerDriller.length() > 0)
-            wellLog.setOwnerDriller(
-                ownerDriller + " " + line.substring(DATA_OFFSET_INDEX));
+            summary.setOwnerDriller(ownerDriller + " " + line.substring(DATA_OFFSET_INDEX));
         else
-            wellLog.setOwnerDriller(line.substring(DATA_OFFSET_INDEX));
+            summary.setOwnerDriller(line.substring(DATA_OFFSET_INDEX));
     }
     
     private void parseWorkedByIntoWellLog(String line) {
-        String workedBy = wellLog.getWorkedBy();
+        String workedBy = summary.getWorkedBy();
         
         if (workedBy.length() > 0)
-            wellLog.setWorkedBy(
-                workedBy + " " + line.substring(DATA_OFFSET_INDEX));
+            summary.setWorkedBy(workedBy + " " + line.substring(DATA_OFFSET_INDEX));
         else
-            wellLog.setWorkedBy(line.substring(DATA_OFFSET_INDEX));
+            summary.setWorkedBy(line.substring(DATA_OFFSET_INDEX));
     }
     
     private void parseFormationIntoWellLog(String line) {

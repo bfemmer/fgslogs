@@ -44,7 +44,7 @@ import javax.swing.WindowConstants;
  *
  * @author bfemmer
  */
-public class WellLogView {
+public class MainWindow {
     private JFrame frame;
     private JSplitPane mainSplitPane;
     private JScrollPane treeScrollPane;
@@ -61,7 +61,7 @@ public class WellLogView {
     private JMenu editMenu;
     private JMenuItem copyMenuItem;
     
-    public WellLogView() {
+    public MainWindow() {
         initComponents();
         frame.setVisible(true);
     }
