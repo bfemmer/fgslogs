@@ -241,34 +241,19 @@ public class LocationViewModel  {
      * @return the latitude
      */
     public double getLatitude() {
-        return fromDMStoDegrees(location.getLatDegrees(), 
-                location.getLatMinutes(), location.getLatSeconds());
+        return com.bfemmer.fgslogs.utility.Math.fromDMStoDegrees(
+                location.getLatDegrees(), 
+                location.getLatMinutes(), 
+                location.getLatSeconds());
     }
 
     /**
      * @return the longitude
      */
     public double getLongitude() {
-        return fromDMStoDegrees(location.getLngDegrees(), 
-                location.getLngMinutes(), location.getLngSeconds());
-    }
-
-    private double fromDMStoDegrees(int degrees, int minutes, int seconds) {
-        double decimal;
-        double fraction;
-        
-        if ((degrees == 0) &&
-            (minutes == 0) &&
-            (minutes == 0)) return 0;
-        
-        fraction = minutes / 60.0 + seconds / 3600.0;
-        
-        if (degrees < 0) {
-            decimal = (double)degrees - fraction;
-        } else {
-            decimal = (double)degrees + fraction;
-        }
-        
-        return decimal;
+        return com.bfemmer.fgslogs.utility.Math.fromDMStoDegrees(
+                location.getLngDegrees(), 
+                location.getLngMinutes(), 
+                location.getLngSeconds());
     }
 }

@@ -123,7 +123,8 @@ public class WellLogController {
                 WellLog wellLog = (WellLog)node.getUserObject();
                 
                 // Set editor with data from selected node
-                ((JEditorPane)getComponentByName("editorPane")).setText(wellLog.toHtml());
+                ((JEditorPane)getComponentByName("editorPane")).setText(
+                        com.bfemmer.fgslogs.utility.Html.getHtmlReport(wellLog));
                 ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
             });
     }
