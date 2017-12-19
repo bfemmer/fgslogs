@@ -25,12 +25,13 @@ SOFTWARE.
 package com.bfemmer.fgslogs.infrastructure;
 
 import com.bfemmer.fgslogs.model.Formation;
-import com.bfemmer.fgslogs.model.FormationCollection;
+import com.bfemmer.fgslogs.model.FormationEntity;
 import com.bfemmer.fgslogs.model.Location;
+import com.bfemmer.fgslogs.model.LocationEntity;
 import com.bfemmer.fgslogs.viewmodel.LookupCodes;
 import com.bfemmer.fgslogs.model.Mineral;
 import com.bfemmer.fgslogs.model.Sample;
-import com.bfemmer.fgslogs.model.SampleCollection;
+import com.bfemmer.fgslogs.model.SampleEntity;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogRepository;
 import com.bfemmer.fgslogs.viewmodel.FormationViewModel;
@@ -266,14 +267,10 @@ public class DatFileWellLogRepository implements WellLogRepository {
                         wellLog = new WellLog();
                         samples = new ArrayList<>();
                         formations = new ArrayList<>();
+                        location = new Location();
                         wellLog.setId(UUID.randomUUID().toString());
                         
                         parseHeaderIntoWellLog (currentLine);
-                        
-                        // Location created here after the header is processed
-                        // in order to get wellLogNumber and id.
-                        location = new Location(UUID.randomUUID().toString(), 
-                                wellLog.getId(), wellLog.getWellLogNumber());
                         parseLocationIntoWellLog (currentLine);
                         parseDateIntoWellLog (currentLine);
                         break;
@@ -292,7 +289,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                     case END_OF_WELL_RECORD:
                     default:
                         // Process samples
-                        SampleCollection sampleCollection = new SampleCollection(
+                        SampleEntity sampleCollection = new SampleEntity(
                             UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
                         
                         samples.stream().map((sample) -> new SampleViewModel(
@@ -301,22 +298,25 @@ public class DatFileWellLogRepository implements WellLogRepository {
                         });
                         
                         // Process formations
-                        FormationCollection formationCollection = new FormationCollection(
+                        FormationEntity formationCollection = new FormationEntity(
                             UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
                         
                         formationCollection.setFormations(formations);
                         
                         // Process location
                         LocationViewModel locationViewModel = new LocationViewModel(location);
+                        LocationEntity locationEntity = new LocationEntity(
+                            UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
+                        locationEntity.setLocation(locationViewModel);
                         
                         // Override the sample count from the header with
                         // the actual count in the list
                         wellLog.setSampleCount(samples.size());
                         
                         // Add collections to wellLog and and add log to list
-                        wellLog.setSampleCollection(sampleCollection);
-                        wellLog.setFormationCollection(formationCollection);
-                        wellLog.setLocation(locationViewModel);
+                        wellLog.setSampleEntity(sampleCollection);
+                        wellLog.setFormationEntity(formationCollection);
+                        wellLog.setLocationEntity(locationEntity);
                         wellLogs.add(wellLog);
                         break;
                 }

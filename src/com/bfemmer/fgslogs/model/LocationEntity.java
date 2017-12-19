@@ -24,60 +24,31 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
+import com.bfemmer.fgslogs.viewmodel.LocationViewModel;
+
 /**
  *
  * @author bfemmer
  */
-public class WellLogCollection {
-    private String id;
-    private String wellLogId;
-    private int wellLogNumber;
+public class LocationEntity extends WellLogEntity {
+    private LocationViewModel location;
     
-    public WellLogCollection(String id, String wellLogId, int wellLogNumber) {
-        this.id = id;
-        this.wellLogId = wellLogId;
-        this.wellLogNumber = wellLogNumber;
+    public LocationEntity(String id, String wellLogId, int wellLogNumber) {
+        super(id, wellLogId, wellLogNumber);
+    }
+
+    /**
+     * @return the location
+     */
+    public LocationViewModel getLocation() {
+        return location;
+    }
+
+    /**
+     * @param location the location to set
+     */
+    public void setLocation(LocationViewModel location) {
+        this.location = location;
     }
     
-    /**
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * @return the wellLogId
-     */
-    public String getWellLogId() {
-        return wellLogId;
-    }
-
-    /**
-     * @param wellLogId the wellLogId to set
-     */
-    public void setWellLogId(String wellLogId) {
-        this.wellLogId = wellLogId;
-    }
-
-    /**
-     * @return the wellLogNumber
-     */
-    public int getWellLogNumber() {
-        return wellLogNumber;
-    }
-
-    /**
-     * @param wellLogNumber the wellLogNumber to set
-     */
-    public void setWellLogNumber(int wellLogNumber) {
-        this.wellLogNumber = wellLogNumber;
-    }
 }

@@ -43,9 +43,9 @@ public class WellLog {
     private int completionDateDay;
     private String ownerDriller;
     private String workedBy;
-    private LocationViewModel location;
-    private FormationCollection formationCollection;
-    private SampleCollection sampleCollection;
+    private LocationEntity locationEntity;
+    private FormationEntity formationEntity;
+    private SampleEntity sampleEntity;
     
     /**
      * Constructor
@@ -247,45 +247,45 @@ public class WellLog {
     }
 
     /**
-     * @return the location
+     * @return the locationEntity
      */
-    public LocationViewModel getLocation() {
-        return location;
+    public LocationEntity getLocationEntity() {
+        return locationEntity;
     }
 
     /**
-     * @param location the location to set
+     * @param locationEntity the location to set
      */
-    public void setLocation(LocationViewModel location) {
-        this.location = location;
+    public void setLocationEntity(LocationEntity locationEntity) {
+        this.locationEntity = locationEntity;
     }
 
     /**
-     * @return the formationCollection
+     * @return the formationEntity
      */
-    public FormationCollection getFormationCollection() {
-        return formationCollection;
+    public FormationEntity getFormationEntity() {
+        return formationEntity;
     }
 
     /**
-     * @param formationCollection the formationCollection to set
+     * @param formationEntity the formationEntity to set
      */
-    public void setFormationCollection(FormationCollection formationCollection) {
-        this.formationCollection = formationCollection;
+    public void setFormationEntity(FormationEntity formationEntity) {
+        this.formationEntity = formationEntity;
     }
 
     /**
-     * @return the sampleCollection
+     * @return the sampleEntity
      */
-    public SampleCollection getSampleCollection() {
-        return sampleCollection;
+    public SampleEntity getSampleEntity() {
+        return sampleEntity;
     }
 
     /**
-     * @param sampleCollection the sample to set
+     * @param sampleEntity the sample to set
      */
-    public void setSampleCollection(SampleCollection sampleCollection) {
-        this.sampleCollection = sampleCollection;
+    public void setSampleEntity(SampleEntity sampleEntity) {
+        this.sampleEntity = sampleEntity;
     }
  
     public String toHtml() {
@@ -350,19 +350,19 @@ public class WellLog {
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>County: </i></TD>" +
-            "        <TD align=\"right\"> <font color=\"blue\">" + location.getCountyName() + "</FONT></TD>\n" +
+            "        <TD align=\"right\"> <font color=\"blue\">" + locationEntity.getLocation().getCountyName() + "</FONT></TD>\n" +
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>PLSS: </i></TD>" +
-            "        <TD align=\"right\"> <font color=\"blue\">" + location.getPLSSCode() + "</FONT></TD>\n" +
+            "        <TD align=\"right\"> <font color=\"blue\">" + locationEntity.getLocation().getPLSSCode() + "</FONT></TD>\n" +
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>Latitude: </i></TD>" +
-            "        <TD align=\"right\"> <font color=\"blue\">" + location.getLatDMS() + "</FONT></TD>\n" +
+            "        <TD align=\"right\"> <font color=\"blue\">" + locationEntity.getLocation().getLatDMS() + "</FONT></TD>\n" +
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>Longitude: </i></TD>" +
-            "        <TD align=\"right\"> <font color=\"blue\">" + location.getLongDMS() + "</FONT></TD>\n" +
+            "        <TD align=\"right\"> <font color=\"blue\">" + locationEntity.getLocation().getLongDMS() + "</FONT></TD>\n" +
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>Elevation (ft): </i></TD>" +
@@ -416,7 +416,7 @@ public class WellLog {
             "    <TD align=\"center\">\n" +
             "      <TABLE>\n";
         
-        formationHtml = formationCollection.getFormations().stream().map((formation) -> "      <TR>\n" +
+        formationHtml = formationEntity.getFormations().stream().map((formation) -> "      <TR>\n" +
             "        <TD align=\"right\">" + String.valueOf(formation.getFromDepth()) + "</TD>\n" +
             "        <TD align=\"right\">" + (-1.0 == formation.getToDepth() ? "" : String.valueOf(formation.getToDepth())) + "</TD>\n" +
             "        <TD>" + formation.getFormationCode() + "</TD>\n" +
@@ -450,7 +450,7 @@ public class WellLog {
             "    <TD align=\"center\">\n" +
             "      <TABLE>\n";
                 
-        for (SampleViewModel sample : sampleCollection.getSamples()) {
+        for (SampleViewModel sample : sampleEntity.getSamples()) {
             temp = "";
             
             temp += "        <TD valign=\"top\" align=\"right\">" + String.format("%.2f", sample.getFromDepth()) + "</TD>\n" +

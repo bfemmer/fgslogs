@@ -24,7 +24,7 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
-import com.bfemmer.fgslogs.viewmodel.FormationViewModel;
+import com.bfemmer.fgslogs.viewmodel.SampleViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,26 +32,27 @@ import java.util.List;
  *
  * @author bfemmer
  */
-public class FormationCollection extends WellLogCollection {
-    private List<FormationViewModel> formations;
-
-    public FormationCollection(String id, String wellLogId, int wellLogNumber) {
+public class SampleEntity extends WellLogEntity {
+    private List<SampleViewModel> samples;
+    
+    public SampleEntity(String id, String wellLogId, int wellLogNumber) {
         super(id, wellLogId, wellLogNumber);
         
-        formations = new ArrayList<>();
+        samples = new ArrayList<>();
+    }
+    
+    /**
+     * @return the samples
+     */
+    public List<SampleViewModel> getSamples() {
+        return samples;
     }
 
     /**
-     * @return the formations
+     * @param samples the samples to set
      */
-    public List<FormationViewModel> getFormations() {
-        return formations;
+    public void setSamples(List<SampleViewModel> samples) {
+        this.samples = samples;
     }
-
-    /**
-     * @param formations the formations to set
-     */
-    public void setFormations(List<FormationViewModel> formations) {
-        this.formations = formations;
-    }   
+    
 }

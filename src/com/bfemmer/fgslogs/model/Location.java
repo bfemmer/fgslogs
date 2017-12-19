@@ -24,7 +24,7 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
-public class Location extends WellLogCollection {
+public class Location {
     private String countyCode;
     private String township;
     private String range;
@@ -37,9 +37,7 @@ public class Location extends WellLogCollection {
     private int lngMinutes;
     private int lngSeconds;
 
-    public Location(String id, String wellLogId, int wellLogNumber) {
-        super(id, wellLogId, wellLogNumber);
-        
+    public Location() {
         countyCode = "";
         township = "";
         range = "";

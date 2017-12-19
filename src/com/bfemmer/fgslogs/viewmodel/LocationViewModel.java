@@ -49,7 +49,9 @@ public class LocationViewModel  {
      */
     public String getCountyName() {
         LookupCodes codes = new LookupCodes();
-        String countyName = codes.getCountyCodeMap().get(location.getCountyCode());
+        String countyName = codes
+                .getCountyCodeMap()
+                .get(location.getCountyCode());
         return countyName;
     }
 

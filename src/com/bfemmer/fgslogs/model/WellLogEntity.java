@@ -24,35 +24,60 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
-import com.bfemmer.fgslogs.viewmodel.SampleViewModel;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author bfemmer
  */
-public class SampleCollection extends WellLogCollection {
-    private List<SampleViewModel> samples;
+public class WellLogEntity {
+    private String id;
+    private String wellLogId;
+    private int wellLogNumber;
     
-    public SampleCollection(String id, String wellLogId, int wellLogNumber) {
-        super(id, wellLogId, wellLogNumber);
-        
-        samples = new ArrayList<>();
+    public WellLogEntity(String id, String wellLogId, int wellLogNumber) {
+        this.id = id;
+        this.wellLogId = wellLogId;
+        this.wellLogNumber = wellLogNumber;
     }
     
     /**
-     * @return the samples
+     * @return the id
      */
-    public List<SampleViewModel> getSamples() {
-        return samples;
+    public String getId() {
+        return id;
     }
 
     /**
-     * @param samples the samples to set
+     * @param id the id to set
      */
-    public void setSamples(List<SampleViewModel> samples) {
-        this.samples = samples;
+    public void setId(String id) {
+        this.id = id;
     }
-    
+
+    /**
+     * @return the wellLogId
+     */
+    public String getWellLogId() {
+        return wellLogId;
+    }
+
+    /**
+     * @param wellLogId the wellLogId to set
+     */
+    public void setWellLogId(String wellLogId) {
+        this.wellLogId = wellLogId;
+    }
+
+    /**
+     * @return the wellLogNumber
+     */
+    public int getWellLogNumber() {
+        return wellLogNumber;
+    }
+
+    /**
+     * @param wellLogNumber the wellLogNumber to set
+     */
+    public void setWellLogNumber(int wellLogNumber) {
+        this.wellLogNumber = wellLogNumber;
+    }
 }
