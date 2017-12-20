@@ -35,7 +35,7 @@ import java.util.List;
 public class FormationEntity extends WellLogEntity {
     private List<FormationViewModel> formations;
 
-    public FormationEntity(String id, String wellLogId, int wellLogNumber) {
+    public FormationEntity(String id, String wellLogId, String wellLogNumber) {
         super(id, wellLogId, wellLogNumber);
         
         formations = new ArrayList<>();

@@ -352,14 +352,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         try {
             temp = line.substring(WELL_NUMBER_BEGIN_INDEX, WELL_NUMBER_END_INDEX).trim();
             
-            // Well number can be "000NA" where N/A was assigned for the log
-            // Catch this exception here to log the condition, but continue
-            try{
-                wellLog.setWellLogNumber(Integer.valueOf(temp));
-            }
-            catch(NumberFormatException nfe) {
-                wellLog.setWellLogNumber(0);
-            }
+            wellLog.setWellLogNumber(temp);
             
             System.out.println("------- Well Number: " + temp);
             

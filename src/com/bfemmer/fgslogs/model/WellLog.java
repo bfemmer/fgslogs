@@ -26,7 +26,7 @@ package com.bfemmer.fgslogs.model;
 
 public class WellLog {
     private String id;
-    private int wellLogNumber;
+    private String wellLogNumber;
     
     private SummaryEntity summaryEntity;
     private LocationEntity locationEntity;
@@ -57,14 +57,14 @@ public class WellLog {
     /**
      * @return the wellLogNumber
      */
-    public int getWellLogNumber() {
+    public String getWellLogNumber() {
         return wellLogNumber;
     }
 
     /**
      * @param wellLogNumber the wellLogNumber to set
      */
-    public void setWellLogNumber(int wellLogNumber) {
+    public void setWellLogNumber(String wellLogNumber) {
         this.wellLogNumber = wellLogNumber;
     }
 
