@@ -276,19 +276,19 @@ public class DatFileWellLogRepository implements WellLogRepository {
                         
                         parseHeaderIntoWellLog (currentLine);
                         parseLocationIntoWellLog (currentLine);
-                        parseDateIntoWellLog (currentLine);
+                        parseDateIntoSummary (currentLine);
                         break;
                     case OWNER_DRILLER_RECORD:
-                        parseOwnerDrillerIntoWellLog (currentLine);
+                        parseOwnerDrillerIntoSummary (currentLine);
                         break;
                     case WORKED_BY_RECORD:
-                        parseWorkedByIntoWellLog (currentLine);
+                        parseWorkedByIntoSummary (currentLine);
                         break;
                     case FORMATION_RECORD:
-                        parseFormationIntoWellLog (currentLine);
+                        parseFormation (currentLine);
                         break;
                     case SAMPLE_RECORD:
-                        parseSampleIntoList (currentLine);
+                        parseSample (currentLine);
                         break;
                     case END_OF_WELL_RECORD:
                     default:
@@ -452,8 +452,6 @@ public class DatFileWellLogRepository implements WellLogRepository {
         int lngDegrees = 0;
         int lngMinutes = 0;
         int lngSeconds = 0;
-        double lat;
-        double lng;
         String temp;
         
         temp = line.substring(LAT_DEG_BEGIN_INDEX, LAT_DEG_END_INDEX).trim();
@@ -481,7 +479,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         location.setLngSeconds(lngSeconds);
     }
     
-    private void parseDateIntoWellLog(String line) {
+    private void parseDateIntoSummary(String line) {
         String temp;
         
         try {
@@ -507,7 +505,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         }
     }
     
-    private void parseOwnerDrillerIntoWellLog(String line) {
+    private void parseOwnerDrillerIntoSummary(String line) {
         String ownerDriller = summary.getOwnerDriller();
         
         if (ownerDriller.length() > 0)
@@ -516,7 +514,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
             summary.setOwnerDriller(line.substring(DATA_OFFSET_INDEX));
     }
     
-    private void parseWorkedByIntoWellLog(String line) {
+    private void parseWorkedByIntoSummary(String line) {
         String workedBy = summary.getWorkedBy();
         
         if (workedBy.length() > 0)
@@ -525,7 +523,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
             summary.setWorkedBy(line.substring(DATA_OFFSET_INDEX));
     }
     
-    private void parseFormationIntoWellLog(String line) {
+    private void parseFormation(String line) {
         FormationViewModel previousFormation = null;
         Formation formation = new Formation();
         double lastToDepth = 0;
@@ -572,7 +570,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         formations.add(formationView);
     }
     
-    private void parseSampleIntoList(String line) {
+    private void parseSample(String line) {
         String temp;
         double lastToDepth = 0;
         Sample lastSample = null;
