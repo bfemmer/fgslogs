@@ -200,16 +200,6 @@ public class DatFileWellLogRepository implements WellLogRepository {
     }
 
     @Override
-    public int getWellLogCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int getWellLogCountByCounty(String countyCode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    @Override
     public List<WellLog> getAllWellLogs() {
         Reader fileReader;
         
