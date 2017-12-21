@@ -12,7 +12,7 @@ package com.bfemmer.fgslogs.model;
 public class SummaryEntity extends WellLogEntity {
     private Summary summary;
     
-    public SummaryEntity(String id, String wellLogId, int wellLogNumber) {
+    public SummaryEntity(String id, String wellLogId, String wellLogNumber) {
         super(id, wellLogId, wellLogNumber);
     }
 
