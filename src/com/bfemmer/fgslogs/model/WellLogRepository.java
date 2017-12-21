@@ -36,4 +36,5 @@ public interface WellLogRepository {
     List<String> getWellNumbersByCounty(String countyCode);
     List<WellLog> getWellLogByWellNumber(int wellNumber);
     WellLog getWellLogById(String id);
+    void SaveWellLog(WellLog wellLog);
 }

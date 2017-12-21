@@ -241,6 +241,11 @@ public class DatFileWellLogRepository implements WellLogRepository {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    @Override
+    public void SaveWellLog(WellLog wellLog) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     public void parseWellLogs(Reader reader) {
         BufferedReader bufferedReader = new BufferedReader(reader);
         String recordId;
@@ -1105,4 +1110,5 @@ public class DatFileWellLogRepository implements WellLogRepository {
             return original;
         return original.substring(0, 1).toUpperCase() + original.substring(1);
     }
+
 }
