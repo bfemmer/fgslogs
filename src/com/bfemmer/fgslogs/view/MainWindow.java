@@ -56,7 +56,8 @@ public class MainWindow {
     private JMenuItem openMenuItem;
     private JMenu exportMenu;
     private JMenuItem exportSelectedMenuItem;
-    private JMenuItem exportAllMenuItem;
+    private JMenuItem exportAllToJsonMenuItem;
+    private JMenuItem exportAllToDatabaseMenuItem;
     private JMenuItem printMenuItem;
     private JPopupMenu.Separator fileMenuSeparator;
     private JMenuItem exitMenuItem;
@@ -80,7 +81,8 @@ public class MainWindow {
         openMenuItem = new JMenuItem();
         exportMenu = new JMenu();
         exportSelectedMenuItem = new JMenuItem();
-        exportAllMenuItem = new JMenuItem();        
+        exportAllToJsonMenuItem = new JMenuItem();
+        exportAllToDatabaseMenuItem = new JMenuItem();
         printMenuItem = new JMenuItem();
         fileMenuSeparator = new JPopupMenu.Separator();
         exitMenuItem = new JMenuItem();
@@ -117,17 +119,21 @@ public class MainWindow {
         openMenuItem.setName("openMenuItem");
         fileMenu.add(openMenuItem);
         
-        exportMenu.setText("Export to JSON");
+        exportMenu.setText("Export");
         exportMenu.setName("exportMenu");
         
-        exportSelectedMenuItem.setText("Export Selected Logs ...");
+        exportSelectedMenuItem.setText("Selected Logs to JSON ...");
         exportSelectedMenuItem.setName("exportSelectedLogsMenuItem");
         exportSelectedMenuItem.setEnabled(false);
-        exportAllMenuItem.setText("Export All Logs ...");
-        exportAllMenuItem.setName("exportAllLogsMenuItem");
+        exportAllToJsonMenuItem.setText("All Logs to JSON ...");
+        exportAllToJsonMenuItem.setName("exportAllJsonMenuItem");
+        exportAllToDatabaseMenuItem.setText("All Logs to SQLite Database ...");
+        exportAllToDatabaseMenuItem.setName("exportAllDatabaseMenuItem");
+        exportAllToDatabaseMenuItem.setEnabled(false);
         
         exportMenu.add(exportSelectedMenuItem);
-        exportMenu.add(exportAllMenuItem);
+        exportMenu.add(exportAllToJsonMenuItem);
+        exportMenu.add(exportAllToDatabaseMenuItem);
         exportMenu.setEnabled(false);
         fileMenu.add(exportMenu);
 
@@ -220,10 +226,10 @@ public class MainWindow {
     }
     
     /**
-     * @return the exportAllMenuItem
+     * @return the exportAllToJsonMenuItem
      */
-    public JMenuItem getExportAllMenuItem() {
-        return exportAllMenuItem;
+    public JMenuItem getExportAllToJsonMenuItem() {
+        return exportAllToJsonMenuItem;
     }
 
     /**

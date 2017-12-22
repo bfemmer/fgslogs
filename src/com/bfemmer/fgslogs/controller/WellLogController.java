@@ -88,7 +88,7 @@ public class WellLogController {
             (ActionEvent actionEvent) -> {
                 exportSelectedToJsonFiles();
             });
-        view.getExportAllMenuItem().addActionListener(
+        view.getExportAllToJsonMenuItem().addActionListener(
             (ActionEvent actionEvent) -> {
                 exportAllToJsonFiles();
             });
