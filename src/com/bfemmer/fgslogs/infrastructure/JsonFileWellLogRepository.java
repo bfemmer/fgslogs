@@ -94,6 +94,11 @@ public class JsonFileWellLogRepository implements WellLogRepository {
         }
     }
     
+    /**
+     * Saves a list of well logs
+     * 
+     * @param wellLogs 
+     */
     @Override
     public void saveWellLogs(List<WellLog> wellLogs) {
         wellLogs.forEach((wellLog) -> {
@@ -104,8 +109,8 @@ public class JsonFileWellLogRepository implements WellLogRepository {
     /**
      * Saves WellLogEntity object as multiple json files in the county folder
      * 
-     * @param object
-     * @param county
+     * @param object a WellLogEntity object
+     * @param county a Florida county
      * @throws IOException 
      */
     private void saveEntity(Object object, String county) throws IOException {
