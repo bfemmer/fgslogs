@@ -26,6 +26,7 @@ package com.bfemmer.fgslogs.controller;
 
 import com.bfemmer.fgslogs.applicationservice.WellLogApplicationService;
 import com.bfemmer.fgslogs.infrastructure.DatFileWellLogRepository;
+import com.bfemmer.fgslogs.infrastructure.JsonFileWellLogRepository;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogModel;
 import com.bfemmer.fgslogs.view.MainWindow;
@@ -83,9 +84,13 @@ public class WellLogController {
                 loadLogFileWithDialog();
                 resetEditor();
             });
-        view.getExportMenuItem().addActionListener(
+        view.getExportSelectedMenuItem().addActionListener(
             (ActionEvent actionEvent) -> {
-                exportJsonFileWithDialog();
+                exportSelectedToJsonFiles();
+            });
+        view.getExportAllToJsonMenuItem().addActionListener(
+            (ActionEvent actionEvent) -> {
+                exportAllToJsonFiles();
             });
         view.getPrintMenuItem().addActionListener(
             (ActionEvent actionEvent) -> {
@@ -173,6 +178,8 @@ public class WellLogController {
                 
             model.setWellLogs(wellLogApplicationService.getAllWellLogs());
             view.getFrame().setTitle("FGSLOGS (Lithology Logs): " + chooser.getSelectedFile().toString());
+            view.getExportMenu().setEnabled(true);
+            view.getPrintMenuItem().setEnabled(true);
             updateTree();
         }
     }
@@ -244,6 +251,43 @@ public class WellLogController {
             
             JOptionPane.showMessageDialog(null, 
                     "Export of DAT file to JSON files in selected directory complete.", 
+                    "Operation Completed", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    private void exportSelectedToJsonFiles() {
+        
+    }
+    
+    /**
+     * Saves the imported DAT file to a user-specified directory
+     */
+    private void exportAllToJsonFiles() {
+        int dialogResult;
+        
+        if ("".equals(selectedDatFile)) {
+            JOptionPane.showMessageDialog(null, 
+                    "DAT file must be opened first.", 
+                    "Invalid Operation", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Select directory to export JSON files to");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        
+        dialogResult = chooser.showOpenDialog(null);
+
+        if (dialogResult == JFileChooser.APPROVE_OPTION) {
+            WellLogApplicationService service = new WellLogApplicationService(
+                new JsonFileWellLogRepository(chooser.getSelectedFile().toString()));
+            
+            service.saveWellLogs(model.getWellLogs());
+            
+            JOptionPane.showMessageDialog(null, 
+                    "Export of log to JSON files in selected directory complete.", 
                     "Operation Completed", JOptionPane.INFORMATION_MESSAGE);
         }
     }

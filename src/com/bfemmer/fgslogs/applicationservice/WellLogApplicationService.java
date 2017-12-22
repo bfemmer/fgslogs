@@ -39,14 +39,6 @@ public class WellLogApplicationService {
         this.wellLogRepository = wellLogRepository;
     }
     
-    public int getWellLogCount() {
-        return wellLogRepository.getWellLogCount();
-    }
-    
-    public int getWellLogCountForCounty(String countyCode) {
-        return wellLogRepository.getWellLogCount();
-    }
-    
     public List<WellLog> getAllWellLogs() {
         return wellLogRepository.getAllWellLogs();
     }
@@ -65,5 +57,13 @@ public class WellLogApplicationService {
     
     public WellLog getWellLogById(String id) {
         return wellLogRepository.getWellLogById(id);
+    }
+    
+    public void saveWellLog(WellLog wellLog) {
+        wellLogRepository.saveWellLog(wellLog);
+    }
+    
+    public void saveWellLogs(List<WellLog> wellLogs) {
+        wellLogRepository.saveWellLogs(wellLogs);
     }
 }

@@ -31,11 +31,11 @@ import java.util.List;
  * @author bfemmer
  */
 public interface WellLogRepository {
-    int getWellLogCount();
-    int getWellLogCountByCounty(String countyCode);
     List<WellLog> getAllWellLogs();
     List<String> getAllWellNumbers();
     List<String> getWellNumbersByCounty(String countyCode);
     List<WellLog> getWellLogByWellNumber(int wellNumber);
     WellLog getWellLogById(String id);
+    void saveWellLog(WellLog wellLog);
+    void saveWellLogs(List<WellLog> wellLogs);
 }

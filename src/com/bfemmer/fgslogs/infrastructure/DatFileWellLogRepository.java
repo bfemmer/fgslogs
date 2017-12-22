@@ -200,16 +200,6 @@ public class DatFileWellLogRepository implements WellLogRepository {
     }
 
     @Override
-    public int getWellLogCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int getWellLogCountByCounty(String countyCode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    @Override
     public List<WellLog> getAllWellLogs() {
         Reader fileReader;
         
@@ -238,17 +228,27 @@ public class DatFileWellLogRepository implements WellLogRepository {
 
     @Override
     public List<String> getWellNumbersByCounty(String countyCode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public List<WellLog> getWellLogByWellNumber(int wellNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public WellLog getWellLogById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public void saveWellLog(WellLog wellLog) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public void saveWellLogs(List<WellLog> wellLogs) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     public void parseWellLogs(Reader reader) {
@@ -1115,4 +1115,5 @@ public class DatFileWellLogRepository implements WellLogRepository {
             return original;
         return original.substring(0, 1).toUpperCase() + original.substring(1);
     }
+
 }
