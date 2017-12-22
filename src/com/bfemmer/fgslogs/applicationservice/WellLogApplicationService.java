@@ -58,4 +58,12 @@ public class WellLogApplicationService {
     public WellLog getWellLogById(String id) {
         return wellLogRepository.getWellLogById(id);
     }
+    
+    public void saveWellLog(WellLog wellLog) {
+        wellLogRepository.saveWellLog(wellLog);
+    }
+    
+    public void saveWellLogs(List<WellLog> wellLogs) {
+        wellLogRepository.saveWellLogs(wellLogs);
+    }
 }

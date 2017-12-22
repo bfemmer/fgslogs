@@ -228,22 +228,27 @@ public class DatFileWellLogRepository implements WellLogRepository {
 
     @Override
     public List<String> getWellNumbersByCounty(String countyCode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public List<WellLog> getWellLogByWellNumber(int wellNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public WellLog getWellLogById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     @Override
-    public void SaveWellLog(WellLog wellLog) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void saveWellLog(WellLog wellLog) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public void saveWellLogs(List<WellLog> wellLogs) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     public void parseWellLogs(Reader reader) {

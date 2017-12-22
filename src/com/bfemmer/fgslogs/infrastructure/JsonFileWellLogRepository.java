@@ -57,83 +57,99 @@ public class JsonFileWellLogRepository implements WellLogRepository {
     
     @Override
     public List<WellLog> getAllWellLogs() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public List<String> getAllWellNumbers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public List<String> getWellNumbersByCounty(String countyCode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public List<WellLog> getWellLogByWellNumber(int wellNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public WellLog getWellLogById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void SaveWellLog(WellLog wellLog) {
+    public void saveWellLog(WellLog wellLog) {
+        String county = wellLog.getLocationEntity().getLocation().getCountyName();
         
         try {
-            saveEntity(wellLog.getWellLogNumber());
-            saveEntity(wellLog.getSummaryEntity());
-            saveEntity(wellLog.getLocationEntity());
-            saveEntity(wellLog.getFormationEntity());
-            saveEntity(wellLog.getSampleEntity());
+            saveEntity(wellLog.getSummaryEntity(), county);
+            saveEntity(wellLog.getLocationEntity(), county);
+            saveEntity(wellLog.getFormationEntity(), county);
+            saveEntity(wellLog.getSampleEntity(), county);
         } catch (IOException ex) {
             Logger.getLogger(JsonFileWellLogRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    private void saveEntity(Object object) throws IOException {
+    @Override
+    public void saveWellLogs(List<WellLog> wellLogs) {
+        wellLogs.forEach((wellLog) -> {
+            saveWellLog(wellLog);
+        });
+    }
+    
+    /**
+     * Saves WellLogEntity object as multiple json files in the county folder
+     * 
+     * @param object
+     * @param county
+     * @throws IOException 
+     */
+    private void saveEntity(Object object, String county) throws IOException {
         String filename;
         String filenamePath;
         String objectDirectory;
         ObjectMapper mapper;
         
-        if (object instanceof WellLogEntity) {
-            filename = ((WellLogEntity)object).getId();
-            
-            if (object instanceof SummaryEntity) {
-                objectDirectory = directory + File.separator + 
-                SUMMARY_DIRECTORY_NAME;
-            }
-            else if (object instanceof LocationEntity) {
-                objectDirectory = directory + File.separator + 
-                LOCATION_DIRECTORY_NAME;
-            }
-            else if (object instanceof FormationEntity) {
-                objectDirectory = directory + File.separator + 
-                FORMATION_DIRECTORY_NAME;
-            }
-            else {
-                objectDirectory = directory + File.separator + 
-                SAMPLE_DIRECTORY_NAME;
-            }
-            
-            filenamePath = objectDirectory + 
-                File.separator +
-                filename + ".json";
+        // Only care about instances of WellLogEntity
+        if (!(object instanceof WellLogEntity)) {
+            return;
+        }
+        
+        // Use the UUID as the filename for the json data
+        filename = ((WellLogEntity)object).getId();
+        
+        // Build the path down to the folder labeled with the well log number
+        objectDirectory = directory 
+                    + File.separator
+                    + county
+                    + File.separator 
+                    + ((WellLogEntity)object).getWellLogNumber();
+
+        // Add on the subdirectory based on the specific instance
+        if (object instanceof SummaryEntity) {
+            objectDirectory += File.separator + SUMMARY_DIRECTORY_NAME;
+        }
+        else if (object instanceof LocationEntity) {
+            objectDirectory += File.separator + LOCATION_DIRECTORY_NAME;
+        }
+        else if (object instanceof FormationEntity) {
+            objectDirectory += File.separator + FORMATION_DIRECTORY_NAME;
         }
         else {
-            objectDirectory = directory;
-            filename = ((String)object);
-            filenamePath = objectDirectory + 
-                File.separator +
-                filename;
+            objectDirectory += File.separator + SAMPLE_DIRECTORY_NAME;
         }
 
         // Create directory
         Files.createDirectories(Paths.get(objectDirectory));
+        
+        // Append json filename to directory just created
+        filenamePath = objectDirectory + 
+            File.separator +
+            filename + ".json";
         
         mapper = new ObjectMapper();
                 
@@ -144,5 +160,4 @@ public class JsonFileWellLogRepository implements WellLogRepository {
             Logger.getLogger(WellLogController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 }
