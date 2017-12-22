@@ -54,7 +54,9 @@ public class MainWindow {
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
     private JMenuItem openMenuItem;
-    private JMenuItem exportMenuItem;
+    private JMenu exportMenu;
+    private JMenuItem exportSelectedMenuItem;
+    private JMenuItem exportAllMenuItem;
     private JMenuItem printMenuItem;
     private JPopupMenu.Separator fileMenuSeparator;
     private JMenuItem exitMenuItem;
@@ -76,7 +78,9 @@ public class MainWindow {
         mainMenuBar = new JMenuBar();
         fileMenu = new JMenu();
         openMenuItem = new JMenuItem();
-        exportMenuItem = new JMenuItem();
+        exportMenu = new JMenu();
+        exportSelectedMenuItem = new JMenuItem();
+        exportAllMenuItem = new JMenuItem();        
         printMenuItem = new JMenuItem();
         fileMenuSeparator = new JPopupMenu.Separator();
         exitMenuItem = new JMenuItem();
@@ -88,40 +92,51 @@ public class MainWindow {
         frame.setPreferredSize(new Dimension(800, 600));
 
         mainSplitPane.setDividerLocation(150);
-        mainSplitPane.setName("mainSplitPane"); // NOI18N
+        mainSplitPane.setName("mainSplitPane");
 
-        treeScrollPane.setName("treeScrollPane"); // NOI18N
+        treeScrollPane.setName("treeScrollPane");
 
-        getWellTreeView().setName("wellTreeView"); // NOI18N
+        getWellTreeView().setName("wellTreeView");
         treeScrollPane.setViewportView(getWellTreeView());
         
-        editorPane.setName("editorPane"); // NOI18N
+        editorPane.setName("editorPane");
         editorPane.setEditable(false);
         editorScrollPane.setViewportView(editorPane);
         
         mainSplitPane.setLeftComponent(treeScrollPane);
         mainSplitPane.setRightComponent(editorScrollPane);
 
-        mainMenuBar.setName("mainMenuBar"); // NOI18N
+        mainMenuBar.setName("mainMenuBar");
 
         fileMenu.setText("File");
-        fileMenu.setName("fileMenu"); // NOI18N
+        fileMenu.setName("fileMenu");
 
         openMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_O, InputEvent.CTRL_MASK));
         openMenuItem.setText("Open ...");
-        openMenuItem.setName("openMenuItem"); // NOI18N
+        openMenuItem.setName("openMenuItem");
         fileMenu.add(openMenuItem);
         
-        exportMenuItem.setText("Export to JSON ...");
-        exportMenuItem.setName("exportMenuItem"); // NOI18N
-        fileMenu.add(exportMenuItem);
+        exportMenu.setText("Export to JSON");
+        exportMenu.setName("exportMenu");
+        
+        exportSelectedMenuItem.setText("Export Selected Logs ...");
+        exportSelectedMenuItem.setName("exportSelectedLogsMenuItem");
+        exportSelectedMenuItem.setEnabled(false);
+        exportAllMenuItem.setText("Export All Logs ...");
+        exportAllMenuItem.setName("exportAllLogsMenuItem");
+        
+        exportMenu.add(exportSelectedMenuItem);
+        exportMenu.add(exportAllMenuItem);
+        exportMenu.setEnabled(false);
+        fileMenu.add(exportMenu);
 
         printMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_P, InputEvent.CTRL_MASK));
         printMenuItem.setText("Print");
         printMenuItem.setActionCommand("Print");
-        printMenuItem.setName("printMenuItem"); // NOI18N
+        printMenuItem.setName("printMenuItem");
+        printMenuItem.setEnabled(false);
         fileMenu.add(printMenuItem);
         
         fileMenu.add(fileMenuSeparator);
@@ -129,18 +144,18 @@ public class MainWindow {
         exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_Q, InputEvent.CTRL_MASK));
         exitMenuItem.setText("Exit");
-        exitMenuItem.setName("exitMenuItem"); // NOI18N
+        exitMenuItem.setName("exitMenuItem");
         fileMenu.add(exitMenuItem);
 
         mainMenuBar.add(fileMenu);
 
         editMenu.setText("Edit");
-        editMenu.setName("editMenu"); // NOI18N
+        editMenu.setName("editMenu");
 
         getCopyMenuItem().setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_C, InputEvent.CTRL_MASK));
         getCopyMenuItem().setText("Copy");
-        getCopyMenuItem().setName("copyMenuItem"); // NOI18N
+        getCopyMenuItem().setName("copyMenuItem");
         editMenu.add(getCopyMenuItem());
 
         mainMenuBar.add(editMenu);
@@ -191,10 +206,24 @@ public class MainWindow {
     }
     
     /**
-     * @return the exportMenuItem
+     * @return the exportMenu
      */
-    public JMenuItem getExportMenuItem() {
-        return exportMenuItem;
+    public JMenu getExportMenu() {
+        return exportMenu;
+    }
+    
+    /**
+     * @return the exportSelectedMenuItem
+     */
+    public JMenuItem getExportSelectedMenuItem() {
+        return exportSelectedMenuItem;
+    }
+    
+    /**
+     * @return the exportAllMenuItem
+     */
+    public JMenuItem getExportAllMenuItem() {
+        return exportAllMenuItem;
     }
 
     /**

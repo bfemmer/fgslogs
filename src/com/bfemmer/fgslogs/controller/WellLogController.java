@@ -84,9 +84,13 @@ public class WellLogController {
                 loadLogFileWithDialog();
                 resetEditor();
             });
-        view.getExportMenuItem().addActionListener(
+        view.getExportSelectedMenuItem().addActionListener(
             (ActionEvent actionEvent) -> {
-                exportJsonFilesWithDialogForOneLog(); //exportJsonFileWithDialog();
+                exportSelectedToJsonFiles();
+            });
+        view.getExportAllMenuItem().addActionListener(
+            (ActionEvent actionEvent) -> {
+                exportAllToJsonFiles();
             });
         view.getPrintMenuItem().addActionListener(
             (ActionEvent actionEvent) -> {
@@ -174,6 +178,8 @@ public class WellLogController {
                 
             model.setWellLogs(wellLogApplicationService.getAllWellLogs());
             view.getFrame().setTitle("FGSLOGS (Lithology Logs): " + chooser.getSelectedFile().toString());
+            view.getExportMenu().setEnabled(true);
+            view.getPrintMenuItem().setEnabled(true);
             updateTree();
         }
     }
@@ -249,8 +255,22 @@ public class WellLogController {
         }
     }
     
-    private void exportJsonFilesWithDialogForOneLog() {
+    private void exportSelectedToJsonFiles() {
+        
+    }
+    
+    /**
+     * Saves the imported DAT file to a user-specified directory
+     */
+    private void exportAllToJsonFiles() {
         int dialogResult;
+        
+        if ("".equals(selectedDatFile)) {
+            JOptionPane.showMessageDialog(null, 
+                    "DAT file must be opened first.", 
+                    "Invalid Operation", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("."));
