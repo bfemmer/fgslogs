@@ -24,6 +24,7 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
+import com.bfemmer.fgslogs.viewmodel.LatLng;
 import java.util.List;
 
 /**
@@ -31,11 +32,11 @@ import java.util.List;
  * @author bfemmer
  */
 public interface WellLogRepository {
-    List<WellLog> getAllWellLogs();
-    List<String> getAllWellNumbers();
-    List<String> getWellNumbersByCounty(String countyCode);
-    List<WellLog> getWellLogByWellNumber(int wellNumber);
+    List<WellLog> getAllWellLogs(String filename);
+    List<String> getWellNumbersByCounty(String county);
     WellLog getWellLogById(String id);
+    WellLog getWellLogByWellNumber(String wellNumber);
+    LatLng getLatLngByWellNumber(String wellNumber);
     void saveWellLog(WellLog wellLog);
     void saveWellLogs(List<WellLog> wellLogs);
 }

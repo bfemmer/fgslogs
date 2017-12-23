@@ -37,9 +37,11 @@ import com.bfemmer.fgslogs.model.SummaryEntity;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogRepository;
 import com.bfemmer.fgslogs.viewmodel.FormationViewModel;
+import com.bfemmer.fgslogs.viewmodel.LatLng;
 import com.bfemmer.fgslogs.viewmodel.LocationViewModel;
 import com.bfemmer.fgslogs.viewmodel.SampleViewModel;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -182,31 +184,20 @@ public class DatFileWellLogRepository implements WellLogRepository {
     private static final int FEATURES_END_INDEX = 67;
     private static final int FOSSILS_INDEX = 67;
     
-    private final String filename;
-    private final List<WellLog> wellLogs;
-    private WellLog wellLog;
-    private Summary summary;
-    private Location location;
-    private List<Sample> samples;
-    private List<FormationViewModel> formations;
-   
+    private final String directory;
     
-    public DatFileWellLogRepository(String filename) {
-        this.filename = filename;
-        wellLog = new WellLog();
-        samples = new ArrayList<>();
-        formations = new ArrayList<>();
-        wellLogs = new ArrayList<>();
+    public DatFileWellLogRepository(String directory) {
+        this.directory = directory;
     }
 
     @Override
-    public List<WellLog> getAllWellLogs() {
+    public List<WellLog> getAllWellLogs(String filename) {
         Reader fileReader;
+        List<WellLog> wellLogs = null;
         
         try {
             fileReader = new FileReader(filename);
-            parseWellLogs(fileReader);
-            return wellLogs;
+            wellLogs = parseDatFileReader(fileReader);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -215,30 +206,101 @@ public class DatFileWellLogRepository implements WellLogRepository {
     }
 
     @Override
-    public List<String> getAllWellNumbers() {
+    public List<String> getWellNumbersByCounty(String county) {
+        Reader fileReader;
         List<String> wellNumbers = new ArrayList<>();
+        File[] datFiles = new File(directory).listFiles();
         
-        wellLogs.stream().map((log) -> 
-                String.valueOf(log.getWellLogNumber())).forEach((wellNumber) -> {
-            wellNumbers.add(wellNumber);
-        });
+        for (File datFile : datFiles) {
+            try {
+                fileReader = new FileReader(datFile);
+                String datCounty = getCountyFromReader(fileReader);
+                
+                if (!datCounty.equals(county)) {
+                    continue;
+                }
+                
+                wellNumbers = getWellNumbersFromReader(fileReader);
+                
+                break;
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
         return wellNumbers;
     }
 
     @Override
-    public List<String> getWellNumbersByCounty(String countyCode) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<WellLog> getWellLogByWellNumber(int wellNumber) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public WellLog getWellLogById(String id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        WellLog foundWellLog = null;
+        
+        for (File datFile : new File(directory).listFiles()) {
+            // Load logs in file
+            List<WellLog> wellLogs = getAllWellLogs(datFile.toString());
+            
+            // Look for log of interest
+            for (WellLog wellLog : wellLogs) {
+                if (wellLog.getId().equals(id)) {
+                    foundWellLog = wellLog;
+                    break;
+                }
+            }
+        }
+        
+        return foundWellLog;
+    }
+    
+    @Override
+    public WellLog getWellLogByWellNumber(String wellNumber) {
+        WellLog foundWellLog = null;
+        List<String> wellNumbers = new ArrayList<>();
+        
+        for (File datFile : new File(directory).listFiles()) {
+            try {
+                // Look for well number in file
+                wellNumbers = getWellNumbersFromReader(new FileReader(datFile));
+                
+                if (!wellNumbers.contains(wellNumber)) {
+                    continue;
+                }
+                
+                // Load logs in file
+                List<WellLog> wellLogs = getAllWellLogs(datFile.toString());
+                
+                // Look for log of interest
+                for (WellLog wellLog : wellLogs) {
+                    if (wellLog.getWellLogNumber().equals(wellNumber)) {
+                        foundWellLog = wellLog;
+                        break;
+                    }
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return foundWellLog;
+    }
+    
+    @Override
+    public LatLng getLatLngByWellNumber(String wellNumber) {
+        LatLng latLng = null;
+        
+        for (File datFile : new File(directory).listFiles()) {
+            // Load logs in file
+            List<WellLog> wellLogs = getAllWellLogs(datFile.toString());
+            
+            // Look for log of interest
+            for (WellLog wellLog : wellLogs) {
+                if (wellLog.getWellLogNumber().equals(wellNumber)) {
+                    latLng = wellLog.getLocationEntity().getLocation().getLatLong();
+                    break;
+                }
+            }
+        }
+        
+        return latLng;
     }
     
     @Override
@@ -251,10 +313,72 @@ public class DatFileWellLogRepository implements WellLogRepository {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    public void parseWellLogs(Reader reader) {
+    private String getCountyFromReader(Reader reader) {
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        String countyCode = "";
+        LookupCodes codes = new LookupCodes();
+        
+        try {
+            String record = bufferedReader.readLine();
+            countyCode = record.substring(COUNTY_BEGIN_INDEX, COUNTY_END_INDEX).trim();
+        } catch (IOException ex) {
+            Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return codes.getCountyCodeMap().get(countyCode);
+    }
+    
+    private List<String> getWellNumbersFromReader(Reader reader) {
         BufferedReader bufferedReader = new BufferedReader(reader);
         String recordId;
         String currentLine;
+        String wellNumber;
+        List<String> wellNumbers = new ArrayList<>();
+        
+        try {
+            while ((currentLine = bufferedReader.readLine()) != null) {
+                // Check for empty lines
+                if (currentLine.length() == 0) continue;
+                
+                // Check for empty lines
+                if (currentLine.length() < 7) continue;
+                
+                // Get record ID from string
+                recordId = currentLine.substring(0, 1);
+                                    
+                switch (recordId) {
+                    case START_OF_WELL_RECORD:
+                        wellNumber = currentLine.substring(WELL_NUMBER_BEGIN_INDEX, WELL_NUMBER_END_INDEX).trim();
+                        wellNumbers.add(wellNumber);
+                        break;
+                    default:
+                        continue;
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return wellNumbers;
+    }
+    
+    public List<WellLog> parseDatFileReader(Reader reader) {
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        String recordId;
+        String currentLine;
+        WellLog wellLog;
+        Summary summary;
+        Location location;
+        List<Sample> samples;
+        List<FormationViewModel> formations;
+        List<WellLog> wellLogs;
+        
+        wellLog = new WellLog();
+        summary = new Summary();
+        location = new Location();
+        samples = new ArrayList<>();
+        formations = new ArrayList<>();
+        wellLogs = new ArrayList<>();
         
         try {
             
@@ -274,21 +398,21 @@ public class DatFileWellLogRepository implements WellLogRepository {
                         location = new Location();
                         wellLog.setId(UUID.randomUUID().toString());
                         
-                        parseHeaderIntoWellLog (currentLine);
-                        parseLocationIntoWellLog (currentLine);
-                        parseDateIntoSummary (currentLine);
+                        parseHeaderIntoWellLog (currentLine, wellLog, summary);
+                        parseLocationIntoWellLog (currentLine, location);
+                        parseDateIntoSummary (currentLine, summary);
                         break;
                     case OWNER_DRILLER_RECORD:
-                        parseOwnerDrillerIntoSummary (currentLine);
+                        parseOwnerDrillerIntoSummary (currentLine, summary);
                         break;
                     case WORKED_BY_RECORD:
-                        parseWorkedByIntoSummary (currentLine);
+                        parseWorkedByIntoSummary (currentLine, summary);
                         break;
                     case FORMATION_RECORD:
-                        parseFormation (currentLine);
+                        parseFormation (currentLine, formations);
                         break;
                     case SAMPLE_RECORD:
-                        parseSample (currentLine);
+                        parseSample (currentLine, samples);
                         break;
                     case END_OF_WELL_RECORD:
                     default:
@@ -344,9 +468,11 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        return wellLogs;
     }
 
-    private void parseHeaderIntoWellLog(String line) {
+    private void parseHeaderIntoWellLog(String line, WellLog wellLog, Summary summary) {
         String temp;
         
         try {
@@ -360,17 +486,28 @@ public class DatFileWellLogRepository implements WellLogRepository {
             if (temp.length() > 0) summary.setBottomSampleDepth(Double.valueOf(temp));
 
             temp = line.substring(TOTAL_DEPTH_BEGIN_INDEX, TOTAL_DEPTH_END_INDEX).trim();
-            if (temp.length() > 0) summary.setTotalDepth(Double.valueOf(temp));
+            try {
+                if (temp.length() > 0) summary.setTotalDepth(Double.valueOf(temp));
+            }
+            catch(NumberFormatException nfe) {
+                // TODO evaluate why the data is incorrect
+            }
 
             if (line.length() >= ELEVATION_END_INDEX) {
                 temp = line.substring(ELEVATION_BEGIN_INDEX, ELEVATION_END_INDEX).trim();
-                if (!temp.isEmpty()) summary.setElevation(Double.valueOf(temp));
+                
+                try{
+                    if (!temp.isEmpty()) summary.setElevation(Double.valueOf(temp));
+                }
+                catch(NumberFormatException nfe) {
+                    // TODO evaluate why the data is incorrect
+                }
             }
             
             // Note: will use the actual count of samples found instead of
             // the value found at SAMPLES_BEGIN_INDEX because many times
             // the value is either omitted or is incorrect. The setSampleCount
-            // call is now made at the bottom of parseWellLogs().
+            // call is now made at the bottom of parseDatFileReader().
 //            if (line.length() >= SAMPLES_END_INDEX) {
 //                temp = line.substring(SAMPLES_BEGIN_INDEX, SAMPLES_END_INDEX).trim();
 //                if (temp.length() > 0) wellLog.setSampleCount(Integer.valueOf(temp));
@@ -401,23 +538,23 @@ public class DatFileWellLogRepository implements WellLogRepository {
         }
     }
     
-    private void parseLocationIntoWellLog(String line) {
+    private void parseLocationIntoWellLog(String line, Location location) {
         try {
             location.setCountyCode(
                     line.substring(COUNTY_BEGIN_INDEX, COUNTY_END_INDEX).trim());
             
             // Township, Range, Section, and Quartersection
-            parseTRSQ(line);
+            parseTRSQ(line, location);
             
             // Lat/Long and Degrees, Minutes, and Seconds
-            parseDMS(line);
+            parseDMS(line, location);
             
         } catch (Exception e) {
             Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
-    private void parseTRSQ(String line) {
+    private void parseTRSQ(String line, Location location) {
         String temp;
         
         // Prepend "0" to township if length is too short
@@ -431,14 +568,21 @@ public class DatFileWellLogRepository implements WellLogRepository {
         location.setRange(temp);
 
         temp = line.substring(SECTION_BEGIN_INDEX, SECTION_END_INDEX).trim();
-        if (temp.length() > 0) 
-            location.setSection(Integer.valueOf(temp));
+        if (temp.length() > 0) {
+            try {
+                location.setSection(Integer.valueOf(temp));
+            }
+            catch (NumberFormatException nfe) {
+                // TODO Investigate
+            }
+        }
+            
 
         location.setQuarterSection(
                 line.substring(QTRSECTION_BEGIN_INDEX, QTRSECTION_END_INDEX).trim());
     }
     
-    private void parseDMS(String line) {
+    private void parseDMS(String line, Location location) {
         int latDegrees = 0;
         int latMinutes = 0;
         int latSeconds = 0;
@@ -472,7 +616,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         location.setLngSeconds(lngSeconds);
     }
     
-    private void parseDateIntoSummary(String line) {
+    private void parseDateIntoSummary(String line, Summary summary) {
         String temp;
         
         try {
@@ -488,8 +632,14 @@ public class DatFileWellLogRepository implements WellLogRepository {
 
                     if (line.length() > (DAY_BEGIN_INDEX + 1)) {
                         temp = line.substring(DAY_BEGIN_INDEX, DAY_END_INDEX).trim();
-                        if (temp.length() > 0)
-                            summary.setCompletionDateDay(Integer.valueOf(temp));
+                        if (temp.length() > 0) {
+                            try{
+                                summary.setCompletionDateDay(Integer.valueOf(temp));
+                            }
+                            catch(NumberFormatException nfe) {
+
+                            }
+                        }
                     }
                 }
             }
@@ -498,7 +648,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         }
     }
     
-    private void parseOwnerDrillerIntoSummary(String line) {
+    private void parseOwnerDrillerIntoSummary(String line, Summary summary) {
         String ownerDriller = summary.getOwnerDriller();
         
         if (ownerDriller.length() > 0)
@@ -507,7 +657,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
             summary.setOwnerDriller(line.substring(DATA_OFFSET_INDEX));
     }
     
-    private void parseWorkedByIntoSummary(String line) {
+    private void parseWorkedByIntoSummary(String line, Summary summary) {
         String workedBy = summary.getWorkedBy();
         
         if (workedBy.length() > 0)
@@ -516,7 +666,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
             summary.setWorkedBy(line.substring(DATA_OFFSET_INDEX));
     }
     
-    private void parseFormation(String line) {
+    private void parseFormation(String line, List<FormationViewModel> formations) {
         FormationViewModel previousFormation = null;
         Formation formation = new Formation();
         double lastToDepth = 0;
@@ -548,8 +698,13 @@ public class DatFileWellLogRepository implements WellLogRepository {
             if (temp.length() > 0) formation.setFromDepth(Double.valueOf(temp));
 
             // To depth
-            temp = line.substring(FM_TO_DEPTH_BEGIN_INDEX, FM_TO_DEPTH_END_INDEX).trim();
-            if (temp.length() > 0) formation.setToDepth(Double.valueOf(temp));
+            try{
+                temp = line.substring(FM_TO_DEPTH_BEGIN_INDEX, FM_TO_DEPTH_END_INDEX).trim();
+                if (temp.length() > 0) formation.setToDepth(Double.valueOf(temp));
+            }
+            catch(StringIndexOutOfBoundsException ex) {
+                // TODO investigate
+            }
 
             // Formation code
             if (line.length() > FM_TO_DEPTH_END_INDEX) {
@@ -563,7 +718,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         formations.add(formationView);
     }
     
-    private void parseSample(String line) {
+    private void parseSample(String line, List<Sample> samples) {
         String temp;
         double lastToDepth = 0;
         Sample lastSample = null;
@@ -608,7 +763,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
             // the well log at this point
             samples.add(sample);
             
-            parseSampleDepth(line);
+            parseSampleDepth(line, samples);
             
             // "N" = no sample record, "V" = same as previous sample record
             // Some records don't have any data after the rock type code.
@@ -619,80 +774,80 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 return;
             }
             
-            parseRockColors(line);
-            parsePorosity(line);
+            parseRockColors(line, samples);
+            parsePorosity(line, samples);
             
             switch (sample.getRockTypeCode()) {
                 case "S": // Sand
-                    parseSand(line);
+                    parseSand(line, samples);
                     break;
                 case "F": // Shell Bed
-                    parseShellBed(line);
+                    parseShellBed(line, samples);
                     break;
                 case "L": // Limestone
                 case "E": // Calcarenite
                 case "M": // Calcilutite
-                    parseLimestone(line);
+                    parseLimestone(line, samples);
                     break;
                 case "D": // Dolostone
-                    parseDolomite(line);
+                    parseDolomite(line, samples);
                     break;
                 case "C": // Clay
-                    parseClay(line);
+                    parseClay(line, samples);
                     break;
             }
         }
     }
     
-    private void parseSand(String line) {
-        parseGrainSize(line);
-        parseGrainRange(line);
-        parseRoundness(line);
-        parseSphericity(line);
-        parseInduration(line);
-        parseMineralsIntoSample(line);
-        parseFeaturesIntoSample(line);
-        parseFossilsIntoSample(line);
+    private void parseSand(String line, List<Sample> samples) {
+        parseGrainSize(line, samples);
+        parseGrainRange(line, samples);
+        parseRoundness(line, samples);
+        parseSphericity(line, samples);
+        parseInduration(line, samples);
+        parseMineralsIntoSample(line, samples);
+        parseFeaturesIntoSample(line, samples);
+        parseFossilsIntoSample(line, samples);
     }
     
-    private void parseShellBed(String line) {
-        parseInduration(line);
-        parseMineralsIntoSample(line);
-        parseFeaturesIntoSample(line);
-        parseFossilsIntoSample(line);
+    private void parseShellBed(String line, List<Sample> samples) {
+        parseInduration(line, samples);
+        parseMineralsIntoSample(line, samples);
+        parseFeaturesIntoSample(line, samples);
+        parseFossilsIntoSample(line, samples);
     }
     
-    private void parseLimestone(String line) {
-        parseGrainTypes(line);
-        parseLimestoneGrainSize(line);
-        parseLimestoneGrainRange(line);
-        parseInduration(line);
-        parseCementTypesIntoSample(line);
-        parseMineralsIntoSample(line);
-        parseFeaturesIntoSample(line);
-        parseFossilsIntoSample(line);
+    private void parseLimestone(String line, List<Sample> samples) {
+        parseGrainTypes(line, samples);
+        parseLimestoneGrainSize(line, samples);
+        parseLimestoneGrainRange(line, samples);
+        parseInduration(line, samples);
+        parseCementTypesIntoSample(line, samples);
+        parseMineralsIntoSample(line, samples);
+        parseFeaturesIntoSample(line, samples);
+        parseFossilsIntoSample(line, samples);
     }
     
-    private void parseDolomite(String line) {
-        parseAlterationCode(line);
-        parseCrystallinityCode(line);
-        parseDolomiteGrainSize(line);
-        parseDolomiteGrainRange(line);
-        parseInduration(line);
-        parseCementTypesIntoSample(line);
-        parseMineralsIntoSample(line);
-        parseFeaturesIntoSample(line);
-        parseFossilsIntoSample(line);
+    private void parseDolomite(String line, List<Sample> samples) {
+        parseAlterationCode(line, samples);
+        parseCrystallinityCode(line, samples);
+        parseDolomiteGrainSize(line, samples);
+        parseDolomiteGrainRange(line, samples);
+        parseInduration(line, samples);
+        parseCementTypesIntoSample(line, samples);
+        parseMineralsIntoSample(line, samples);
+        parseFeaturesIntoSample(line, samples);
+        parseFossilsIntoSample(line, samples);
     }
     
-    private void parseClay(String line) {
-        parseInduration(line);
-        parseMineralsIntoSample(line);
-        parseFeaturesIntoSample(line);
-        parseFossilsIntoSample(line);
+    private void parseClay(String line, List<Sample> samples) {
+        parseInduration(line, samples);
+        parseMineralsIntoSample(line, samples);
+        parseFeaturesIntoSample(line, samples);
+        parseFossilsIntoSample(line, samples);
     }
     
-    private void parseSampleDepth(String line) {
+    private void parseSampleDepth(String line, List<Sample> samples) {
         String temp;
         double fraction = 0;
         
@@ -721,7 +876,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
             samples.size() - 1).setToDepth(depth + fraction);
     }
     
-    private void parseRockColors(String line) {
+    private void parseRockColors(String line, List<Sample> samples) {
         String temp;
         
         if (line.length() < ROCK_COLOR_END_INDEX) return;
@@ -737,7 +892,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
             samples.size() - 1).setRockColorCodeMax(temp);
     }
     
-    private void parsePorosity(String line) {
+    private void parsePorosity(String line, List<Sample> samples) {
         int endIndex;
         String temp;
         String[] dataArray;
@@ -780,7 +935,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         }
     }
     
-    private void parseGrainSize(String line) {
+    private void parseGrainSize(String line, List<Sample> samples) {
         String temp;
         
         if (line.length() < GRAIN_SIZE_END_INDEX) return;
@@ -791,7 +946,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .setGrainSizeCode(temp);
     }
     
-    private void parseGrainRange(String line) {
+    private void parseGrainRange(String line, List<Sample> samples) {
         String temp;
         
         if (line.length() < RANGE_MIN_END_INDEX) return;
@@ -808,7 +963,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .setGrainRangeCodeMax(temp);
     }
     
-    private void parseRoundness(String line) {
+    private void parseRoundness(String line, List<Sample> samples) {
         String temp;
         
         if (line.length() < ROUNDNESS_MIN_END_INDEX) return;
@@ -825,7 +980,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .setRoundnessCodeMax(temp);
     }
     
-    private void parseSphericity(String line) {
+    private void parseSphericity(String line, List<Sample> samples) {
         String temp;
         
         if (line.length() < SPHERICITY_END_INDEX) return;
@@ -835,7 +990,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .setSphericityCode(temp);
     }
     
-    private void parseGrainTypes(String line) {
+    private void parseGrainTypes(String line, List<Sample> samples) {
         int endIndex;
         String temp;
         String[] dataArray;
@@ -856,7 +1011,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .getGrainTypeCodes().addAll(Arrays.asList(dataArray));
     }
     
-    private void parseLimestoneGrainSize(String line) {
+    private void parseLimestoneGrainSize(String line, List<Sample> samples) {
         String temp;
         
         if (line.length() < LIMESTONE_GRAIN_SIZE_END_INDEX) return;
@@ -868,7 +1023,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .setGrainSizeCode(temp);
     }
     
-    private void parseLimestoneGrainRange(String line) {
+    private void parseLimestoneGrainRange(String line, List<Sample> samples) {
         String temp;
         
         if (line.length() < LIMESTONE_RANGE_MIN_END_INDEX) return;
@@ -879,7 +1034,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         samples.get(samples.size() - 1)
                 .setGrainRangeCodeMin(temp);
         
-        if (line.length() < LIMESTONE_RANGE_MIN_END_INDEX) return;
+        if (line.length() < LIMESTONE_RANGE_MAX_END_INDEX) return;
         
         temp = line.substring(LIMESTONE_RANGE_MAX_BEGIN_INDEX, 
                 LIMESTONE_RANGE_MAX_END_INDEX).trim();
@@ -887,7 +1042,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .setGrainRangeCodeMax(temp);
     }
     
-    private void parseAlterationCode(String line) {
+    private void parseAlterationCode(String line, List<Sample> samples) {
         String temp;
         
         if (line.length() < ALTERATION_END_INDEX) return;
@@ -899,7 +1054,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .setAlterationCode(temp);
     }
     
-    private void parseCrystallinityCode(String line) {
+    private void parseCrystallinityCode(String line, List<Sample> samples) {
         String temp;
         
         if (line.length() < CRYSTALLINITY_END_INDEX) return;
@@ -911,7 +1066,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .setCrystallinityCode(temp);
     }
     
-    private void parseDolomiteGrainSize(String line) {
+    private void parseDolomiteGrainSize(String line, List<Sample> samples) {
         String temp;
         
         if (line.length() < DOLOMITE_GRAIN_SIZE_END_INDEX) return;
@@ -923,7 +1078,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .setGrainSizeCode(temp);
     }
     
-    private void parseDolomiteGrainRange(String line) {
+    private void parseDolomiteGrainRange(String line, List<Sample> samples) {
         String temp;
         
         if (line.length() < DOLOMITE_RANGE_MIN_END_INDEX) return;
@@ -942,7 +1097,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .setGrainRangeCodeMax(temp);
     }
     
-    private void parseCementTypesIntoSample(String line) {
+    private void parseCementTypesIntoSample(String line, List<Sample> samples) {
         int endIndex;
         String temp;
         String[] dataArray;
@@ -963,7 +1118,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .getCementTypeCodes().addAll(Arrays.asList(dataArray));
     }
     
-    private void parseInduration(String line) {
+    private void parseInduration(String line, List<Sample> samples) {
         String temp;
         
         if (line.length() < INDURATION_END_INDEX) return;
@@ -973,7 +1128,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .setIndurationCode(temp);
     }
     
-    private void parseSedimentaryIntoSample(String line) {
+    private void parseSedimentaryIntoSample(String line, List<Sample> samples) {
         int endIndex;
         String temp;
         String[] dataArray;
@@ -994,7 +1149,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .getSedimentaryCodes().addAll(Arrays.asList(dataArray));
     }
     
-    private void parseMineralsIntoSample(String line) {
+    private void parseMineralsIntoSample(String line, List<Sample> samples) {
         int endIndex;
         String temp;
         String[] dataArray;
@@ -1077,7 +1232,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         return dataArray;
     }
     
-    private void parseFeaturesIntoSample(String line) {
+    private void parseFeaturesIntoSample(String line, List<Sample> samples) {
         int endIndex;
         String temp;
         String[] dataArray;
@@ -1098,7 +1253,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 .getOtherFeatureCodes().addAll(Arrays.asList(dataArray));
     }
     
-    private void parseFossilsIntoSample(String line) {
+    private void parseFossilsIntoSample(String line, List<Sample> samples) {
         String temp;
         String[] dataArray;
         

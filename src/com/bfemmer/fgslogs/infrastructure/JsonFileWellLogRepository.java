@@ -31,6 +31,7 @@ import com.bfemmer.fgslogs.model.SummaryEntity;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogEntity;
 import com.bfemmer.fgslogs.model.WellLogRepository;
+import com.bfemmer.fgslogs.viewmodel.LatLng;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
@@ -55,28 +56,34 @@ public class JsonFileWellLogRepository implements WellLogRepository {
         this.directory = directory;
     }
     
+    /**
+     * Returns list of well logs within a json file
+     * 
+     * @param filename json file
+     * @return 
+     */
     @Override
-    public List<WellLog> getAllWellLogs() {
+    public List<WellLog> getAllWellLogs(String filename) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<String> getAllWellNumbers() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<String> getWellNumbersByCounty(String countyCode) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<WellLog> getWellLogByWellNumber(int wellNumber) {
+    public List<String> getWellNumbersByCounty(String county) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public WellLog getWellLogById(String id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public WellLog getWellLogByWellNumber(String wellNumber) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public LatLng getLatLngByWellNumber(String wellNumber) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

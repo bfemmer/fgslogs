@@ -22,44 +22,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.bfemmer.fgslogs.applicationservice;
-
-import com.bfemmer.fgslogs.model.WellLog;
-import com.bfemmer.fgslogs.model.WellLogRepository;
-import java.util.List;
+package com.bfemmer.fgslogs.viewmodel;
 
 /**
  *
  * @author bfemmer
  */
-public class WellLogApplicationService {
-    private final WellLogRepository wellLogRepository;
+public class LatLng {
+    private final double latitude;
+    private final double longitude;
     
-    public WellLogApplicationService(WellLogRepository wellLogRepository) {
-        this.wellLogRepository = wellLogRepository;
+    public LatLng(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    /**
+     * @return the latitude
+     */
+    public double getLatitude() {
+        return latitude;
+    }
+
+    /**
+     * @return the longitude
+     */
+    public double getLongitude() {
+        return longitude;
     }
     
-    public List<WellLog> getAllWellLogs(String filename) {
-        return wellLogRepository.getAllWellLogs(filename);
-    }
-    
-    public List<String> getWellNumbersForCounty(String countyCode) {
-        return wellLogRepository.getWellNumbersByCounty(countyCode);
-    }
-    
-    public WellLog getWellLogByWellNumber(String wellNumber) {
-        return wellLogRepository.getWellLogByWellNumber(wellNumber);
-    }
-    
-    public WellLog getWellLogById(String id) {
-        return wellLogRepository.getWellLogById(id);
-    }
-    
-    public void saveWellLog(WellLog wellLog) {
-        wellLogRepository.saveWellLog(wellLog);
-    }
-    
-    public void saveWellLogs(List<WellLog> wellLogs) {
-        wellLogRepository.saveWellLogs(wellLogs);
-    }
 }

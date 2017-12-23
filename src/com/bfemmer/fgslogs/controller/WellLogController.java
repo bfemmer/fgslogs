@@ -30,6 +30,7 @@ import com.bfemmer.fgslogs.infrastructure.JsonFileWellLogRepository;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogModel;
 import com.bfemmer.fgslogs.view.MainWindow;
+import com.bfemmer.fgslogs.viewmodel.LookupCodes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.Component;
 import java.awt.Container;
@@ -38,6 +39,10 @@ import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +86,7 @@ public class WellLogController {
     public void control() {        
         view.getOpenMenuItem().addActionListener(
             (ActionEvent actionEvent) -> {
-                loadLogFileWithDialog();
+                loadDirectoryWithDialog();
                 resetEditor();
             });
         view.getExportSelectedMenuItem().addActionListener(
@@ -124,9 +129,11 @@ public class WellLogController {
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
                 if (node == null) return;
                 
-                // Extract WellLog object from node
-                WellLog wellLog = (WellLog)node.getUserObject();
+                WellLogApplicationService service = new WellLogApplicationService(
+                    new DatFileWellLogRepository(currentDirectory.toString()));
                 
+                WellLog wellLog = service.getWellLogByWellNumber((String)node.getUserObject());
+                                
                 // Set editor with data from selected node
                 ((JEditorPane)getComponentByName("editorPane")).setText(
                         com.bfemmer.fgslogs.utility.Html.getHtmlReport(wellLog));
@@ -134,8 +141,40 @@ public class WellLogController {
             });
     }
     
+    private void resetTree() {
+        JTree tree = ((JTree)getComponentByName("wellTreeView"));
+        
+        // Clear out previous data
+        tree.removeAll();
+        tree.setModel(null);
+        
+        // Create top node with county name
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Well Logs");
+        
+        // Generate list of counties from map
+        List<String> counties = new ArrayList<>();
+        LookupCodes codes = new LookupCodes();
+        codes.getCountyCodeMap().entrySet().forEach((entry) -> {
+            counties.add(entry.getValue());
+        });
+        
+        // Sort the list of counties
+        Collections.sort(counties.subList(0, counties.size()));
+        
+        // Add county nodes to treeview
+        counties.stream().map((county) -> new DefaultMutableTreeNode(county)).forEachOrdered((node) -> {
+            rootNode.add(node);
+        });
+        
+        // Set the model object for the tree
+        tree.setModel(new DefaultTreeModel(rootNode));
+        
+        System.out.print("Found node at: " + findNode("Dade").getPath().toString());
+    }
+    
     private void updateTree() {
         JTree tree = ((JTree)getComponentByName("wellTreeView"));
+        
         
         // Clear out previous data
         tree.removeAll();
@@ -152,6 +191,59 @@ public class WellLogController {
         
         // Set the model object for the tree
         tree.setModel(new DefaultTreeModel(countyNode));
+        
+        
+    }
+    
+    public final DefaultMutableTreeNode findNode(String searchString) {
+        JTree tree = ((JTree)getComponentByName("wellTreeView"));
+
+        if (null == searchString) {
+            return null;
+        }
+        
+        List<DefaultMutableTreeNode> searchNodes = getSearchNodes((DefaultMutableTreeNode)tree.getModel().getRoot());
+        DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+
+        DefaultMutableTreeNode foundNode = null;
+        int bookmark = -1;
+
+        if( currentNode != null ) {
+            for(int index = 0; index < searchNodes.size(); index++) {
+                if( searchNodes.get(index) == currentNode ) {
+                    bookmark = index;
+                    break;
+                }
+            }
+        }
+
+        for(int index = bookmark + 1; index < searchNodes.size(); index++) {
+            if (searchNodes.get(index) == null) continue;
+            if(searchNodes.get(index).toString().toLowerCase().contains(searchString.toLowerCase())) {
+                foundNode = searchNodes.get(index);
+                break;
+            }
+        }
+
+        if( foundNode == null ) {
+            for(int index = 0; index <= bookmark; index++) {    
+                if(searchNodes.get(index).toString().toLowerCase().contains(searchString.toLowerCase())) {
+                    foundNode = searchNodes.get(index);
+                    break;
+                }
+            }
+        }
+        return foundNode;
+    }   
+
+    private final List<DefaultMutableTreeNode> getSearchNodes(DefaultMutableTreeNode root) {
+        List<DefaultMutableTreeNode> searchNodes = new ArrayList<DefaultMutableTreeNode>();
+
+        Enumeration<?> e = root.preorderEnumeration();
+        while(e.hasMoreElements()) {
+            searchNodes.add((DefaultMutableTreeNode)e.nextElement());
+        }
+        return searchNodes;
     }
     
     private void resetEditor() {
@@ -160,27 +252,82 @@ public class WellLogController {
     }
     
     private void loadLogFileWithDialog() {
+//        int dialogResult;
+//        
+//        JFileChooser chooser = new JFileChooser();
+//        chooser.setCurrentDirectory(currentDirectory);
+//        
+//        dialogResult = chooser.showOpenDialog(null);
+//        
+//        if (dialogResult == JFileChooser.APPROVE_OPTION) {
+//            currentDirectory = chooser.getCurrentDirectory();
+//            selectedDatFile = chooser.getSelectedFile().getName();
+//            
+//            WellLogApplicationService wellLogApplicationService = 
+//                        new WellLogApplicationService(
+//                                new DatFileWellLogRepository(
+//                                        chooser.getSelectedFile().toString()));
+//                
+//            model.setWellLogs(wellLogApplicationService.getAllWellLogs());
+//            view.getFrame().setTitle("FGSLOGS (Lithology Logs): " + chooser.getSelectedFile().toString());
+//            view.getExportMenu().setEnabled(true);
+//            view.getPrintMenuItem().setEnabled(true);
+//            updateTree();
+//        }
+    }
+    
+    /**
+     * Loads treeview with well numbers grouped by county
+     */
+    private void loadDirectoryWithDialog() {
         int dialogResult;
         
         JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(currentDirectory);
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Select directory containing DAT files");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
         
         dialogResult = chooser.showOpenDialog(null);
         
         if (dialogResult == JFileChooser.APPROVE_OPTION) {
-            currentDirectory = chooser.getCurrentDirectory();
-            selectedDatFile = chooser.getSelectedFile().getName();
+            currentDirectory = chooser.getSelectedFile();
             
-            WellLogApplicationService wellLogApplicationService = 
-                        new WellLogApplicationService(
-                                new DatFileWellLogRepository(
-                                        chooser.getSelectedFile().toString()));
-                
-            model.setWellLogs(wellLogApplicationService.getAllWellLogs());
+            //model.setWellLogs(wellLogApplicationService.getAllWellLogs());
             view.getFrame().setTitle("FGSLOGS (Lithology Logs): " + chooser.getSelectedFile().toString());
             view.getExportMenu().setEnabled(true);
             view.getPrintMenuItem().setEnabled(true);
-            updateTree();
+            
+            // Add counties to treeview
+            resetTree();
+            
+            // Generate list of counties from map
+            List<String> counties = new ArrayList<>();
+            LookupCodes codes = new LookupCodes();
+            codes.getCountyCodeMap().entrySet().forEach((entry) -> {
+                counties.add(entry.getValue());
+            });
+        
+            // Sort the list of counties
+            Collections.sort(counties.subList(0, counties.size()));
+            
+            WellLogApplicationService service = 
+                        new WellLogApplicationService(
+                                new DatFileWellLogRepository(
+                                        currentDirectory.toString()));
+            
+            for (String county : counties) {
+                // Find the county node in the tree
+                DefaultMutableTreeNode countyNode = findNode(county);
+                
+                // Get list of well numbers within the county
+                List<String> wellNumbers = service.getWellNumbersForCounty(county);
+                for (String wellNumber : wellNumbers) {
+                    // Create a new node and add it to the county node
+                    DefaultMutableTreeNode node = new DefaultMutableTreeNode(wellNumber);
+                    countyNode.add(node);
+                }
+            }
         }
     }
     
