@@ -36,6 +36,7 @@ import com.bfemmer.fgslogs.model.Summary;
 import com.bfemmer.fgslogs.model.SummaryEntity;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogRepository;
+import com.bfemmer.fgslogs.model.WellNumberEntity;
 import com.bfemmer.fgslogs.viewmodel.FormationViewModel;
 import com.bfemmer.fgslogs.viewmodel.LatLng;
 import com.bfemmer.fgslogs.viewmodel.LocationViewModel;
@@ -48,7 +49,10 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -206,9 +210,10 @@ public class DatFileWellLogRepository implements WellLogRepository {
     }
 
     @Override
-    public List<String> getWellNumbersByCounty(String county) {
+    public List<WellNumberEntity> getWellNumbersByCounty(String county) {
         Reader fileReader;
         List<String> wellNumbers = new ArrayList<>();
+        List<WellNumberEntity> wellNumberEntities = new ArrayList<>();
         File[] datFiles = new File(directory).listFiles();
         
         for (File datFile : datFiles) {
@@ -220,7 +225,16 @@ public class DatFileWellLogRepository implements WellLogRepository {
                     continue;
                 }
                 
+                // Get list of well numbers from file
                 wellNumbers = getWellNumbersFromReader(fileReader);
+                
+                // We have to count the frequency of occurence of well numbers
+                // because some well numbers have more than one log.
+                Set<String> uniqueSet = new HashSet<>(wellNumbers);
+                for (String wellNumber : uniqueSet) {
+                        wellNumberEntities.add(new WellNumberEntity(wellNumber, Collections.frequency(wellNumbers, wellNumber)));
+                        //System.out.println(wellNumber + ": " + Collections.frequency(wellNumbers, wellNumber));
+                }
                 
                 break;
             } catch (FileNotFoundException ex) {
@@ -228,7 +242,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
             }
         }
         
-        return wellNumbers;
+        return wellNumberEntities;
     }
 
     @Override
@@ -252,35 +266,38 @@ public class DatFileWellLogRepository implements WellLogRepository {
     }
     
     @Override
-    public WellLog getWellLogByWellNumber(String wellNumber) {
-        WellLog foundWellLog = null;
-        List<String> wellNumbers = new ArrayList<>();
+    public List<WellLog> getWellLogByWellNumber(String wellNumber) {
+        List<WellLog> logs = new ArrayList<>();
         
         for (File datFile : new File(directory).listFiles()) {
             try {
-                // Look for well number in file
-                wellNumbers = getWellNumbersFromReader(new FileReader(datFile));
-                
-                if (!wellNumbers.contains(wellNumber)) {
+                // Get list of well numbers from file and look for the 
+                // desired number in the list. If the number is not there,
+                // continue with the next file.
+                if (!getWellNumbersFromReader(
+                        new FileReader(datFile)).contains(wellNumber)) {
                     continue;
                 }
                 
-                // Load logs in file
+                // Import the file into a list of well logs
                 List<WellLog> wellLogs = getAllWellLogs(datFile.toString());
                 
-                // Look for log of interest
+                // Look for log of interest and add it to the list to be returned
                 for (WellLog wellLog : wellLogs) {
                     if (wellLog.getWellLogNumber().equals(wellNumber)) {
-                        foundWellLog = wellLog;
+                        logs.add(wellLog);
                         break;
                     }
                 }
+                
+                // Break out of for loop ... no need to look in additional files
+                break;
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
-        return foundWellLog;
+        return logs;
     }
     
     @Override
@@ -348,11 +365,11 @@ public class DatFileWellLogRepository implements WellLogRepository {
                                     
                 switch (recordId) {
                     case START_OF_WELL_RECORD:
-                        wellNumber = currentLine.substring(WELL_NUMBER_BEGIN_INDEX, WELL_NUMBER_END_INDEX).trim();
+                        wellNumber = currentLine.substring(
+                                WELL_NUMBER_BEGIN_INDEX, WELL_NUMBER_END_INDEX).trim();
                         wellNumbers.add(wellNumber);
                         break;
                     default:
-                        continue;
                 }
             }
         } catch (IOException ex) {

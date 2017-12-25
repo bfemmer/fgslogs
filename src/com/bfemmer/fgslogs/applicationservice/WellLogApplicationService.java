@@ -26,6 +26,7 @@ package com.bfemmer.fgslogs.applicationservice;
 
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogRepository;
+import com.bfemmer.fgslogs.model.WellNumberEntity;
 import java.util.List;
 
 /**
@@ -43,11 +44,11 @@ public class WellLogApplicationService {
         return wellLogRepository.getAllWellLogs(filename);
     }
     
-    public List<String> getWellNumbersForCounty(String countyCode) {
+    public List<WellNumberEntity> getWellNumbersForCounty(String countyCode) {
         return wellLogRepository.getWellNumbersByCounty(countyCode);
     }
     
-    public WellLog getWellLogByWellNumber(String wellNumber) {
+    public List<WellLog> getWellLogByWellNumber(String wellNumber) {
         return wellLogRepository.getWellLogByWellNumber(wellNumber);
     }
     

@@ -29,6 +29,7 @@ import com.bfemmer.fgslogs.infrastructure.DatFileWellLogRepository;
 import com.bfemmer.fgslogs.infrastructure.JsonFileWellLogRepository;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogModel;
+import com.bfemmer.fgslogs.model.WellNumberEntity;
 import com.bfemmer.fgslogs.view.MainWindow;
 import com.bfemmer.fgslogs.viewmodel.LookupCodes;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -132,11 +133,12 @@ public class WellLogController {
                 WellLogApplicationService service = new WellLogApplicationService(
                     new DatFileWellLogRepository(currentDirectory.toString()));
                 
-                WellLog wellLog = service.getWellLogByWellNumber((String)node.getUserObject());
+                List<WellLog> wellLogs = service.getWellLogByWellNumber(
+                        ((WellNumberEntity)node.getUserObject()).getWellNumber());
                                 
                 // Set editor with data from selected node
                 ((JEditorPane)getComponentByName("editorPane")).setText(
-                        com.bfemmer.fgslogs.utility.Html.getHtmlReport(wellLog));
+                        com.bfemmer.fgslogs.utility.Html.getHtmlReport(wellLogs.get(0)));
                 ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
             });
     }
@@ -321,10 +323,14 @@ public class WellLogController {
                 DefaultMutableTreeNode countyNode = findNode(county);
                 
                 // Get list of well numbers within the county
-                List<String> wellNumbers = service.getWellNumbersForCounty(county);
-                for (String wellNumber : wellNumbers) {
+                List<WellNumberEntity> wellNumbers = service.getWellNumbersForCounty(county);
+                
+                // Sort the list of well numbers
+                Collections.sort(wellNumbers, new SortByWellNumber());
+
+                for (WellNumberEntity entity : wellNumbers) {
                     // Create a new node and add it to the county node
-                    DefaultMutableTreeNode node = new DefaultMutableTreeNode(wellNumber);
+                    DefaultMutableTreeNode node = new DefaultMutableTreeNode(entity);
                     countyNode.add(node);
                 }
             }
@@ -411,16 +417,10 @@ public class WellLogController {
      */
     private void exportAllToJsonFiles() {
         int dialogResult;
-        
-        if ("".equals(selectedDatFile)) {
-            JOptionPane.showMessageDialog(null, 
-                    "DAT file must be opened first.", 
-                    "Invalid Operation", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        WellLog wellLog;
         
         JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setCurrentDirectory(new java.io.File(currentDirectory.toString()));
         chooser.setDialogTitle("Select directory to export JSON files to");
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setAcceptAllFileFilterUsed(false);
@@ -428,10 +428,18 @@ public class WellLogController {
         dialogResult = chooser.showOpenDialog(null);
 
         if (dialogResult == JFileChooser.APPROVE_OPTION) {
-            WellLogApplicationService service = new WellLogApplicationService(
+            WellLogApplicationService jsonService = new WellLogApplicationService(
                 new JsonFileWellLogRepository(chooser.getSelectedFile().toString()));
+            WellLogApplicationService datService = new WellLogApplicationService(
+                new DatFileWellLogRepository(currentDirectory.toString()));
             
-            service.saveWellLogs(model.getWellLogs());
+            File[] datFiles = chooser.getSelectedFile().listFiles();
+        
+            for (File datFile : datFiles) {
+                List<WellLog> wellLogs = datService.getAllWellLogs(datFile.toString());
+                jsonService.saveWellLogs(wellLogs);
+                System.out.print(datFile.toString());
+            }
             
             JOptionPane.showMessageDialog(null, 
                     "Export of log to JSON files in selected directory complete.", 
@@ -463,5 +471,14 @@ public class WellLogController {
             return (Component) componentMap.get(name);
         }
         else return null;
+    }
+}
+
+class SortByWellNumber implements Comparator<WellNumberEntity>{
+ 
+    @Override
+    public int compare(WellNumberEntity entity1, WellNumberEntity entity2) {
+        //return entity1.getWellNumber().compareTo(entity2.getWellNumber());
+        return entity1.getWellNumber().compareTo(entity2.getWellNumber());
     }
 }

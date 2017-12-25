@@ -31,6 +31,7 @@ import com.bfemmer.fgslogs.model.SummaryEntity;
 import com.bfemmer.fgslogs.model.WellLog;
 import com.bfemmer.fgslogs.model.WellLogEntity;
 import com.bfemmer.fgslogs.model.WellLogRepository;
+import com.bfemmer.fgslogs.model.WellNumberEntity;
 import com.bfemmer.fgslogs.viewmodel.LatLng;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
@@ -68,7 +69,7 @@ public class JsonFileWellLogRepository implements WellLogRepository {
     }
 
     @Override
-    public List<String> getWellNumbersByCounty(String county) {
+    public List<WellNumberEntity> getWellNumbersByCounty(String county) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -78,7 +79,7 @@ public class JsonFileWellLogRepository implements WellLogRepository {
     }
     
     @Override
-    public WellLog getWellLogByWellNumber(String wellNumber) {
+    public List<WellLog> getWellLogByWellNumber(String wellNumber) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

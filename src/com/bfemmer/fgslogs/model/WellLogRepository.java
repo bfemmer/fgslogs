@@ -33,9 +33,9 @@ import java.util.List;
  */
 public interface WellLogRepository {
     List<WellLog> getAllWellLogs(String filename);
-    List<String> getWellNumbersByCounty(String county);
+    List<WellNumberEntity> getWellNumbersByCounty(String county);
     WellLog getWellLogById(String id);
-    WellLog getWellLogByWellNumber(String wellNumber);
+    List<WellLog> getWellLogByWellNumber(String wellNumber);
     LatLng getLatLngByWellNumber(String wellNumber);
     void saveWellLog(WellLog wellLog);
     void saveWellLogs(List<WellLog> wellLogs);
