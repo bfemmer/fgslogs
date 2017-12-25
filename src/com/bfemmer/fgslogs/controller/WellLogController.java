@@ -114,12 +114,15 @@ public class WellLogController {
             });
         view.getWellTreeView().addTreeSelectionListener(
             (TreeSelectionEvent treeSelectionEvent) -> {
-                // If root node was selected, clear out editor and return
-                String well = treeSelectionEvent.getPath().getLastPathComponent().toString();
-                if (well.equals("Well Logs")) {
+                
+                // Well numbers are at level 3 in the path ... just reset the
+                // editor
+                if (treeSelectionEvent.getPath().getPathCount() < 3) {
                     resetEditor();
                     return;
                 }
+                
+                String well = treeSelectionEvent.getPath().getLastPathComponent().toString();
                 
                 // Get access to tree object and selected node
                 JTree tree = ((JTree)getComponentByName("wellTreeView"));
