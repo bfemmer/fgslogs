@@ -40,9 +40,7 @@ import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -322,12 +320,9 @@ public class WellLogController {
                 // Find the county node in the tree
                 DefaultMutableTreeNode countyNode = findNode(county);
                 
-                // Get list of well numbers within the county
+                // Get (sorted) list of well numbers within the county
                 List<WellNumberEntity> wellNumbers = service.getWellNumbersForCounty(county);
                 
-                // Sort the list of well numbers
-                Collections.sort(wellNumbers, new SortByWellNumber());
-
                 for (WellNumberEntity entity : wellNumbers) {
                     // Create a new node and add it to the county node
                     DefaultMutableTreeNode node = new DefaultMutableTreeNode(entity);
@@ -471,14 +466,5 @@ public class WellLogController {
             return (Component) componentMap.get(name);
         }
         else return null;
-    }
-}
-
-class SortByWellNumber implements Comparator<WellNumberEntity>{
- 
-    @Override
-    public int compare(WellNumberEntity entity1, WellNumberEntity entity2) {
-        //return entity1.getWellNumber().compareTo(entity2.getWellNumber());
-        return entity1.getWellNumber().compareTo(entity2.getWellNumber());
     }
 }

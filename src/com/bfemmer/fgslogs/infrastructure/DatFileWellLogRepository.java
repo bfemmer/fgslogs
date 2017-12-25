@@ -50,6 +50,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -242,6 +243,9 @@ public class DatFileWellLogRepository implements WellLogRepository {
             }
         }
         
+        // Sort the list by well number
+        Collections.sort(wellNumberEntities, new SortByWellNumber());
+                
         return wellNumberEntities;
     }
 
@@ -1288,4 +1292,13 @@ public class DatFileWellLogRepository implements WellLogRepository {
         return original.substring(0, 1).toUpperCase() + original.substring(1);
     }
 
+}
+
+class SortByWellNumber implements Comparator<WellNumberEntity>{
+ 
+    @Override
+    public int compare(WellNumberEntity entity1, WellNumberEntity entity2) {
+        //return entity1.getWellNumber().compareTo(entity2.getWellNumber());
+        return entity1.getWellNumber().compareTo(entity2.getWellNumber());
+    }
 }

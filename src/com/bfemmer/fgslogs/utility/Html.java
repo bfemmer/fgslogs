@@ -523,7 +523,7 @@ public class Html {
         String completionDate;
         
         completionDate = String.format("%02d", 
-                wellLog.getSummaryEntity().getSummary().getCompletionDateDay());
+                wellLog.getSummaryEntity().getSummary().getCompletionDateYear());
         completionDate += String.format("%02d", 
                 wellLog.getSummaryEntity().getSummary().getCompletionDateMonth());
         completionDate += String.format("%02d", 
