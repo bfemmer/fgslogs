@@ -395,7 +395,7 @@ public class WellLogController {
                     mapper.writeValue(
                             new File(chooser.getSelectedFile() +
                                     File.separator +
-                                    String.valueOf(wellLog.getWellLogNumber()) + 
+                                    String.valueOf(wellLog.getWellNumber()) + 
                                     ".json"), wellLog);
                 } catch (IOException ex) {
                     Logger.getLogger(WellLogController.class.getName()).log(Level.SEVERE, null, ex);

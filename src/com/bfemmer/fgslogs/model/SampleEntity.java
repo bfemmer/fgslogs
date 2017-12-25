@@ -35,8 +35,8 @@ import java.util.List;
 public class SampleEntity extends WellLogEntity {
     private List<SampleViewModel> samples;
     
-    public SampleEntity(String id, String wellLogId, String wellLogNumber) {
-        super(id, wellLogId, wellLogNumber);
+    public SampleEntity(String id, String wellLogId, String wellNumber) {
+        super(id, wellLogId, wellNumber);
         
         samples = new ArrayList<>();
     }

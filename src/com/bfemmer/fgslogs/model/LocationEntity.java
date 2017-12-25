@@ -33,8 +33,8 @@ import com.bfemmer.fgslogs.viewmodel.LocationViewModel;
 public class LocationEntity extends WellLogEntity {
     private LocationViewModel location;
     
-    public LocationEntity(String id, String wellLogId, String wellLogNumber) {
-        super(id, wellLogId, wellLogNumber);
+    public LocationEntity(String id, String wellLogId, String wellNumber) {
+        super(id, wellLogId, wellNumber);
     }
 
     /**

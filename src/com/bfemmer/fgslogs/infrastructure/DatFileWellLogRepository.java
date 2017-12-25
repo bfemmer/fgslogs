@@ -284,7 +284,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 
                 // Look for log of interest and add it to the list to be returned
                 for (WellLog wellLog : wellLogs) {
-                    if (wellLog.getWellLogNumber().equals(wellNumber)) {
+                    if (wellLog.getWellNumber().equals(wellNumber)) {
                         logs.add(wellLog);
                         break;
                     }
@@ -310,7 +310,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
             
             // Look for log of interest
             for (WellLog wellLog : wellLogs) {
-                if (wellLog.getWellLogNumber().equals(wellNumber)) {
+                if (wellLog.getWellNumber().equals(wellNumber)) {
                     latLng = wellLog.getLocationEntity().getLocation().getLatLong();
                     break;
                 }
@@ -435,7 +435,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
                     default:
                         // Process samples
                         SampleEntity sampleEntity = new SampleEntity(
-                            UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
+                            UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellNumber());
                         
                         samples.stream().map((sample) -> new SampleViewModel(
                                 sample)).forEachOrdered((sampleView) -> {
@@ -448,19 +448,19 @@ public class DatFileWellLogRepository implements WellLogRepository {
                         
                         // Process formations
                         FormationEntity formationEntity = new FormationEntity(
-                            UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
+                            UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellNumber());
                         
                         formationEntity.setFormations(formations);
                         
                         // Process location
                         LocationViewModel locationViewModel = new LocationViewModel(location);
                         LocationEntity locationEntity = new LocationEntity(
-                            UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
+                            UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellNumber());
                         locationEntity.setLocation(locationViewModel);
                         
                         // Process summary
                         SummaryEntity summaryEntity = new SummaryEntity(
-                            UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellLogNumber());
+                            UUID.randomUUID().toString(), wellLog.getId(), wellLog.getWellNumber());
                         summaryEntity.setSummary(summary);
                         
                         // Add entities to wellLog
@@ -495,7 +495,7 @@ public class DatFileWellLogRepository implements WellLogRepository {
         try {
             temp = line.substring(WELL_NUMBER_BEGIN_INDEX, WELL_NUMBER_END_INDEX).trim();
             
-            wellLog.setWellLogNumber(temp);
+            wellLog.setWellNumber(temp);
             
             System.out.println("------- Well Number: " + temp);
             

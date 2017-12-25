@@ -140,7 +140,7 @@ public class JsonFileWellLogRepository implements WellLogRepository {
                     + File.separator
                     + county
                     + File.separator 
-                    + ((WellLogEntity)object).getWellLogNumber();
+                    + ((WellLogEntity)object).getWellNumber();
 
         // Add on the subdirectory based on the specific instance
         if (object instanceof SummaryEntity) {

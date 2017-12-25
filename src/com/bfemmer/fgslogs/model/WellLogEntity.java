@@ -31,12 +31,12 @@ package com.bfemmer.fgslogs.model;
 public class WellLogEntity {
     private String id;
     private String wellLogId;
-    private String wellLogNumber;
+    private String wellNumber;
     
-    public WellLogEntity(String id, String wellLogId, String wellLogNumber) {
+    public WellLogEntity(String id, String wellLogId, String wellNumber) {
         this.id = id;
         this.wellLogId = wellLogId;
-        this.wellLogNumber = wellLogNumber;
+        this.wellNumber = wellNumber;
     }
     
     /**
@@ -68,16 +68,16 @@ public class WellLogEntity {
     }
 
     /**
-     * @return the wellLogNumber
+     * @return the wellNumber
      */
-    public String getWellLogNumber() {
-        return wellLogNumber;
+    public String getWellNumber() {
+        return wellNumber;
     }
 
     /**
-     * @param wellLogNumber the wellLogNumber to set
+     * @param wellNumber the wellNumber to set
      */
-    public void setWellLogNumber(String wellLogNumber) {
-        this.wellLogNumber = wellLogNumber;
+    public void setWellNumber(String wellNumber) {
+        this.wellNumber = wellNumber;
     }
 }

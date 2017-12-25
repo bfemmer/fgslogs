@@ -73,7 +73,7 @@ public class Html {
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>Well Number: </i></TD>" +
-            "        <TD align=\"right\"> <font color=\"blue\">W-" + wellLog.getWellLogNumber() + "</FONT></TD>\n" +
+            "        <TD align=\"right\"> <font color=\"blue\">W-" + wellLog.getWellNumber() + "</FONT></TD>\n" +
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>Total Depth (ft): </i></TD>" +
