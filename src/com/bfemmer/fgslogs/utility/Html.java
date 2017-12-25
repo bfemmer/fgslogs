@@ -64,7 +64,7 @@ public class Html {
         temp = "  <CENTER>" +
             "<TABLE WIDTH=\"550\">\n" +
             "  <TR>\n" +
-            "    <TD colspan=\"2\" align=\"center\"><b>Lithology Well Log</b></TD>\n" +
+            "    <TD colspan=\"2\" align=\"center\"><b>Lithologic Well Log</b></TD>\n" +
             "  </TR>\n" +
             "  <TR>\n" +
             "    <TD><TABLE>\n" +

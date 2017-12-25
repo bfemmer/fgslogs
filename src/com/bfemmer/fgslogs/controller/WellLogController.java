@@ -250,7 +250,7 @@ public class WellLogController {
     
     private void resetEditor() {
         ((JEditorPane)getComponentByName("editorPane")).setText(
-            "<html><body><center><b>Lithology Well Log</b></center></body></html>");
+            "<html><body><center><b>Lithologic Well Log</b></center></body></html>");
     }
     
     private void loadLogFileWithDialog() {
@@ -271,7 +271,7 @@ public class WellLogController {
 //                                        chooser.getSelectedFile().toString()));
 //                
 //            model.setWellLogs(wellLogApplicationService.getAllWellLogs());
-//            view.getFrame().setTitle("FGSLOGS (Lithology Logs): " + chooser.getSelectedFile().toString());
+//            view.getFrame().setTitle("FGSLOGS (Lithologic Logs): " + chooser.getSelectedFile().toString());
 //            view.getExportMenu().setEnabled(true);
 //            view.getPrintMenuItem().setEnabled(true);
 //            updateTree();
@@ -296,7 +296,7 @@ public class WellLogController {
             currentDirectory = chooser.getSelectedFile();
             
             //model.setWellLogs(wellLogApplicationService.getAllWellLogs());
-            view.getFrame().setTitle("FGSLOGS (Lithology Logs): " + chooser.getSelectedFile().toString());
+            view.getFrame().setTitle("FGSLOGS (Lithologic Logs): " + chooser.getSelectedFile().toString());
             view.getExportMenu().setEnabled(true);
             view.getPrintMenuItem().setEnabled(true);
             

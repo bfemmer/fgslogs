@@ -63,6 +63,7 @@ public class MainWindow {
     private JMenuItem exitMenuItem;
     private JMenu editMenu;
     private JMenuItem copyMenuItem;
+    private JMenuItem findMenuItem;
     
     public MainWindow() {
         initComponents();
@@ -88,12 +89,13 @@ public class MainWindow {
         exitMenuItem = new JMenuItem();
         editMenu = new JMenu();
         copyMenuItem = new JMenuItem();
+        findMenuItem = new JMenuItem();
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setTitle("FGSLOGS (Lithology Logs)");
-        frame.setPreferredSize(new Dimension(800, 600));
+        frame.setTitle("FGSLOGS (Lithologic Logs)");
+        frame.setPreferredSize(new Dimension(900, 600));
 
-        mainSplitPane.setDividerLocation(150);
+        mainSplitPane.setDividerLocation(200);
         mainSplitPane.setName("mainSplitPane");
 
         treeScrollPane.setName("treeScrollPane");
@@ -158,12 +160,18 @@ public class MainWindow {
         editMenu.setText("Edit");
         editMenu.setName("editMenu");
 
-        getCopyMenuItem().setAccelerator(KeyStroke.getKeyStroke(
+        copyMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_C, InputEvent.CTRL_MASK));
-        getCopyMenuItem().setText("Copy");
-        getCopyMenuItem().setName("copyMenuItem");
-        editMenu.add(getCopyMenuItem());
+        copyMenuItem.setText("Copy");
+        copyMenuItem.setName("copyMenuItem");
+        editMenu.add(copyMenuItem);
 
+        findMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_F, InputEvent.CTRL_MASK));
+        findMenuItem.setText("Find ...");
+        findMenuItem.setName("findMenuItem");
+        editMenu.add(findMenuItem);
+        
         mainMenuBar.add(editMenu);
 
         frame.setJMenuBar(mainMenuBar);
