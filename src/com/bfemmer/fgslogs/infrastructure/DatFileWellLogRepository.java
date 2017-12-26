@@ -249,11 +249,16 @@ public class DatFileWellLogRepository implements WellLogRepository {
         for (File datFile : datFiles) {
             try {
                 fileReader = new FileReader(datFile);
-                String datCounty = getCountyFromReader(fileReader);
                 
+                String datCounty = getCountyFromReader(fileReader);
                 if (!datCounty.equals(county)) {
                     continue;
                 }
+                
+                // Reset reader (seek) to beginning of file
+                fileReader.close();
+                fileReader = null;
+                fileReader = new FileReader(datFile);
                 
                 // Get list of well numbers from file
                 wellNumbers = getWellNumbersFromReader(fileReader);
@@ -267,6 +272,8 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 
                 break;
             } catch (FileNotFoundException ex) {
+                Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
                 Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

@@ -40,7 +40,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.print.PrinterException;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,14 +72,17 @@ public class WellLogController implements KeyListener {
     @Override
     public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-            if (logIndex == 0) return;
-            else {
+            if (wellLogs == null) return;
+            if (logIndex != 0) {
                 showPreviousLog();
                 event.consume();
             }
         }
         if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-            showNextLog();
+            if (wellLogs == null) return;
+            if (logIndex != wellLogs.size() - 1) {
+                showNextLog();
+            }
         }
     }
 
@@ -184,37 +186,30 @@ public class WellLogController implements KeyListener {
                 
                 // Set editor with data from selected node
                 logIndex = 0;
-                ((JEditorPane)getComponentByName("editorPane")).setText(
-                        com.bfemmer.fgslogs.utility.Html.getHtmlReport(wellLogs.get(logIndex)));
-                ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
+                updateLogDisplay();
             });
     }
     
-    private void showNextLog() {
-        if (wellLogs == null) return;
-        
-        logIndex++;
-    
-        if (logIndex > wellLogs.size() - 1) {
-            logIndex = wellLogs.size() - 1;
-            return;
-        }
-        
-        // Set editor with data from selected node
+    private void updateLogDisplay() {
         ((JEditorPane)getComponentByName("editorPane")).setText(
                 com.bfemmer.fgslogs.utility.Html.getHtmlReport(wellLogs.get(logIndex)));
         ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
     }
     
+    /**
+     * Increment log index and update report display
+     */
+    private void showNextLog() {
+        logIndex++;        
+        updateLogDisplay();
+    }
+    
+    /**
+     * Decrement log index and update report display
+     */
     private void showPreviousLog() {
-        if (wellLogs == null) return;
-        
         logIndex--;
-        
-        // Set editor with data from selected node
-        ((JEditorPane)getComponentByName("editorPane")).setText(
-                com.bfemmer.fgslogs.utility.Html.getHtmlReport(wellLogs.get(logIndex)));
-        ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
+        updateLogDisplay();
     }
     
     private void resetTree() {
@@ -244,8 +239,6 @@ public class WellLogController implements KeyListener {
         
         // Set the model object for the tree
         tree.setModel(new DefaultTreeModel(rootNode));
-        
-        System.out.print("Found node at: " + findNode("Dade").getPath().toString());
     }
     
     private void updateTree(List<WellNumberEntity> wellNumbers) {
@@ -309,8 +302,8 @@ public class WellLogController implements KeyListener {
         return foundNode;
     }   
 
-    private final List<DefaultMutableTreeNode> getSearchNodes(DefaultMutableTreeNode root) {
-        List<DefaultMutableTreeNode> searchNodes = new ArrayList<DefaultMutableTreeNode>();
+    private List<DefaultMutableTreeNode> getSearchNodes(DefaultMutableTreeNode root) {
+        List<DefaultMutableTreeNode> searchNodes = new ArrayList<>();
 
         Enumeration<?> e = root.preorderEnumeration();
         while(e.hasMoreElements()) {
@@ -328,7 +321,7 @@ public class WellLogController implements KeyListener {
         int dialogResult;
         
         JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("FGS Lithologic Log File","dat");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("FGS Lithologic Log File (.DAT)","dat");
         chooser.setFileFilter(filter);
         chooser.setCurrentDirectory(currentDirectory);
         
