@@ -67,13 +67,17 @@ public class WellLogController implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent event) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
     
     @Override
     public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-            showPreviousLog();
+            if (logIndex == 0) return;
+            else {
+                showPreviousLog();
+                event.consume();
+            }
         }
         if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
             showNextLog();
@@ -82,7 +86,7 @@ public class WellLogController implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
     public enum DataSourceMode {
@@ -191,8 +195,8 @@ public class WellLogController implements KeyListener {
         
         logIndex++;
     
-        if (logIndex > wellLogs.size()) {
-            logIndex = wellLogs.size();
+        if (logIndex > wellLogs.size() - 1) {
+            logIndex = wellLogs.size() - 1;
             return;
         }
         
@@ -205,16 +209,8 @@ public class WellLogController implements KeyListener {
     private void showPreviousLog() {
         if (wellLogs == null) return;
         
-        if (logIndex == 0) {
-            
-        }
-        
         logIndex--;
         
-        if (logIndex < 0) {
-            logIndex = 0;
-            return;
-        }
         // Set editor with data from selected node
         ((JEditorPane)getComponentByName("editorPane")).setText(
                 com.bfemmer.fgslogs.utility.Html.getHtmlReport(wellLogs.get(logIndex)));
