@@ -318,7 +318,6 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 for (WellLog wellLog : wellLogs) {
                     if (wellLog.getWellNumber().equals(wellNumber)) {
                         logs.add(wellLog);
-                        break;
                     }
                 }
                 

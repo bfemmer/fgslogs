@@ -36,6 +36,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
@@ -51,6 +52,7 @@ public class MainWindow {
     private JTree wellTreeView;
     private JScrollPane editorScrollPane;
     private JEditorPane editorPane;
+    private JToolBar mainToolBar;
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
     private JMenuItem openFileMenuItem;
@@ -79,6 +81,7 @@ public class MainWindow {
         editorScrollPane = new JScrollPane();
         editorPane = new JEditorPane("text/html", null);
         mainMenuBar = new JMenuBar();
+        mainToolBar = new JToolBar();
         fileMenu = new JMenu();
         openFileMenuItem = new JMenuItem();
         openDirectoryMenuItem = new JMenuItem();
@@ -96,6 +99,8 @@ public class MainWindow {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setTitle("FGSLOGS (Lithologic Logs)");
         frame.setPreferredSize(new Dimension(900, 600));
+        
+        //mainToolBar
 
         mainSplitPane.setDividerLocation(200);
         mainSplitPane.setName("mainSplitPane");

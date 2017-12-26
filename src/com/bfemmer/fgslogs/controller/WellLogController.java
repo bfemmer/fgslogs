@@ -36,6 +36,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.FileFilter;
@@ -61,7 +63,27 @@ import javax.swing.tree.DefaultTreeModel;
  *
  * @author bfemmer
  */
-public class WellLogController {
+public class WellLogController implements KeyListener {
+
+    @Override
+    public void keyTyped(KeyEvent event) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public void keyPressed(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.VK_LEFT) {
+            showPreviousLog();
+        }
+        if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
+            showNextLog();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public enum DataSourceMode {
         FILE,
@@ -75,6 +97,7 @@ public class WellLogController {
     private File currentDirectory;
     private String selectedDatFile;
     private int logIndex;
+    private List<WellLog> wellLogs;
     
     public WellLogController(WellLogModel model, MainWindow view) {
         this.model = model;
@@ -89,7 +112,7 @@ public class WellLogController {
         
         // Clear out previous demo data in tree
         ((JTree)getComponentByName("wellTreeView")).setModel(null);
-        
+        ((JTree)getComponentByName("wellTreeView")).addKeyListener(this);
         resetEditor();
     }
     
@@ -136,6 +159,7 @@ public class WellLogController {
                 if (treeSelectionEvent.getPath().getPathCount() < 
                         (dataSourceMode.equals(DataSourceMode.DIRECTORY) ? 3 : 2)) {
                     resetEditor();
+                    wellLogs = null;
                     return;
                 }
                 
@@ -151,14 +175,50 @@ public class WellLogController {
                 WellLogApplicationService service = new WellLogApplicationService(
                     new DatFileWellLogRepository(currentDirectory.toString()));
                 
-                List<WellLog> wellLogs = service.getWellLogByWellNumber(
+                wellLogs = service.getWellLogByWellNumber(
                         ((WellNumberEntity)node.getUserObject()).getWellNumber());
                 
                 // Set editor with data from selected node
+                logIndex = 0;
                 ((JEditorPane)getComponentByName("editorPane")).setText(
                         com.bfemmer.fgslogs.utility.Html.getHtmlReport(wellLogs.get(logIndex)));
                 ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
             });
+    }
+    
+    private void showNextLog() {
+        if (wellLogs == null) return;
+        
+        logIndex++;
+    
+        if (logIndex > wellLogs.size()) {
+            logIndex = wellLogs.size();
+            return;
+        }
+        
+        // Set editor with data from selected node
+        ((JEditorPane)getComponentByName("editorPane")).setText(
+                com.bfemmer.fgslogs.utility.Html.getHtmlReport(wellLogs.get(logIndex)));
+        ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
+    }
+    
+    private void showPreviousLog() {
+        if (wellLogs == null) return;
+        
+        if (logIndex == 0) {
+            
+        }
+        
+        logIndex--;
+        
+        if (logIndex < 0) {
+            logIndex = 0;
+            return;
+        }
+        // Set editor with data from selected node
+        ((JEditorPane)getComponentByName("editorPane")).setText(
+                com.bfemmer.fgslogs.utility.Html.getHtmlReport(wellLogs.get(logIndex)));
+        ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
     }
     
     private void resetTree() {
@@ -303,7 +363,7 @@ public class WellLogController {
         int dialogResult;
         
         JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setCurrentDirectory(currentDirectory);
         chooser.setDialogTitle("Select directory containing DAT files");
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setAcceptAllFileFilterUsed(false);
