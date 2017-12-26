@@ -38,6 +38,7 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.print.PrinterException;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,6 +53,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -60,11 +62,19 @@ import javax.swing.tree.DefaultTreeModel;
  * @author bfemmer
  */
 public class WellLogController {
+    
+    public enum DataSourceMode {
+        FILE,
+        DIRECTORY
+    }
+    
+    private DataSourceMode dataSourceMode;
     private final MainWindow view;
     private final WellLogModel model;
     private Map<String, Component> componentMap;
     private File currentDirectory;
     private String selectedDatFile;
+    private int logIndex;
     
     public WellLogController(WellLogModel model, MainWindow view) {
         this.model = model;
@@ -72,6 +82,7 @@ public class WellLogController {
         
         currentDirectory = new java.io.File(".");
         selectedDatFile = "";
+        logIndex = 0;
         
         // Create map of all components in the frame
         createComponentMap();
@@ -83,9 +94,14 @@ public class WellLogController {
     }
     
     public void control() {        
-        view.getOpenMenuItem().addActionListener(
-            (ActionEvent actionEvent) -> {
+        view.getOpenFileMenuItem().addActionListener((ActionEvent actionEvent) -> {
+                loadLogFileWithDialog();
+                dataSourceMode = DataSourceMode.FILE;
+                resetEditor();
+            });
+        view.getOpenDirectoryMenuItem().addActionListener((ActionEvent actionEvent) -> {
                 loadDirectoryWithDialog();
+                dataSourceMode = DataSourceMode.DIRECTORY;
                 resetEditor();
             });
         view.getExportSelectedMenuItem().addActionListener(
@@ -112,12 +128,13 @@ public class WellLogController {
             (ActionEvent actionEvent) -> {
                 ((JEditorPane)getComponentByName("editorPane")).copy();
             });
-        view.getWellTreeView().addTreeSelectionListener(
-            (TreeSelectionEvent treeSelectionEvent) -> {
+        view.getWellTreeView().addTreeSelectionListener((TreeSelectionEvent treeSelectionEvent) -> {
                 
-                // Well numbers are at level 3 in the path ... just reset the
+                // Well numbers are at level 3 in the path for directory mode
+                // and at level 2 in the path for file mode ... just reset the
                 // editor
-                if (treeSelectionEvent.getPath().getPathCount() < 3) {
+                if (treeSelectionEvent.getPath().getPathCount() < 
+                        (dataSourceMode.equals(DataSourceMode.DIRECTORY) ? 3 : 2)) {
                     resetEditor();
                     return;
                 }
@@ -136,10 +153,10 @@ public class WellLogController {
                 
                 List<WellLog> wellLogs = service.getWellLogByWellNumber(
                         ((WellNumberEntity)node.getUserObject()).getWellNumber());
-                                
+                
                 // Set editor with data from selected node
                 ((JEditorPane)getComponentByName("editorPane")).setText(
-                        com.bfemmer.fgslogs.utility.Html.getHtmlReport(wellLogs.get(0)));
+                        com.bfemmer.fgslogs.utility.Html.getHtmlReport(wellLogs.get(logIndex)));
                 ((JEditorPane)getComponentByName("editorPane")).setCaretPosition(0);
             });
     }
@@ -175,27 +192,24 @@ public class WellLogController {
         System.out.print("Found node at: " + findNode("Dade").getPath().toString());
     }
     
-    private void updateTree() {
+    private void updateTree(List<WellNumberEntity> wellNumbers) {
         JTree tree = ((JTree)getComponentByName("wellTreeView"));
-        
         
         // Clear out previous data
         tree.removeAll();
         tree.setModel(null);
         
         // Create top node with county name
-        DefaultMutableTreeNode countyNode = new DefaultMutableTreeNode("Well Logs");
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Well Logs");
         
         // Create child nodes corresponding with each well log in the list
-        model.getWellLogs().stream().forEach((wellLog) -> {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode(wellLog);
-            countyNode.add(node);
+        wellNumbers.stream().forEach((entity) -> {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode(entity);
+            rootNode.add(node);
         });
         
         // Set the model object for the tree
-        tree.setModel(new DefaultTreeModel(countyNode));
-        
-        
+        tree.setModel(new DefaultTreeModel(rootNode));
     }
     
     public final DefaultMutableTreeNode findNode(String searchString) {
@@ -255,28 +269,31 @@ public class WellLogController {
     }
     
     private void loadLogFileWithDialog() {
-//        int dialogResult;
-//        
-//        JFileChooser chooser = new JFileChooser();
-//        chooser.setCurrentDirectory(currentDirectory);
-//        
-//        dialogResult = chooser.showOpenDialog(null);
-//        
-//        if (dialogResult == JFileChooser.APPROVE_OPTION) {
-//            currentDirectory = chooser.getCurrentDirectory();
-//            selectedDatFile = chooser.getSelectedFile().getName();
-//            
-//            WellLogApplicationService wellLogApplicationService = 
-//                        new WellLogApplicationService(
-//                                new DatFileWellLogRepository(
-//                                        chooser.getSelectedFile().toString()));
-//                
-//            model.setWellLogs(wellLogApplicationService.getAllWellLogs());
-//            view.getFrame().setTitle("FGSLOGS (Lithologic Logs): " + chooser.getSelectedFile().toString());
-//            view.getExportMenu().setEnabled(true);
-//            view.getPrintMenuItem().setEnabled(true);
-//            updateTree();
-//        }
+        int dialogResult;
+        
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("FGS Lithologic Log File","dat");
+        chooser.setFileFilter(filter);
+        chooser.setCurrentDirectory(currentDirectory);
+        
+        dialogResult = chooser.showOpenDialog(null);
+        
+        if (dialogResult == JFileChooser.APPROVE_OPTION) {
+            currentDirectory = chooser.getCurrentDirectory();
+            selectedDatFile = chooser.getSelectedFile().getName();
+            
+            WellLogApplicationService service = 
+                        new WellLogApplicationService(
+                                new DatFileWellLogRepository(
+                                        chooser.getSelectedFile().toString()));
+            
+            List<WellNumberEntity> wellNumbers = service.getWellNumbersForFile(chooser.getSelectedFile().toString());
+            updateTree(wellNumbers);
+            
+            view.getFrame().setTitle("FGSLOGS (Lithologic Logs): " + chooser.getSelectedFile().toString());
+            view.getExportMenu().setEnabled(true);
+            view.getPrintMenuItem().setEnabled(true);
+        }
     }
     
     /**

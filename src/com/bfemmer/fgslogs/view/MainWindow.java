@@ -53,7 +53,8 @@ public class MainWindow {
     private JEditorPane editorPane;
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
-    private JMenuItem openMenuItem;
+    private JMenuItem openFileMenuItem;
+    private JMenuItem openDirectoryMenuItem;
     private JMenu exportMenu;
     private JMenuItem exportSelectedMenuItem;
     private JMenuItem exportAllToJsonMenuItem;
@@ -79,7 +80,8 @@ public class MainWindow {
         editorPane = new JEditorPane("text/html", null);
         mainMenuBar = new JMenuBar();
         fileMenu = new JMenu();
-        openMenuItem = new JMenuItem();
+        openFileMenuItem = new JMenuItem();
+        openDirectoryMenuItem = new JMenuItem();
         exportMenu = new JMenu();
         exportSelectedMenuItem = new JMenuItem();
         exportAllToJsonMenuItem = new JMenuItem();
@@ -100,7 +102,7 @@ public class MainWindow {
 
         treeScrollPane.setName("treeScrollPane");
 
-        getWellTreeView().setName("wellTreeView");
+        wellTreeView.setName("wellTreeView");
         treeScrollPane.setViewportView(getWellTreeView());
         
         editorPane.setName("editorPane");
@@ -115,11 +117,13 @@ public class MainWindow {
         fileMenu.setText("File");
         fileMenu.setName("fileMenu");
 
-        openMenuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_O, InputEvent.CTRL_MASK));
-        openMenuItem.setText("Open ...");
-        openMenuItem.setName("openMenuItem");
-        fileMenu.add(openMenuItem);
+        openFileMenuItem.setText("Open DAT File ...");
+        openFileMenuItem.setName("openFileMenuItem");
+        fileMenu.add(openFileMenuItem);
+        
+        openDirectoryMenuItem.setText("Open DAT Directory...");
+        openDirectoryMenuItem.setName("openDirectoryMenuItem");
+        fileMenu.add(openDirectoryMenuItem);
         
         exportMenu.setText("Export");
         exportMenu.setName("exportMenu");
@@ -141,7 +145,7 @@ public class MainWindow {
 
         printMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_P, InputEvent.CTRL_MASK));
-        printMenuItem.setText("Print");
+        printMenuItem.setText("Print ...");
         printMenuItem.setActionCommand("Print");
         printMenuItem.setName("printMenuItem");
         printMenuItem.setEnabled(false);
@@ -175,7 +179,7 @@ public class MainWindow {
         mainMenuBar.add(editMenu);
 
         frame.setJMenuBar(mainMenuBar);
-
+        
         GroupLayout layout = new GroupLayout(frame.getContentPane());
         frame.getContentPane().setLayout(layout);
         
@@ -213,10 +217,17 @@ public class MainWindow {
     }
 
     /**
-     * @return the openMenuItem
+     * @return the openFileMenuItem
      */
-    public JMenuItem getOpenMenuItem() {
-        return openMenuItem;
+    public JMenuItem getOpenFileMenuItem() {
+        return openFileMenuItem;
+    }
+    
+    /**
+     * @return the openDirectoryMenuItem
+     */
+    public JMenuItem getOpenDirectoryMenuItem() {
+        return openDirectoryMenuItem;
     }
     
     /**

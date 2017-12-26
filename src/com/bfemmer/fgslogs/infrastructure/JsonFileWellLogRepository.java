@@ -67,6 +67,11 @@ public class JsonFileWellLogRepository implements WellLogRepository {
     public List<WellLog> getAllWellLogs(String filename) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+    @Override
+    public List<WellNumberEntity> getWellNumbersByFile(String filename) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     @Override
     public List<WellNumberEntity> getWellNumbersByCounty(String county) {

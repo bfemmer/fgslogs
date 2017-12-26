@@ -44,6 +44,10 @@ public class WellLogApplicationService {
         return wellLogRepository.getAllWellLogs(filename);
     }
     
+    public List<WellNumberEntity> getWellNumbersForFile(String filename) {
+        return wellLogRepository.getWellNumbersByFile(filename);
+    }
+    
     public List<WellNumberEntity> getWellNumbersForCounty(String countyCode) {
         return wellLogRepository.getWellNumbersByCounty(countyCode);
     }

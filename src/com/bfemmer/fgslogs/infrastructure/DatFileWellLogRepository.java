@@ -211,9 +211,38 @@ public class DatFileWellLogRepository implements WellLogRepository {
     }
 
     @Override
+    public List<WellNumberEntity> getWellNumbersByFile(String filename) {
+        Reader fileReader;
+        List<String> wellNumbers;
+        List<WellNumberEntity> wellNumberEntities = new ArrayList<>();
+        
+        try {
+            fileReader = new FileReader(filename);
+            
+            // Get list of well numbers from file
+            wellNumbers = getWellNumbersFromReader(fileReader);
+
+            // We have to count the frequency of occurence of well numbers
+            // because some well numbers have more than one log.
+            Set<String> uniqueSet = new HashSet<>(wellNumbers);
+            for (String wellNumber : uniqueSet) {
+                    wellNumberEntities.add(new WellNumberEntity(wellNumber, Collections.frequency(wellNumbers, wellNumber)));
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DatFileWellLogRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // Sort the list by well number
+        Collections.sort(wellNumberEntities, new SortByWellNumber());
+                
+        return wellNumberEntities;
+    }
+    
+    @Override
     public List<WellNumberEntity> getWellNumbersByCounty(String county) {
         Reader fileReader;
-        List<String> wellNumbers = new ArrayList<>();
+        List<String> wellNumbers;
         List<WellNumberEntity> wellNumberEntities = new ArrayList<>();
         File[] datFiles = new File(directory).listFiles();
         
@@ -234,7 +263,6 @@ public class DatFileWellLogRepository implements WellLogRepository {
                 Set<String> uniqueSet = new HashSet<>(wellNumbers);
                 for (String wellNumber : uniqueSet) {
                         wellNumberEntities.add(new WellNumberEntity(wellNumber, Collections.frequency(wellNumbers, wellNumber)));
-                        //System.out.println(wellNumber + ": " + Collections.frequency(wellNumbers, wellNumber));
                 }
                 
                 break;

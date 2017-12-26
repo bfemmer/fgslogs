@@ -33,6 +33,7 @@ import java.util.List;
  */
 public interface WellLogRepository {
     List<WellLog> getAllWellLogs(String filename);
+    List<WellNumberEntity> getWellNumbersByFile(String filename);
     List<WellNumberEntity> getWellNumbersByCounty(String county);
     WellLog getWellLogById(String id);
     List<WellLog> getWellLogByWellNumber(String wellNumber);
