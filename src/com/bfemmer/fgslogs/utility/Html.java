@@ -64,7 +64,7 @@ public class Html {
         temp = "  <CENTER>" +
             "<TABLE WIDTH=\"550\">\n" +
             "  <TR>\n" +
-            "    <TD colspan=\"2\" align=\"center\"><b>Lithology Well Log</b></TD>\n" +
+            "    <TD colspan=\"2\" align=\"center\"><b>Lithologic Well Log</b></TD>\n" +
             "  </TR>\n" +
             "  <TR>\n" +
             "    <TD><TABLE>\n" +
@@ -73,7 +73,7 @@ public class Html {
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>Well Number: </i></TD>" +
-            "        <TD align=\"right\"> <font color=\"blue\">W-" + wellLog.getWellLogNumber() + "</FONT></TD>\n" +
+            "        <TD align=\"right\"> <font color=\"blue\">W-" + wellLog.getWellNumber() + "</FONT></TD>\n" +
             "      </TR>\n" +
             "      <TR>\n" +
             "        <TD><i>Total Depth (ft): </i></TD>" +
@@ -523,7 +523,7 @@ public class Html {
         String completionDate;
         
         completionDate = String.format("%02d", 
-                wellLog.getSummaryEntity().getSummary().getCompletionDateDay());
+                wellLog.getSummaryEntity().getSummary().getCompletionDateYear());
         completionDate += String.format("%02d", 
                 wellLog.getSummaryEntity().getSummary().getCompletionDateMonth());
         completionDate += String.format("%02d", 

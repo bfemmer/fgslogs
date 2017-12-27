@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2017 Bill Femmer
+Copyright (c) 2016 Bill Femmer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,62 +22,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package com.bfemmer.fgslogs.model;
+package com.bfemmer.fgslogs.viewmodel;
 
 /**
  *
  * @author bfemmer
  */
-public class WellLogEntity {
-    private String id;
-    private String wellLogId;
-    private String wellNumber;
+public class LatLng {
+    private final double latitude;
+    private final double longitude;
     
-    public WellLogEntity(String id, String wellLogId, String wellNumber) {
-        this.id = id;
-        this.wellLogId = wellLogId;
-        this.wellNumber = wellNumber;
+    public LatLng(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    /**
+     * @return the latitude
+     */
+    public double getLatitude() {
+        return latitude;
+    }
+
+    /**
+     * @return the longitude
+     */
+    public double getLongitude() {
+        return longitude;
     }
     
-    /**
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * @return the wellLogId
-     */
-    public String getWellLogId() {
-        return wellLogId;
-    }
-
-    /**
-     * @param wellLogId the wellLogId to set
-     */
-    public void setWellLogId(String wellLogId) {
-        this.wellLogId = wellLogId;
-    }
-
-    /**
-     * @return the wellNumber
-     */
-    public String getWellNumber() {
-        return wellNumber;
-    }
-
-    /**
-     * @param wellNumber the wellNumber to set
-     */
-    public void setWellNumber(String wellNumber) {
-        this.wellNumber = wellNumber;
-    }
 }

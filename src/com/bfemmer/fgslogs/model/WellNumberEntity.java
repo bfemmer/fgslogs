@@ -24,47 +24,24 @@ SOFTWARE.
 
 package com.bfemmer.fgslogs.model;
 
+import java.util.Comparator;
+
 /**
  *
  * @author bfemmer
  */
-public class WellLogEntity {
-    private String id;
-    private String wellLogId;
+public class WellNumberEntity {
     private String wellNumber;
+    private int logCount;
     
-    public WellLogEntity(String id, String wellLogId, String wellNumber) {
-        this.id = id;
-        this.wellLogId = wellLogId;
+    public WellNumberEntity() {
+        wellNumber = "";
+        logCount = 0;
+    }
+    
+    public WellNumberEntity(String wellNumber, int logCount) {
         this.wellNumber = wellNumber;
-    }
-    
-    /**
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * @return the wellLogId
-     */
-    public String getWellLogId() {
-        return wellLogId;
-    }
-
-    /**
-     * @param wellLogId the wellLogId to set
-     */
-    public void setWellLogId(String wellLogId) {
-        this.wellLogId = wellLogId;
+        this.logCount = logCount;
     }
 
     /**
@@ -79,5 +56,36 @@ public class WellLogEntity {
      */
     public void setWellNumber(String wellNumber) {
         this.wellNumber = wellNumber;
+    }
+
+    /**
+     * @return the logCount
+     */
+    public int getLogCount() {
+        return logCount;
+    }
+
+    /**
+     * @param logCount the logCount to set
+     */
+    public void setLogCount(int logCount) {
+        this.logCount = logCount;
+    }
+    
+    @Override
+    public String toString() {
+        String value = "W-" + wellNumber;
+        if (logCount > 1) {
+            value += " (" + String.valueOf(logCount) + " logs)";
+        }
+        return value;
+    }
+}
+
+class SortByWellNumber implements Comparator<WellNumberEntity>{
+ 
+    @Override
+    public int compare(WellNumberEntity entity1, WellNumberEntity entity2) {
+        return entity1.getWellNumber().compareTo(entity2.getWellNumber());
     }
 }

@@ -32,9 +32,11 @@ import com.bfemmer.fgslogs.model.Location;
  */
 public class LocationViewModel  {
     private final Location location;
+    private final LatLng latLong;
     
     public LocationViewModel(Location location) {
         this.location = location;
+        this.latLong = new LatLng(this.getLatitude(), this.getLongitude());
     }
     
     /**
@@ -255,5 +257,12 @@ public class LocationViewModel  {
                 location.getLngDegrees(), 
                 location.getLngMinutes(), 
                 location.getLngSeconds());
+    }
+
+    /**
+     * @return the latLong
+     */
+    public LatLng getLatLong() {
+        return latLong;
     }
 }
