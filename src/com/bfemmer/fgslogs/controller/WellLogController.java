@@ -32,7 +32,6 @@ import com.bfemmer.fgslogs.model.WellLogModel;
 import com.bfemmer.fgslogs.model.WellNumberEntity;
 import com.bfemmer.fgslogs.view.MainWindow;
 import com.bfemmer.fgslogs.viewmodel.LookupCodes;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -40,7 +39,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.print.PrinterException;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -401,87 +399,18 @@ public class WellLogController implements KeyListener {
         }
     }
     
-    private void exportJsonFileWithDialog() {
-        int dialogResult;
-        
-        if ("".equals(selectedDatFile)) {
-            JOptionPane.showMessageDialog(null, 
-                    "DAT file must be opened first.", 
-                    "Invalid Operation", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setDialogTitle("Select directory to export JSON files to");
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.setAcceptAllFileFilterUsed(false);
-        
-        dialogResult = chooser.showOpenDialog(null);
-
-        if (dialogResult == JFileChooser.APPROVE_OPTION) {
-            ObjectMapper mapper = new ObjectMapper();
-                
-            //Object to JSON in file
-            try {
-                mapper.writeValue(
-                        new File(chooser.getSelectedFile() +
-                                File.separator +
-                                String.valueOf(selectedDatFile) + 
-                                ".json"), model.getWellLogs());
-            } catch (IOException ex) {
-                Logger.getLogger(WellLogController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            JOptionPane.showMessageDialog(null, 
-                    "Export of DAT file to JSON files in selected directory complete.", 
-                    "Operation Completed", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-    
-    private void exportJsonFilesWithDialog() {
-        int dialogResult;
-        
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setDialogTitle("Select directory to export JSON files to");
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.setAcceptAllFileFilterUsed(false);
-        
-        dialogResult = chooser.showOpenDialog(null);
-
-        if (dialogResult == JFileChooser.APPROVE_OPTION) {
-            for (WellLog wellLog : model.getWellLogs()) {
-                ObjectMapper mapper = new ObjectMapper();
-                
-                //Object to JSON in file
-                try {
-                    mapper.writeValue(
-                            new File(chooser.getSelectedFile() +
-                                    File.separator +
-                                    String.valueOf(wellLog.getWellNumber()) + 
-                                    ".json"), wellLog);
-                } catch (IOException ex) {
-                    Logger.getLogger(WellLogController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            
-            JOptionPane.showMessageDialog(null, 
-                    "Export of DAT file to JSON files in selected directory complete.", 
-                    "Operation Completed", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-    
+    /**
+     * Saves a single DAT file to a user-specified directory as JSON files
+     */
     private void exportSelectedToJsonFiles() {
         
     }
     
     /**
-     * Saves the imported DAT file to a user-specified directory
+     * Saves all DAT files to a user-specified directory as JSON files
      */
     private void exportAllToJsonFiles() {
         int dialogResult;
-        WellLog wellLog;
         
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File(currentDirectory.toString()));
