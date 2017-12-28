@@ -19,6 +19,10 @@ The FGS lithologic well log data is located in multiple ZIP files grouped by wat
 
 The well numbers are imported into a list and organized into a tree hierarchy in folders grouped by the Florida county in which they are located (see the FGSLogs screenshot above). The primary output of the program is a Lithologic Well Log report that maintains close fidelity with the display format of the DOS-based FGSLOGS.EXE program (see DOSBox image above). The report is displayed upon selection of the well number in the tree hierarchy. Some wells have more than one log associated with it ... in this case, the additional logs can be viewed by using the right arrow keys. The report can be printed to local or network printers configured on the computer and can be printed to PDF file (when available). The well log data can also be exported to multiple JSON files. Future versions of this program will take some liberty and explore more advanced visualization of the data.
 
+## Dependencies
+
+*fgslogs* depends on the fgslogsapi library. The jar file can be downloaded from the following link: (https://bintray.com/bfemmer/maven/fgslogsapi/1.0.0).
+
 ## Project Type
 
 This is a NetBeans Project.
